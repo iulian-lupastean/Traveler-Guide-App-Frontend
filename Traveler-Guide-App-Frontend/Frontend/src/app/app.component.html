@@ -1,4 +1,5 @@
-<p>Welcome to </p>
-<ul>
-    <li *ngFor='let city of cities'>{{city.id}} - {{city.name}} - {{city.country}}</li>
-</ul>
+<div fxLayout="column" fxFlexFill> 
+    <app-header></app-header>
+      <router-outlet></router-outlet>
+    <app-footer></app-footer>  
+ </div> 

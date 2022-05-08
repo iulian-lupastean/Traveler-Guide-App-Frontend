@@ -1,0 +1,25 @@
+.custom-toolbar {
+    background-color: #252538;    
+    height: 5rem;
+    align-items: center;
+
+}
+.main-button{
+    color: #fff;
+    width: 20rem;
+    height: 5rem;
+    font-family:"Montserrat";
+    font-size:2.5rem;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    margin: auto ;
+    display: flex;
+}
+.header-spacer {
+    flex:1 1 auto ;
+}
+.account-button {
+    font-size:3rem ;
+    color: #fff !important;
+}
