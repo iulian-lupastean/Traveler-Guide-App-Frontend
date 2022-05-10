@@ -1,10 +1,7 @@
 .grid-container {
     grid-template-rows: 500px 300px;
 }
-.google-map{
-     width:1800px;
-     height:700px;
-}
+
 .city-list{
     margin-left: 2rem;
     margin-top: 1rem;

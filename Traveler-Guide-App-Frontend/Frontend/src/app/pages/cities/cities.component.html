@@ -11,8 +11,8 @@
     </div>
     
     <div class="google-map">
-        <google-map height="" height="725px" width="1190px" [options] = "mapOptions"> 
-        <map-marker *ngFor="let marker of markers" [position]="marker.position"></map-marker>
+        <google-map height="725px" width="1190px" [options]="mapOptions">
+            <map-marker *ngFor="let marker of markers" [position]="marker.position" ></map-marker>
         </google-map>
     </div>
 </div>
