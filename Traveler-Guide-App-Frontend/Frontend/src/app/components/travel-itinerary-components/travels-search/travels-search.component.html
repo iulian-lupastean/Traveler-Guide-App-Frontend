@@ -1,7 +1,15 @@
 <div class="search">
   <mat-form-field class="search-bar">
     <mat-label style="font-size: 20px">Search Travel Itinerary</mat-label>
-    <input type="search" matInput style="font-size: 30px" autocomplete="off" />
+    <input
+      type="search"
+      matInput
+      style="font-size: 30px"
+      autocomplete="off"
+      id="searchInput"
+      value="input"
+      (change)="saveSearch()"
+    />
   </mat-form-field>
   <div class="search-fab">
     <button mat-fab color="primary">

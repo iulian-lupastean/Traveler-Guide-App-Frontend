@@ -1,8 +1,7 @@
-export interface ITravelItinerary
-{
-    id:number;
-    name:string;
-    status:string;
-    travelDate:Date;
-    userId:number;
+export interface ITravelItinerary {
+  travelId: number;
+  name: string;
+  status: string;
+  travelDate: Date;
+  userId: number;
 }

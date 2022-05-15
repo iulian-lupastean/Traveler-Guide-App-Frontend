@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ITravelItinerary } from '../Interfaces/ITravelItinerary';
 
 @Injectable()
 export class TravelService {
@@ -14,7 +15,9 @@ export class TravelService {
       `${this.apiGetLocationsForTravelItinerary}/${id}/locations`
     );
   }
-  getTravelsForUser(id: number): Observable<any> {
-    return this.httpClient.get(`${this.apiGetTravelItineraries}/${id}`);
+  getTravelsForUser(id: number): Observable<ITravelItinerary[]> {
+    return this.httpClient.get<ITravelItinerary[]>(
+      `${this.apiGetTravelItineraries}/${id}`
+    );
   }
 }

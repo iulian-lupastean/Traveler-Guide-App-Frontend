@@ -13,17 +13,18 @@
       <mat-card-subtitle>
         <div class="subtitle">
           <div style="justify-content: flex-start">Name</div>
+          <div>{{ searchText }}</div>
           <div>Status</div>
           <div></div>
           <div>Date</div>
           <div style="justify-content: flex-end"></div>
         </div>
       </mat-card-subtitle>
-      <mat-card-content *ngFor="let travel of travelItineraries">
+      <mat-card-content *ngFor="let travel of travelItineraries | async">
         <mat-accordion>
-          <mat-expansion-panel>
+          <mat-expansion-panel (opened)="getLocations(travel.travelId)">
             <mat-expansion-panel-header>
-              <mat-panel-title>{{ travel.name }} </mat-panel-title>
+              <mat-panel-title>{{ travel.name }}</mat-panel-title>
 
               <mat-panel-description>
                 <div class="description">
@@ -38,13 +39,19 @@
                   >
                     <mat-icon>edit</mat-icon>
                   </button>
-                  <button mat-icon-button class="delete-button">
+                  <button
+                    mat-icon-button
+                    class="delete-button"
+                    (click)="deleteTravel(travel.travelId)"
+                  >
                     <mat-icon>delete</mat-icon>
                   </button>
                 </div>
               </mat-panel-description>
             </mat-expansion-panel-header>
-            <p>Is Working</p>
+            <p *ngFor="let location of locations | async">
+              {{ location.name }}
+            </p>
           </mat-expansion-panel>
         </mat-accordion>
       </mat-card-content>

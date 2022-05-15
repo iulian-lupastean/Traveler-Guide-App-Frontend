@@ -1,27 +1,37 @@
-import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { map, Observable, Subject } from 'rxjs';
+import { ILocation } from 'src/app/Interfaces/ILocation';
 import { ITravelItinerary } from 'src/app/Interfaces/ITravelItinerary';
 import { TravelService } from 'src/app/services/travel-service';
+import { SearchService } from 'src/app/services/search-service';
 @Component({
   selector: 'app-travel-itineraries',
   templateUrl: './travel-itineraries.component.html',
   styleUrls: ['./travel-itineraries.component.css'],
 })
-export class TravelItinerariesComponent implements OnInit {
+export class TravelItinerariesComponent
+  implements OnInit, OnDestroy, OnChanges
+{
   unsubscribe: Subject<void> = new Subject<void>();
-  constructor(private travelService: TravelService) {}
-  importedData: any;
-  travelItineraries: any;
-  panelOpenState: boolean = false;
+  travelItineraries!: Observable<ITravelItinerary[]>;
+  locations!: Observable<ILocation[]>;
+  searchText!: string;
+  constructor(
+    private travelService: TravelService,
+    private searchService: SearchService
+  ) {}
   ngOnInit() {
-    this.importedData = this.travelService.getTravelsForUser(2).subscribe;
-    this.travelItineraries = this.importedData.subscribe((x: any) =>
-      console.log(x)
-    );
-    console.log(this.travelItineraries);
+    this.travelItineraries = this.travelService.getTravelsForUser(5);
+    this.searchText = this.searchService.getSearchString();
   }
+  ngOnChanges() {}
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
+  getLocations(id: number) {
+    console.log(id);
+    this.locations = this.travelService.getLocationsForTravel(id);
+  }
+  deleteTravel(id: number) {}
 }

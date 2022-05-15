@@ -33,6 +33,13 @@ import { TravelItinerariesComponent } from './components/travel-itinerary-compon
 import { TravelsSearchComponent } from './components/travel-itinerary-components/travels-search/travels-search.component';
 import { AddNewTravelComponent } from './components/travel-itinerary-components/add-new-travel/add-new-travel.component';
 import { TravelService } from './services/travel-service';
+import { MatDialogModule } from '@angular/material/dialog';
+import { SearchService } from './services/search-service';
+import { NewTravelItineraryComponent } from './pages/new-travel-itinerary/new-travel-itinerary.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { CreateTravelItineraryComponent } from '../app/components/new-travel-components/create-travel-itinerary/create-travel-itinerary.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -42,6 +49,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'my-travels', component: MyTravelsComponent },
   { path: 'locations', component: LocationsComponent },
+  { path: 'new-travel', component: NewTravelItineraryComponent },
 ];
 
 @NgModule({
@@ -59,6 +67,8 @@ const routes: Routes = [
     TravelItinerariesComponent,
     TravelsSearchComponent,
     AddNewTravelComponent,
+    NewTravelItineraryComponent,
+    CreateTravelItineraryComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -81,11 +91,17 @@ const routes: Routes = [
     MatInputModule,
     MatFormFieldModule,
     MatExpansionModule,
+    MatDialogModule,
+    MatStepperModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   exports: [RouterModule],
   providers: [
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     TravelService,
+    SearchService,
+    MatDatepickerModule,
   ],
   bootstrap: [AppComponent],
 })
