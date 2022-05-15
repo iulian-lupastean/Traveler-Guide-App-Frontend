@@ -9,25 +9,39 @@ import { RouterModule, Routes } from '@angular/router';
 import { HeaderComponent } from './pages/header/header.component';
 import { FooterComponent } from './pages/footer/footer.component';
 import { CitiesComponent } from './pages/cities/cities.component';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { AccountComponent } from './pages/account/account.component';
-import { FormsModule } from '@angular/forms';
 import { LoginComponent } from '../auth/login/login.component';
 import { RegisterComponent } from '../auth/register/register.component';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatSelectModule} from '@angular/material/select';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { LocationsComponent } from './pages/locations/locations.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import {
+  ErrorStateMatcher,
+  ShowOnDirtyErrorStateMatcher,
+} from '@angular/material/core';
+import { MatCardModule } from '@angular/material/card';
+import { MyTravelsComponent } from './pages/my-travels/my-travels.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { TravelItinerariesComponent } from './components/travel-itinerary-components/travel-itineraries/travel-itineraries.component';
+import { TravelsSearchComponent } from './components/travel-itinerary-components/travels-search/travels-search.component';
+import { AddNewTravelComponent } from './components/travel-itinerary-components/add-new-travel/add-new-travel.component';
+import { TravelService } from './services/travel-service';
 
-
-const routes: Routes = [ 
-   {path: '', component: HomeComponent},
-  {path: 'cities', component: CitiesComponent},
-  {path: 'account', component: AccountComponent},
-  {path:'login', component: LoginComponent},
-  {path:'register', component: RegisterComponent}
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'cities', component: CitiesComponent },
+  { path: 'account', component: AccountComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'my-travels', component: MyTravelsComponent },
+  { path: 'locations', component: LocationsComponent },
 ];
 
 @NgModule({
@@ -40,6 +54,11 @@ const routes: Routes = [
     AccountComponent,
     LoginComponent,
     RegisterComponent,
+    LocationsComponent,
+    MyTravelsComponent,
+    TravelItinerariesComponent,
+    TravelsSearchComponent,
+    AddNewTravelComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -55,10 +74,19 @@ const routes: Routes = [
     MatFormFieldModule,
     MatButtonModule,
     MatSelectModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    MatCardModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatExpansionModule,
   ],
   exports: [RouterModule],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+    TravelService,
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

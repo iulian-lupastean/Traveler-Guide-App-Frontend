@@ -1,0 +1,12 @@
+.marker-info{
+    font-style: "Montserrat";
+}
+.google-map{
+    position: absolute;
+   top:0;
+}
+.add-location-form{
+    appearance: fill;
+    display: flex; 
+    flex-direction: column;
+}

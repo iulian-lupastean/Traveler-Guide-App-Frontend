@@ -1,0 +1,59 @@
+<div>
+  <mat-grid-list cols="10" rows="1:1" rowHeight="809px">
+    <mat-grid-tile style="background-color: green" colspan="6">
+      <div class="google-map">
+        <google-map height="809px" width="1150px" [options]="mapOptions">
+          <map-marker
+            #somemarker="mapMarker"
+            *ngFor="let marker of markers; let i = index"
+            [position]="marker.marker.position"
+            (mapClick)="openInfo(somemarker, marker.infoWindow)"
+          >
+            <map-info-window>
+              <div class="marker-info">
+                <p>{{ infoContent.split("#")[0] }}</p>
+                <p>
+                  Address:{{ infoContent.split("#")[1] }} <br />
+                  Type: {{ infoContent.split("#")[2] }} <br />
+                  Price: {{ infoContent.split("#")[3] }} <br />
+                </p>
+              </div>
+            </map-info-window>
+          </map-marker>
+        </google-map></div
+    ></mat-grid-tile>
+
+    <mat-grid-tile colspan="4">
+      <mat-card>
+        <mat-card-title> Add New Location </mat-card-title>
+        <mat-card-content>
+          <form (formGroup)="(locationsViewModel)" (ngSubmit)="onSave()">
+            <mat-form-field class="add-location-form">
+              <input formControlName="name" matInput placeholder="Name" />
+            </mat-form-field>
+            <mat-form-field class="add-location-form">
+              <input formControlName="address" matInput placeholder="Address" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-select
+                formControlName="locationType"
+                placeholder="Select Location Type"
+                class="add-location-form"
+              >
+                <mat-option value="Museum">Museum</mat-option>
+                <mat-option value="Park">Park</mat-option>
+                <mat-option value="Famous Building">Famous Building</mat-option>
+                <mat-option value="Restaurant">Restaurant</mat-option>
+                <mat-option value="Caffe-bar">Caffe-bar</mat-option>
+                <mat-option value="Statue">Statue</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="add-location-form">
+              <input formControlName="price" matInput placeholder="Price" />
+            </mat-form-field>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

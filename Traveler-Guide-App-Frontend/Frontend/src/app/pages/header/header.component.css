@@ -23,3 +23,11 @@
     font-size:3rem ;
     color: #fff !important;
 }
+.my-travels-button{
+    color: #fff ;
+    font-size: 1.5rem;
+    margin-left: 3rem;
+    height: 5rem;
+    width:20rem;
+    font-family:"Montserrat";
+}

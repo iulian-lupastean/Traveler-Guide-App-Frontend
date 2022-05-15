@@ -1,0 +1,54 @@
+<div>
+  <mat-card class="travels-list">
+    <div class="scrollable-card">
+      <mat-card-title
+        style="
+          padding: 1rem;
+          margin-left: 30px;
+          font-size: 30px;
+          color: #252538;
+        "
+        >Travel Itineraries</mat-card-title
+      >
+      <mat-card-subtitle>
+        <div class="subtitle">
+          <div style="justify-content: flex-start">Name</div>
+          <div>Status</div>
+          <div></div>
+          <div>Date</div>
+          <div style="justify-content: flex-end"></div>
+        </div>
+      </mat-card-subtitle>
+      <mat-card-content *ngFor="let travel of travelItineraries">
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>{{ travel.name }} </mat-panel-title>
+
+              <mat-panel-description>
+                <div class="description">
+                  {{ travel.status }}
+                </div>
+                {{ travel.travelDate }}
+                <div class="travel-buttons">
+                  <button
+                    mat-icon-button
+                    class="update-button"
+                    routerLink="../locations"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button class="delete-button">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <p>Is Working</p>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card-content>
+    </div>
+    <mat-card-footer></mat-card-footer>
+  </mat-card>
+</div>
