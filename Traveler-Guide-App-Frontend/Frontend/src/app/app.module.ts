@@ -34,12 +34,12 @@ import { TravelsSearchComponent } from './components/travel-itinerary-components
 import { AddNewTravelComponent } from './components/travel-itinerary-components/add-new-travel/add-new-travel.component';
 import { TravelService } from './services/travel-service';
 import { MatDialogModule } from '@angular/material/dialog';
-import { SearchService } from './services/search-service';
 import { NewTravelItineraryComponent } from './pages/new-travel-itinerary/new-travel-itinerary.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { CreateTravelItineraryComponent } from '../app/components/new-travel-components/create-travel-itinerary/create-travel-itinerary.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { ViewTravelComponent } from './components/travel-itinerary-components/view-travel/view-travel.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -69,6 +69,7 @@ const routes: Routes = [
     AddNewTravelComponent,
     NewTravelItineraryComponent,
     CreateTravelItineraryComponent,
+    ViewTravelComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
