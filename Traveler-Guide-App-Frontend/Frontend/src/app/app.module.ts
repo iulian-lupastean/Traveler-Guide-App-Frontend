@@ -40,7 +40,7 @@ import { CreateTravelItineraryComponent } from '../app/components/new-travel-com
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ViewTravelComponent } from './components/travel-itinerary-components/view-travel/view-travel.component';
-
+import { MyFilterPipe } from './components/travel-itinerary-components/travel-itineraries/filter-pipe';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'cities', component: CitiesComponent },
@@ -70,6 +70,7 @@ const routes: Routes = [
     NewTravelItineraryComponent,
     CreateTravelItineraryComponent,
     ViewTravelComponent,
+    MyFilterPipe,
   ],
   imports: [
     RouterModule.forRoot(routes),
