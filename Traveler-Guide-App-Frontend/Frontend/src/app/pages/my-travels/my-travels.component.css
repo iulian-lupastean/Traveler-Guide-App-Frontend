@@ -1,6 +1,10 @@
 .my-travels{
-    background-color: rgb(224, 204, 204);
+    background-color:#f2f2f7;
 }
 .search-grid {
     background-color: transparent;
+}
+.search-items{
+    margin-left: -150px;
+    margin-top: 10px;
 }
