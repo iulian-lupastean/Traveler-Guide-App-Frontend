@@ -21,8 +21,9 @@ export class TravelItinerariesComponent
     private searchService: SearchService
   ) {}
   ngOnInit() {
-    this.travelItineraries = this.travelService.getTravelsForUser(5);
+    this.travelItineraries = this.travelService.getTravelsForUser(2);
     this.searchText = this.searchService.getSearchString();
+    console.log(this.searchText);
   }
   ngOnChanges() {}
   ngOnDestroy() {

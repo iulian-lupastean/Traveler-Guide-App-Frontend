@@ -100,7 +100,6 @@ const routes: Routes = [
   providers: [
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     TravelService,
-    SearchService,
     MatDatepickerModule,
   ],
   bootstrap: [AppComponent],
