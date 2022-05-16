@@ -1,0 +1,20 @@
+.travel-buttons {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+}
+.update-button:hover {
+    background-color: yellow;
+}
+
+.delete-button:hover {
+    background-color: red;
+}
+
+.description {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+}
+
+

@@ -6,7 +6,7 @@ import { ITravelItinerary } from 'src/app/Interfaces/ITravelItinerary';
   pure: false,
 })
 export class MyFilterPipe implements PipeTransform {
-  transform(items: any[], filter: ITravelItinerary): any {
+  transform(items: any[] | null, filter: any): any {
     if (!items || !filter) {
       return items;
     }

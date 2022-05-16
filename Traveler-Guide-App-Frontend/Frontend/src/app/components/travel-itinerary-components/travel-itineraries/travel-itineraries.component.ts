@@ -16,14 +16,16 @@ export class TravelItinerariesComponent
   travelItineraries!: Observable<ITravelItinerary[]>;
   locations!: Observable<ILocation[]>;
   searchText!: string;
-  filterargs = { name: 'gf' };
+  filterargs = { name: '' };
   constructor(
     private travelService: TravelService,
     private searchService: SearchService
   ) {}
   ngOnInit() {
     this.travelItineraries = this.travelService.getTravelsForUser(2);
-    this.searchService.searchStringChanged$.subscribe((x) => console.warn(x));
+    this.searchService.searchStringChanged$.subscribe(
+      (x) => (this.filterargs.name = x)
+    );
   }
   ngOnChanges() {}
   ngOnDestroy() {
@@ -35,8 +37,4 @@ export class TravelItinerariesComponent
     this.locations = this.travelService.getLocationsForTravel(id);
   }
   deleteTravel(id: number) {}
-
-  searchTravels(travels: ITravelItinerary[]): any[] {
-    return travels.filter((p) => p.name == this.searchText);
-  }
 }

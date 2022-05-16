@@ -13,50 +13,27 @@
       <mat-card-subtitle>
         <div class="subtitle">
           <div style="justify-content: flex-start">Name</div>
-          <div>{{ searchText }}</div>
+          <div></div>
+          <div></div>
+          <div></div>
           <div>Status</div>
+          <div></div>
+          <div></div>
+          <div></div>
           <div></div>
           <div>Date</div>
           <div style="justify-content: flex-end"></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
         </div>
       </mat-card-subtitle>
       <div
-        *ngFor="let travel of travelItineraries | async; myfilter: filterargs"
+        *ngFor="let travel of travelItineraries | async | myfilter: filterargs"
       >
         <mat-card-content>
-          <mat-accordion>
-            <mat-expansion-panel (opened)="getLocations(travel.travelId)">
-              <mat-expansion-panel-header>
-                <mat-panel-title>{{ travel.name }}</mat-panel-title>
-
-                <mat-panel-description>
-                  <div class="description">
-                    {{ travel.status }}
-                  </div>
-                  {{ travel.travelDate }}
-                  <div class="travel-buttons">
-                    <button
-                      mat-icon-button
-                      class="update-button"
-                      routerLink="../locations"
-                    >
-                      <mat-icon>edit</mat-icon>
-                    </button>
-                    <button
-                      mat-icon-button
-                      class="delete-button"
-                      (click)="deleteTravel(travel.travelId)"
-                    >
-                      <mat-icon>delete</mat-icon>
-                    </button>
-                  </div>
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-              <p *ngFor="let location of locations | async">
-                {{ location.name }}
-              </p>
-            </mat-expansion-panel>
-          </mat-accordion>
+          <app-view-travel [uniqueTravel]="travel"> </app-view-travel>
         </mat-card-content>
       </div>
     </div>
