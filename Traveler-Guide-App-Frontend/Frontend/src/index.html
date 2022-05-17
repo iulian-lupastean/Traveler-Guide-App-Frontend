@@ -19,7 +19,20 @@
       href="https://fonts.googleapis.com/css?family=Roboto Slab"
       rel="stylesheet"
     />
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6k_xAqPqKRzu9pFskJcZJDpQAVmQ9s3w"></script>
+    <script>
+      let autocomplete;
+      function initAutocomplete() {
+        autocomplete = new google.maps.places.Autocomplete(
+          document.getElementById("autocomplete"),
+          {
+            types: ["establishment"],
+            componentRestrictions: { country: ["AU"] },
+            fields: ["place_id", "geometry", "name"],
+          }
+        );
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_gPsipPHYssznDenQ8nwM4djj9y88yrk&libraries=places"></script>
   </head>
   <body style="background-color: #f2f2f7" class="mat-typography">
     <app-root></app-root>
