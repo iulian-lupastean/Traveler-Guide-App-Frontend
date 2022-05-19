@@ -32,7 +32,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { TravelItinerariesComponent } from './components/travel-itinerary-components/travel-itineraries/travel-itineraries.component';
 import { TravelsSearchComponent } from './components/travel-itinerary-components/travels-search/travels-search.component';
 import { AddNewTravelComponent } from './components/travel-itinerary-components/add-new-travel/add-new-travel.component';
-import { TravelService } from './services/travel-service';
+import { TravelService } from './services/travel.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NewTravelItineraryComponent } from './pages/new-travel-itinerary/new-travel-itinerary.component';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -42,6 +42,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { ViewTravelComponent } from './components/travel-itinerary-components/view-travel/view-travel.component';
 import { MyFilterPipe } from './components/travel-itinerary-components/travel-itineraries/filter-pipe';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { GetInfoFromIdService } from './services/get-info-from-id.service';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'cities', component: CitiesComponent },
@@ -104,6 +105,7 @@ const routes: Routes = [
   providers: [
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     TravelService,
+    GetInfoFromIdService,
     MatDatepickerModule,
   ],
   bootstrap: [AppComponent],

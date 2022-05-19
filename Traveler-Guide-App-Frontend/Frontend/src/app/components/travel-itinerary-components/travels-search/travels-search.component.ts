@@ -1,5 +1,5 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import { SearchService } from 'src/app/services/search-service';
+import { SearchService } from 'src/app/services/search.service';
 @Component({
   selector: 'app-travels-search',
   templateUrl: './travels-search.component.html',
@@ -11,8 +11,6 @@ export class TravelsSearchComponent implements OnInit, OnChanges {
   ngOnInit() {}
   ngOnChanges() {}
   saveSearch() {
-    // this.searchText = document.querySelector('input')?.value;
-
     this.searchService.setSearchString(this.searchText || '');
   }
 }

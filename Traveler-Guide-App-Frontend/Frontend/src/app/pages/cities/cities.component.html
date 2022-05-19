@@ -4,7 +4,6 @@
       <input
         ngx-google-places-autocomplete
         class="my-search-box"
-        (onAddressChange)="handleAddressChange($event)"
         placeholder="Search Location"
         #search
       />
@@ -19,6 +18,7 @@
         [zoom]="zoom"
         [center]="center"
         [options]="options"
+        (mapClick)="handleClick($event)"
       ></google-map>
     </td>
     <td>

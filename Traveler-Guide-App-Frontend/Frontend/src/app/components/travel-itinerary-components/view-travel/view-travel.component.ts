@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ILocation } from 'src/app/Interfaces/ILocation';
 import { ITravelItinerary } from 'src/app/Interfaces/ITravelItinerary';
-import { TravelService } from 'src/app/services/travel-service';
+import { TravelService } from 'src/app/services/travel.service';
 
 @Component({
   selector: 'app-view-travel',
