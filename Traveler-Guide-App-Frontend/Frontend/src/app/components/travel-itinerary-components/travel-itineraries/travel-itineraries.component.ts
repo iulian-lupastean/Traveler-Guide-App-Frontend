@@ -33,7 +33,6 @@ export class TravelItinerariesComponent
     this.unsubscribe.complete();
   }
   getLocations(id: number) {
-    console.log(id);
     this.locations = this.travelService.getLocationsForTravel(id);
   }
   deleteTravel(id: number) {}

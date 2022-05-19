@@ -10,7 +10,6 @@ export class MyFilterPipe implements PipeTransform {
     if (!items || !filter) {
       return items;
     }
-    console.log(items.filter((item) => item.name.indexOf(filter.name) !== -1));
     return items.filter((item) => item.name.indexOf(filter.name) !== -1);
   }
 }

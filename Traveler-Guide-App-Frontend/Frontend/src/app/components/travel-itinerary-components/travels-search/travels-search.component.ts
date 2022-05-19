@@ -12,7 +12,7 @@ export class TravelsSearchComponent implements OnInit, OnChanges {
   ngOnChanges() {}
   saveSearch() {
     // this.searchText = document.querySelector('input')?.value;
-    console.log(this.searchText);
+
     this.searchService.setSearchString(this.searchText || '');
   }
 }

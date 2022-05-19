@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'my-travels', component: MyTravelsComponent },
   { path: 'locations', component: LocationsComponent },
-  { path: 'new-travels', component: NewTravelItineraryComponent },
+  { path: 'new-travel', component: NewTravelItineraryComponent },
 ];
 
 @NgModule({
