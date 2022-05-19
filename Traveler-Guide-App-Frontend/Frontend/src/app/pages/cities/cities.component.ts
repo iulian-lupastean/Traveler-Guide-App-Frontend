@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
+import { GetInfoFromIdService } from 'src/app/services/get-info-from-id.service';
 import { GoogleMap } from '@angular/google-maps';
 @Component({
   selector: 'app-cities',
@@ -35,8 +36,10 @@ export class CitiesComponent implements OnInit {
   Address!: string;
   latitude!: any;
   longitude!: any;
-
-  constructor(private ngZone: NgZone) {}
+  constructor(
+    private ngZone: NgZone,
+    private getInfoFromId: GetInfoFromIdService
+  ) {}
 
   ngAfterViewInit(): void {
     // Binding autocomplete to search input control
@@ -48,10 +51,10 @@ export class CitiesComponent implements OnInit {
       this.searchElementRef.nativeElement
     );
     autocomplete.addListener('place_changed', () => {
-      this.ngZone.run(() => {
-        //get the place result
-        let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+      //get the place result
 
+      let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+      this.ngZone.run(() => {
         //verify result
         if (place.geometry === undefined || place.geometry === null) {
           return;
@@ -76,10 +79,28 @@ export class CitiesComponent implements OnInit {
       };
     });
   }
-  handleAddressChange(address: any) {
-    (document.querySelector('location-address') as HTMLInputElement).value =
-      this.Address;
+  handleClick(event: google.maps.MapMouseEvent | google.maps.IconMouseEvent) {
+    console.log(event);
+    if (this.isIconMouseEvent(event)) {
+      console.log(event.placeId);
+      event.stop();
+      if (event.placeId) {
+        this.getPlaceInformation(event.placeId);
+      }
+    }
   }
 
   onSave() {}
+
+  isIconMouseEvent(
+    e: google.maps.MapMouseEvent | google.maps.IconMouseEvent
+  ): e is google.maps.IconMouseEvent {
+    return 'placeId' in e;
+  }
+  getPlaceInformation(placeId: string) {
+    console.log(placeId);
+    this.getInfoFromId.getInfoFromID(placeId).subscribe((data) => {
+      console.log(data);
+    });
+  }
 }

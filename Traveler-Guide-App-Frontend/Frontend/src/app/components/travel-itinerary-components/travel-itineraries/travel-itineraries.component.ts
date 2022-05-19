@@ -2,8 +2,8 @@ import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { map, Observable, Subject } from 'rxjs';
 import { ILocation } from 'src/app/Interfaces/ILocation';
 import { ITravelItinerary } from 'src/app/Interfaces/ITravelItinerary';
-import { TravelService } from 'src/app/services/travel-service';
-import { SearchService } from 'src/app/services/search-service';
+import { TravelService } from 'src/app/services/travel.service';
+import { SearchService } from 'src/app/services/search.service';
 @Component({
   selector: 'app-travel-itineraries',
   templateUrl: './travel-itineraries.component.html',
