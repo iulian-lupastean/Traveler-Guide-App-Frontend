@@ -14,6 +14,7 @@
           matInput
           placeholder="ex. My travel to Madrid"
           formControlName="firstCtrl"
+          [(ngModel)]="Name"
           required
           autocomplete="off"
           style="font-size: 25px; margin-top: 5px"
@@ -23,16 +24,24 @@
         <mat-label style="font-size: 22px">Choose a date</mat-label>
         <input
           matInput
+          [(ngModel)]="Date"
           [matDatepicker]="picker"
           style="font-size: 25px; margin-top: 5px"
-          disabled
+          [readonly]="true"
         />
         <mat-hint style="font-size: 15px; margin-top: 5px">MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker disabled="false"></mat-datepicker>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
       <div style="margin-bottom: 0px">
-        <button mat-button matStepperNext class="next-button">Next</button>
+        <button
+          mat-button
+          matStepperNext
+          class="next-button"
+          (click)="SaveTravelItinerary()"
+        >
+          Next
+        </button>
       </div>
     </form>
   </mat-card-content>

@@ -1,7 +1,8 @@
 {
-  "/apilocation": {
-    "target": "https://maps.googleapis.com",
-    "secure": true,
+  "/api/*": {
+    "target": "http://localhost:7075/",
+    "secure": false,
+    "logLevel": "debug",
     "changeOrigin": true
   }
 }

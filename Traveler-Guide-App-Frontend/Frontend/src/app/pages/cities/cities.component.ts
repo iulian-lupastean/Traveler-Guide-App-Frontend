@@ -5,40 +5,45 @@ import {
   ElementRef,
   NgZone,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 
 import { GetInfoFromIdService } from 'src/app/services/get-info-from-id.service';
 import { GoogleMap } from '@angular/google-maps';
+import { IGoogleDetails } from 'src/app/Interfaces/IGoogleDetails';
+import { SettingsService } from 'src/app/services/settings.service';
+
 @Component({
   selector: 'app-cities',
   templateUrl: './cities.component.html',
   styleUrls: ['./cities.component.css'],
 })
-export class CitiesComponent implements OnInit {
+export default class CitiesComponent implements OnInit {
   title = 'angular-google-map-search';
+  Name = new FormControl();
 
+  Address = new FormControl();
   @ViewChild('search')
   public searchElementRef!: ElementRef;
   @ViewChild(GoogleMap)
   public map!: GoogleMap;
-
-  locationsViewModel: FormGroup = new FormGroup({});
   zoom = 12;
   center!: google.maps.LatLngLiteral;
   options: google.maps.MapOptions = {
     zoomControl: true,
-    scrollwheel: false,
-    disableDefaultUI: true,
+    scrollwheel: true,
+    disableDefaultUI: false,
     fullscreenControl: false,
+    mapTypeControl: false,
     disableDoubleClickZoom: true,
     mapTypeId: 'hybrid',
   };
-  Address!: string;
   latitude!: any;
   longitude!: any;
+  googleDetails!: IGoogleDetails;
   constructor(
     private ngZone: NgZone,
-    private getInfoFromId: GetInfoFromIdService
+    private getInfoFromId: GetInfoFromIdService,
+    public settingsService: SettingsService
   ) {}
 
   ngAfterViewInit(): void {
@@ -82,7 +87,6 @@ export class CitiesComponent implements OnInit {
   handleClick(event: google.maps.MapMouseEvent | google.maps.IconMouseEvent) {
     console.log(event);
     if (this.isIconMouseEvent(event)) {
-      console.log(event.placeId);
       event.stop();
       if (event.placeId) {
         this.getPlaceInformation(event.placeId);
@@ -98,9 +102,10 @@ export class CitiesComponent implements OnInit {
     return 'placeId' in e;
   }
   getPlaceInformation(placeId: string) {
-    console.log(placeId);
     this.getInfoFromId.getInfoFromID(placeId).subscribe((data) => {
-      console.log(data);
+      this.googleDetails = data as IGoogleDetails;
+      this.Name.setValue(this.googleDetails.result.name);
+      this.Address.setValue(this.googleDetails.result.formatted_address);
     });
   }
 }

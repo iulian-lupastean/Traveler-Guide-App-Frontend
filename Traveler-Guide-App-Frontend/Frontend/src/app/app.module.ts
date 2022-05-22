@@ -8,7 +8,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HeaderComponent } from './pages/header/header.component';
 import { FooterComponent } from './pages/footer/footer.component';
-import { CitiesComponent } from './pages/cities/cities.component';
+import CitiesComponent from './pages/cities/cities.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,20 +29,22 @@ import {
 import { MatCardModule } from '@angular/material/card';
 import { MyTravelsComponent } from './pages/my-travels/my-travels.component';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { TravelItinerariesComponent } from './components/travel-itinerary-components/travel-itineraries/travel-itineraries.component';
-import { TravelsSearchComponent } from './components/travel-itinerary-components/travels-search/travels-search.component';
-import { AddNewTravelComponent } from './components/travel-itinerary-components/add-new-travel/add-new-travel.component';
+import { TravelItinerariesComponent } from './components/MyTravelsPageComponents/travel-itineraries/travel-itineraries.component';
+import { TravelsSearchComponent } from './components/MyTravelsPageComponents/travels-search/travels-search.component';
+import { AddNewTravelComponent } from './components/MyTravelsPageComponents/add-new-travel/add-new-travel.component';
 import { TravelService } from './services/travel.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NewTravelItineraryComponent } from './pages/new-travel-itinerary/new-travel-itinerary.component';
 import { MatStepperModule } from '@angular/material/stepper';
-import { CreateTravelItineraryComponent } from '../app/components/new-travel-components/create-travel-itinerary/create-travel-itinerary.component';
+import { CreateTravelItineraryComponent } from './components/CreateUpdatePageComponents/create-travel-itinerary/create-travel-itinerary.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { ViewTravelComponent } from './components/travel-itinerary-components/view-travel/view-travel.component';
-import { MyFilterPipe } from './components/travel-itinerary-components/travel-itineraries/filter-pipe';
+import { ViewTravelComponent } from './components/MyTravelsPageComponents/view-travel/view-travel.component';
+import { MyFilterPipe } from './components/MyTravelsPageComponents/travel-itineraries/filter-pipe';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { GetInfoFromIdService } from './services/get-info-from-id.service';
+import { SettingsService } from './services/settings.service';
+import { DatePipe } from '@angular/common';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'cities', component: CitiesComponent },
@@ -106,7 +108,9 @@ const routes: Routes = [
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     TravelService,
     GetInfoFromIdService,
+    SettingsService,
     MatDatepickerModule,
+    DatePipe,
   ],
   bootstrap: [AppComponent],
 })

@@ -25,25 +25,14 @@
       <mat-card class="location-list">
         <mat-card-title>Add Location To Travel</mat-card-title>
         <mat-card-content>
-          <form (formGroup)="(locationsViewModel)" (ngSubmit)="onSave()">
+          <form (formGroup)="(settingsService.formGroup)" (ngSubmit)="onSave()">
             <mat-form-field class="add-location-form">
-              <input
-                id="location-name"
-                name="location-name"
-                formControlName="name"
-                matInput
-                placeholder="Name"
-              />
+              <mat-label>Location Name</mat-label>
+              <input [formControl]="Name" matInput [readonly]="true" />
             </mat-form-field>
             <mat-form-field class="add-location-form">
-              <input
-                id="location-address"
-                name="location-address"
-                formControlName="address"
-                matInput
-                placeholder="Address"
-                [(ngModel)]="Address"
-              />
+              <mat-label> Location Address </mat-label>
+              <input matInput [formControl]="Address" [readonly]="true" />
             </mat-form-field>
             <mat-form-field class="add-location-form">
               <mat-select
@@ -60,17 +49,21 @@
               </mat-select>
             </mat-form-field>
             <mat-form-field class="add-location-form">
+              <mat-label>Budget for this location</mat-label>
               <input
-                id="location-price"
-                name="location-price"
-                formControlName="price"
                 matInput
-                placeholder="Price"
+                type="number"
+                class="example-right-align"
+                placeholder="0"
               />
+              <span matPrefix>$&nbsp;</span>
+              <span matSuffix>.00</span>
             </mat-form-field>
-            <button formControlName="addLocation" mat-raised-button>
-              Add Location
-            </button>
+            <div class="add-location-button">
+              <button formControlName="addLocation" mat-raised-button>
+                Add Location
+              </button>
+            </div>
           </form>
         </mat-card-content>
       </mat-card>

@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { ITravelItinerary } from 'src/app/Interfaces/ITravelItinerary';
 
 @Pipe({
   name: 'myfilter',

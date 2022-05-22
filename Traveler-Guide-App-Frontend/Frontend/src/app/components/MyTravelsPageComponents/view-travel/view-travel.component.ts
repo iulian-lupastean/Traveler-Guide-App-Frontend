@@ -20,5 +20,7 @@ export class ViewTravelComponent implements OnInit {
     console.log(id);
     this.locations = this.travelService.getLocationsForTravel(id);
   }
-  deleteTravel(id: number) {}
+  deleteTravel(id: number) {
+    this.travelService.deleteTravelitinerary(id);
+  }
 }
