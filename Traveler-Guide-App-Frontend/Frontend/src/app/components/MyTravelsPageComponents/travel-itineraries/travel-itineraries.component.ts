@@ -4,6 +4,7 @@ import { ILocation } from 'src/app/Interfaces/ILocation';
 import { ITravelItinerary } from 'src/app/Interfaces/ITravelItinerary';
 import { TravelService } from 'src/app/services/travel.service';
 import { SearchService } from 'src/app/services/search.service';
+import { userId } from 'src/app/Globals';
 @Component({
   selector: 'app-travel-itineraries',
   templateUrl: './travel-itineraries.component.html',
@@ -33,7 +34,7 @@ export class TravelItinerariesComponent
     this.unsubscribe.complete();
   }
   getLocations(id: number) {
-    this.locations = this.travelService.getLocationsForTravel(id);
+    this.locations = this.travelService.getLocationsForTravel(userId);
   }
   deleteTravel(id: number) {}
 }

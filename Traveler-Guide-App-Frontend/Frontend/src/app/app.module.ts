@@ -8,7 +8,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HeaderComponent } from './pages/header/header.component';
 import { FooterComponent } from './pages/footer/footer.component';
-import CitiesComponent from './pages/cities/cities.component';
+import CitiesComponent from './components/CreateUpdatePageComponents/add-or-remove-locations/cities.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ITravelItinerary } from '../Interfaces/ITravelItinerary';
 import { DatePipe } from '@angular/common';
-
+import { userId } from '../Globals';
 @Injectable()
 export class TravelService {
   apiGetTravelItineraries = 'https://localhost:7075/api/TravelItinerary';
@@ -30,7 +30,7 @@ export class TravelService {
         name: name,
         status: 'Planned',
         travelDate: date,
-        userId: 2,
+        userId: userId,
       })
       .subscribe({
         next: (data) => {
