@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ILocation } from 'src/app/Interfaces/ILocation';
 import { ITravelItinerary } from 'src/app/Interfaces/ITravelItinerary';
@@ -17,7 +18,8 @@ export class ViewTravelComponent implements OnInit {
   getTravel!: Observable<ITravelItinerary>;
   constructor(
     private travelService: TravelService,
-    private updateTravelService: UpdateTravelService
+    private updateTravelService: UpdateTravelService,
+    private router: Router
   ) {}
 
   ngOnInit() {}
@@ -29,6 +31,8 @@ export class ViewTravelComponent implements OnInit {
     this.updateTravelService.getTravelId(travelId);
     this.travelService.getTravelItineraryById(travelId).subscribe((value) => {
       this.updateTravelService.getTravelInfo(value.name, value.travelDate);
+      //routerLink = '../new-travel';
+      this.router.navigate(['../new-travel']);
     });
   }
   deleteTravel(id: number) {

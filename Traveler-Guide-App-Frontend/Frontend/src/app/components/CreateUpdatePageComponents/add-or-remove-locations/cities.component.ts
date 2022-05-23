@@ -11,6 +11,7 @@ import { GetInfoFromIdService } from 'src/app/services/get-info-from-id.service'
 import { GoogleMap } from '@angular/google-maps';
 import { IGoogleDetails } from 'src/app/Interfaces/IGoogleDetails';
 import { SettingsService } from 'src/app/services/settings.service';
+import { UpdateTravelService } from 'src/app/services/update-travel.service';
 
 @Component({
   selector: 'app-cities',
@@ -43,7 +44,8 @@ export default class CitiesComponent implements OnInit {
   constructor(
     private ngZone: NgZone,
     private getInfoFromId: GetInfoFromIdService,
-    public settingsService: SettingsService
+    public settingsService: SettingsService,
+    private updateTravelService: UpdateTravelService
   ) {}
 
   ngAfterViewInit(): void {
@@ -94,7 +96,9 @@ export default class CitiesComponent implements OnInit {
     }
   }
 
-  onSave() {}
+  onSave() {
+    this.updateTravelService.getTravelId(0);
+  }
 
   isIconMouseEvent(
     e: google.maps.MapMouseEvent | google.maps.IconMouseEvent

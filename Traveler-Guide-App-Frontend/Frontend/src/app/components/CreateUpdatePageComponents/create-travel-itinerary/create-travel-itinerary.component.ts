@@ -40,6 +40,9 @@ export class CreateTravelItineraryComponent implements OnInit {
     console.log(info);
 
     this.nameControl.setValue(info[0]);
+    this.Name = info[0] as string;
+    console.log(this.Name);
+    this.Date = info[1] as Date;
     this.dateControl.setValue(info[1]);
   }
   SaveTravelItinerary() {
@@ -52,12 +55,8 @@ export class CreateTravelItineraryComponent implements OnInit {
         travelDate: this.Date,
         userId: userId,
       });
-      this.updateTravelService.getTravelId(0);
     } else {
-      console.log(this.Date);
-
       this.travelService.createNewTravelItinerary(this.Name, this.Date);
-      console.log(this.dateControl);
     }
   }
 }

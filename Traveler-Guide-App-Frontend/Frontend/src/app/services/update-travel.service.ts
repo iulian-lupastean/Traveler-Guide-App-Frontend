@@ -17,10 +17,11 @@ export class UpdateTravelService {
   getTravelInfo(travelName: string, travelDate: Date) {
     this.travelName = travelName;
     this.travelDate = travelDate;
-    console.log(this.travelDate);
+
+    console.log(this.travelName, this.travelDate);
   }
   setTravelInfo() {
-    console.log(this.travelDate);
+    console.log(this.travelName, this.travelDate);
     return [this.travelName, this.travelDate];
   }
 }
