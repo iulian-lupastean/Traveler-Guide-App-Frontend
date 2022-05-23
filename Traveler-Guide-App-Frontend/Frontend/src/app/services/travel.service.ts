@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { isEmpty, NotFoundError, Observable } from 'rxjs';
 import { ITravelItinerary } from '../Interfaces/ITravelItinerary';
 import { DatePipe } from '@angular/common';
 import { userId } from '../Globals';
@@ -12,6 +12,7 @@ export class TravelService {
   id!: number;
   errorMessage: any;
   status!: string;
+  travel!: Observable<ITravelItinerary>;
   constructor(private httpClient: HttpClient, public datepipe: DatePipe) {}
 
   getLocationsForTravel(id: number): Observable<any> {
@@ -56,5 +57,23 @@ export class TravelService {
         },
       });
     window.location.reload();
+  }
+  getTravelItineraryById(travelId: number): Observable<ITravelItinerary> {
+    return this.httpClient.get<ITravelItinerary>(
+      `https://localhost:7075/api/TravelItinerary/Admin/${travelId}`
+    );
+  }
+  updateTravelitinerary(travelId: number, travel: ITravelItinerary) {
+    this.httpClient
+      .put(`https://localhost:7075/api/TravelItinerary/${travelId}`, travel)
+      .subscribe({
+        next: (data) => {
+          this.status = 'Delete successful';
+        },
+        error: (error) => {
+          this.errorMessage = error.message;
+          console.error('There was an error!', error);
+        },
+      });
   }
 }

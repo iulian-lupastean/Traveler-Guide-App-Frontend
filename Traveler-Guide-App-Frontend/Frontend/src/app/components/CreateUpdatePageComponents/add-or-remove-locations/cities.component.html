@@ -27,6 +27,10 @@
         <mat-card-content>
           <form (formGroup)="(settingsService.formGroup)" (ngSubmit)="onSave()">
             <mat-form-field class="add-location-form">
+              <mat-label>Travel Name</mat-label>
+              <input [formControl]="TravelName" matInput [readonly]="true" />
+            </mat-form-field>
+            <mat-form-field class="add-location-form">
               <mat-label>Location Name</mat-label>
               <input [formControl]="Name" matInput [readonly]="true" />
             </mat-form-field>

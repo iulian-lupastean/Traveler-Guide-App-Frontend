@@ -20,8 +20,8 @@ import { SettingsService } from 'src/app/services/settings.service';
 export default class CitiesComponent implements OnInit {
   title = 'angular-google-map-search';
   Name = new FormControl();
-
   Address = new FormControl();
+  TravelName = new FormControl();
   @ViewChild('search')
   public searchElementRef!: ElementRef;
   @ViewChild(GoogleMap)

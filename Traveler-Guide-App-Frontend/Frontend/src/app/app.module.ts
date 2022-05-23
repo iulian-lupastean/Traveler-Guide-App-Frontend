@@ -34,7 +34,7 @@ import { TravelsSearchComponent } from './components/MyTravelsPageComponents/tra
 import { AddNewTravelComponent } from './components/MyTravelsPageComponents/add-new-travel/add-new-travel.component';
 import { TravelService } from './services/travel.service';
 import { MatDialogModule } from '@angular/material/dialog';
-import { NewTravelItineraryComponent } from './pages/new-travel-itinerary/new-travel-itinerary.component';
+import { NewTravelItineraryComponent } from './pages/create-update-travel-itinerary/new-travel-itinerary.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { CreateTravelItineraryComponent } from './components/CreateUpdatePageComponents/create-travel-itinerary/create-travel-itinerary.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -45,6 +45,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { GetInfoFromIdService } from './services/get-info-from-id.service';
 import { SettingsService } from './services/settings.service';
 import { DatePipe } from '@angular/common';
+import { UpdateTravelService } from './services/update-travel.service';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'cities', component: CitiesComponent },
@@ -109,6 +110,7 @@ const routes: Routes = [
     TravelService,
     GetInfoFromIdService,
     SettingsService,
+    UpdateTravelService,
     MatDatepickerModule,
     DatePipe,
   ],
