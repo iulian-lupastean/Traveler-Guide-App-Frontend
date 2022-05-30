@@ -1,3 +1,4 @@
+import { IAddressComponents } from './IAddressComponents';
 export interface IGoogleDetails {
   result: {
     name: string;
@@ -8,5 +9,6 @@ export interface IGoogleDetails {
         lng: any;
       };
     };
+    address_components: Array<IAddressComponents>;
   };
 }

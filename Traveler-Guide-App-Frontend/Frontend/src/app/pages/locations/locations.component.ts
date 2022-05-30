@@ -73,7 +73,7 @@ export class LocationsComponent implements OnInit {
     zoom: 13,
   };
   getContentString(location: ILocation) {
-    return `${location.name}#${location.address}#${location.locationType}#${location.price}$`;
+    return `${location.name}#${location.address}`;
   }
   onSave() {}
 }

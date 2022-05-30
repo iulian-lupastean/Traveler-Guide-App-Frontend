@@ -19,52 +19,105 @@
         [center]="center"
         [options]="options"
         (mapClick)="handleClick($event)"
+      >
+        <map-marker
+          #somemarker="mapMarker"
+          *ngFor="let marker of markers; let i = index"
+          [position]="marker.marker.position"
+          (mapClick)="openInfo(somemarker, marker.infoWindow)"
+        >
+          <map-info-window>
+            <div class="marker-info">
+              <p>{{ infoContent.split("#")[0] }}</p>
+              <p>
+                Address:{{ infoContent.split("#")[1] }} <br />
+                Budget: {{ infoContent.split("#")[2] }} <br />
+                Description: {{ infoContent.split("#")[3] }} <br />
+              </p>
+            </div>
+          </map-info-window> </map-marker
       ></google-map>
     </td>
     <td>
       <mat-card class="location-list">
         <mat-card-title>Add Location To Travel</mat-card-title>
         <mat-card-content>
-          <form (formGroup)="(settingsService.formGroup)" (ngSubmit)="onSave()">
+          <form (formGroup)="(settingsService.formGroup)">
             <mat-form-field class="add-location-form">
               <mat-label>Travel Name</mat-label>
-              <input [formControl]="TravelName" matInput [readonly]="true" />
+              <input
+                [formControl]="TravelName"
+                matInput
+                [(ngModel)]="travelName"
+                [readonly]="true"
+              />
             </mat-form-field>
             <mat-form-field class="add-location-form">
               <mat-label>Location Name</mat-label>
-              <input [formControl]="Name" matInput [readonly]="true" />
+              <input
+                matInput
+                [formControl]="Name"
+                formControlName="locationName"
+                [(ngModel)]="locationName"
+                [readonly]="true"
+              />
             </mat-form-field>
             <mat-form-field class="add-location-form">
               <mat-label> Location Address </mat-label>
-              <input matInput [formControl]="Address" [readonly]="true" />
+              <input
+                matInput
+                [formControl]="Address"
+                formControlName="locationAddress"
+                [(ngModel)]="locationAddress"
+                [readonly]="true"
+              />
             </mat-form-field>
             <mat-form-field class="add-location-form">
               <mat-select
-                formControlName="locationType"
-                placeholder="Select Location Type"
+                formControlName="locationPriority"
+                [formControl]="test1"
+                placeholder="Select Priority"
                 class="add-location-form"
+                [(ngModel)]="locationPriority"
+                required
+                (selectionChange)="changeClient($event.value)"
               >
-                <mat-option value="Museum">Museum</mat-option>
-                <mat-option value="Park">Park</mat-option>
-                <mat-option value="Famous Building">Famous Building</mat-option>
-                <mat-option value="Restaurant">Restaurant</mat-option>
-                <mat-option value="Caffe-bar">Caffe-bar</mat-option>
-                <mat-option value="Statue">Statue</mat-option>
+                <mat-option value="High">High</mat-option>
+                <mat-option value="Medium">Medium</mat-option>
+                <mat-option value="Low">Low</mat-option>
               </mat-select>
             </mat-form-field>
             <mat-form-field class="add-location-form">
               <mat-label>Budget for this location</mat-label>
               <input
                 matInput
+                [formControl]="test2"
                 type="number"
                 class="example-right-align"
+                formControlName="locationBudget"
                 placeholder="0"
+                autocomplete="off"
+                [(ngModel)]="locationBudget"
               />
               <span matPrefix>$&nbsp;</span>
               <span matSuffix>.00</span>
             </mat-form-field>
+            <mat-form-field class="Description" appearance="fill">
+              <mat-label>Description</mat-label>
+              <textarea
+                matInput
+                [formControl]="test3"
+                formControlName="locationDescription"
+                [(ngModel)]="locationDescription"
+                placeholder="Describe your experience at this location"
+              ></textarea>
+            </mat-form-field>
             <div class="add-location-button">
-              <button formControlName="addLocation" mat-raised-button>
+              <button
+                formControlName="addLocation"
+                mat-raised-button
+                (click)="SaveLocation()"
+              >
                 Add Location
               </button>
             </div>

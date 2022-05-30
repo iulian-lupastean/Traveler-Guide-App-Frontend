@@ -5,8 +5,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { ITravelItinerary } from 'src/app/Interfaces/ITravelItinerary';
 import { TravelService } from 'src/app/services/travel.service';
 import { userId } from 'src/app/Globals';
 import { UpdateTravelService } from 'src/app/services/update-travel.service';
@@ -28,8 +26,13 @@ export class CreateTravelItineraryComponent implements OnInit {
   TravelId!: number;
   Name!: string;
   Date!: Date;
+  Title!: string;
   newDate!: string;
   ngOnInit() {
+    this.TravelId = this.updateTravelService.setSearchString();
+    this.setTitle(this.TravelId);
+    console.log(this.TravelId);
+
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required],
       nameControl: this.nameControl,
@@ -37,16 +40,18 @@ export class CreateTravelItineraryComponent implements OnInit {
     });
     this.picker = new Date(new Date().getTime());
     var info = this.updateTravelService.setTravelInfo();
-    console.log(info);
 
-    this.nameControl.setValue(info[0]);
     this.Name = info[0] as string;
-    console.log(this.Name);
     this.Date = info[1] as Date;
-    this.dateControl.setValue(info[1]);
+  }
+  setTitle(travelId: number) {
+    if (travelId == 0) {
+      this.Title = 'Create New Travel Itinerary';
+    } else {
+      this.Title = 'Update Travel Itinerary';
+    }
   }
   SaveTravelItinerary() {
-    this.TravelId = this.updateTravelService.setSearchString();
     if (this.TravelId != 0) {
       this.travelService.updateTravelitinerary(this.TravelId, {
         travelId: this.TravelId,

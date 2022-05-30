@@ -23,7 +23,7 @@ export class TravelItinerariesComponent
     private searchService: SearchService
   ) {}
   ngOnInit() {
-    this.travelItineraries = this.travelService.getTravelsForUser(2);
+    this.travelItineraries = this.travelService.getTravelsForUser(userId);
     this.searchService.searchStringChanged$.subscribe(
       (x) => (this.filterargs.name = x)
     );

@@ -1,9 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { isEmpty, NotFoundError, Observable } from 'rxjs';
+import { isEmpty, map, NotFoundError, Observable } from 'rxjs';
 import { ITravelItinerary } from '../Interfaces/ITravelItinerary';
 import { DatePipe } from '@angular/common';
 import { userId } from '../Globals';
+import { ILocation } from '../Interfaces/ILocation';
+import { ICity } from '../Interfaces/ICity';
+import { ITravelItineraryLocation } from '../Interfaces/ITravelItineraryLocation';
+import { IUserExperience } from '../Interfaces/IUserExperience';
 @Injectable()
 export class TravelService {
   apiGetTravelItineraries = 'https://localhost:7075/api/TravelItinerary';
@@ -13,7 +17,7 @@ export class TravelService {
   errorMessage: any;
   status!: string;
   travel!: Observable<ITravelItinerary>;
-  constructor(private httpClient: HttpClient, public datepipe: DatePipe) {}
+  constructor(private httpClient: HttpClient) {}
 
   getLocationsForTravel(id: number): Observable<any> {
     return this.httpClient.get(
@@ -75,5 +79,102 @@ export class TravelService {
           console.error('There was an error!', error);
         },
       });
+  }
+  getLocationByLatLng(lat: string, lng: string): Observable<any> {
+    return this.httpClient.get(
+      `https://localhost:7075/api/Locations/${lat}/${lng}`
+    );
+  }
+  getCityByNameAndCountry(
+    cityName: string,
+    country: string
+  ): Observable<ICity> {
+    return this.httpClient.get<ICity>(
+      `https://localhost:7075/api/Cities/${country}/${cityName}`
+    );
+  }
+  createCity(cityName: string, country: string) {
+    return this.httpClient.post<ICity>(
+      'https://localhost:7075/api/Cities/Admin',
+      {
+        name: cityName,
+        country: country,
+      }
+    );
+  }
+  createLocation(
+    locName: string,
+    locAddress: string,
+    lat: string,
+    lng: string,
+    cityId: number
+  ) {
+    this.httpClient
+      .post<ILocation>('https://localhost:7075/api/Locations/Admin', {
+        name: locName,
+        address: locAddress,
+        latitude: lat,
+        longitude: lng,
+        cityId: cityId,
+      })
+      .subscribe({
+        next: (data) => {
+          this.id = data.locationId;
+        },
+        error: (error) => {
+          this.errorMessage = error.message;
+          console.error('There was an error!', error);
+        },
+      });
+  }
+  addLocationToTravelItinerary(travelId: number, locationId: number) {
+    this.httpClient
+      .post(
+        `https://localhost:7075/api/TravelItineraryLocation/${travelId}/locations/${locationId}`,
+        {}
+      )
+      .subscribe({
+        next: (data) => {},
+        error: (error) => {
+          this.errorMessage = error.message;
+          console.error('There was an error!', error);
+        },
+      });
+  }
+  createUserExperience(
+    userId: number,
+    travelItineraryId: number,
+    locationId: number,
+    priority: string,
+    budget: number,
+    description: string
+  ) {
+    this.httpClient
+      .post<IUserExperience>('https://localhost:7075/api/UserExperience', {
+        userId: userId,
+        travelItineraryId: travelItineraryId,
+        locationId: locationId,
+        priority: priority,
+        budget: budget,
+        description: description,
+      })
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+        },
+        error: (error) => {
+          this.errorMessage = error.message;
+          console.error('There was an error!', error);
+        },
+      });
+  }
+  getUserExperience(
+    userId: number,
+    travelItineraryId: number,
+    locationId: number
+  ) {
+    return this.httpClient.get<IUserExperience>(
+      `https://localhost:7075/api/UserExperience/${userId}/${travelItineraryId}/${locationId}`
+    );
   }
 }

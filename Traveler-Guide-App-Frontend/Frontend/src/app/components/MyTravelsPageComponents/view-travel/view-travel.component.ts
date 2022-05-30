@@ -1,11 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { userId } from 'src/app/Globals';
 import { ILocation } from 'src/app/Interfaces/ILocation';
 import { ITravelItinerary } from 'src/app/Interfaces/ITravelItinerary';
 import { TravelService } from 'src/app/services/travel.service';
 import { UpdateTravelService } from 'src/app/services/update-travel.service';
-
+import { IDataSource } from 'src/app/Interfaces/IDataSource';
+import { MatTable } from '@angular/material/table';
 @Component({
   selector: 'app-view-travel',
   templateUrl: './view-travel.component.html',
@@ -16,6 +18,12 @@ export class ViewTravelComponent implements OnInit {
   uniqueTravel!: ITravelItinerary;
   locations!: Observable<ILocation[]>;
   getTravel!: Observable<ITravelItinerary>;
+  dataSource!: String[];
+  getInfo: IDataSource[] = [];
+  displayedColumns: string[] = ['name', 'address', 'budget', 'description'];
+
+  @ViewChild(MatTable) table!: MatTable<IDataSource>;
+
   constructor(
     private travelService: TravelService,
     private updateTravelService: UpdateTravelService,
@@ -23,15 +31,45 @@ export class ViewTravelComponent implements OnInit {
   ) {}
 
   ngOnInit() {}
-  getLocations(id: number) {
-    console.log(id);
-    this.locations = this.travelService.getLocationsForTravel(id);
+  getLocations(travelId: number) {
+    const ar: any = [];
+    this.travelService.getLocationsForTravel(travelId).subscribe((data) => {
+      data.forEach((element: any) => {
+        this.travelService
+          .getUserExperience(userId, travelId, element.locationId)
+          .subscribe({
+            next: (result) => {
+              ar.push({
+                name: element.name,
+                address: element.address,
+                budget: result.budget,
+                description: result.description,
+              });
+              this.dataSource = ar;
+              this.table.renderRows();
+            },
+            error: (error) => {
+              ar.push({
+                name: element.name,
+                address: element.address,
+                budget: 0,
+                description: '',
+              });
+              this.dataSource = ar;
+              this.table.renderRows();
+            },
+          });
+      });
+    });
+
+    this.dataSource = ar;
+    this.table.renderRows();
+    console.log(this.dataSource);
   }
   updateTravel(travelId: number) {
     this.updateTravelService.getTravelId(travelId);
     this.travelService.getTravelItineraryById(travelId).subscribe((value) => {
       this.updateTravelService.getTravelInfo(value.name, value.travelDate);
-      //routerLink = '../new-travel';
       this.router.navigate(['../new-travel']);
     });
   }

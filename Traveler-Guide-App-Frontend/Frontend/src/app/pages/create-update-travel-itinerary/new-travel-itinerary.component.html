@@ -1,5 +1,6 @@
 <mat-stepper [linear]="isLinear" #stepper class="main-stepper">
-  <mat-step [stepControl]="firstFormGroup" label="Create Travel Itinerary">
+  <mat-step [stepControl]="firstFormGroup">
+    <ng-template matStepLabel>{{ this.firstStepLabel }}</ng-template>
     <app-create-travel-itinerary></app-create-travel-itinerary>
   </mat-step>
   <mat-step
@@ -18,7 +19,7 @@
     <p>You are now done.</p>
     <div>
       <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
+      <button mat-button (click)="finishTravelItinerary()">Reset</button>
     </div>
   </mat-step>
 </mat-stepper>

@@ -46,6 +46,8 @@ import { GetInfoFromIdService } from './services/get-info-from-id.service';
 import { SettingsService } from './services/settings.service';
 import { DatePipe } from '@angular/common';
 import { UpdateTravelService } from './services/update-travel.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'cities', component: CitiesComponent },
@@ -103,6 +105,8 @@ const routes: Routes = [
     MatDatepickerModule,
     MatNativeDateModule,
     GooglePlaceModule,
+    MatSnackBarModule,
+    MatTableModule,
   ],
   exports: [RouterModule],
   providers: [
