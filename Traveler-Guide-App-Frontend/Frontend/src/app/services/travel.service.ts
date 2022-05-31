@@ -85,10 +85,7 @@ export class TravelService {
       `https://localhost:7075/api/Locations/${lat}/${lng}`
     );
   }
-  getCityByNameAndCountry(
-    cityName: string,
-    country: string
-  ): Observable<ICity> {
+  getCityByNameAndCountry(cityName: string,country: string): Observable<ICity> {
     return this.httpClient.get<ICity>(
       `https://localhost:7075/api/Cities/${country}/${cityName}`
     );
@@ -102,52 +99,25 @@ export class TravelService {
       }
     );
   }
-  createLocation(
-    locName: string,
-    locAddress: string,
-    lat: string,
-    lng: string,
-    cityId: number
-  ) {
-    this.httpClient
-      .post<ILocation>('https://localhost:7075/api/Locations/Admin', {
+  createLocation(locName: string,locAddress: string,lat: string,lng: string,cityId: number) {
+   return this.httpClient.post<ILocation>(
+     'https://localhost:7075/api/Locations/Admin', {
         name: locName,
         address: locAddress,
         latitude: lat,
         longitude: lng,
         cityId: cityId,
-      })
-      .subscribe({
-        next: (data) => {
-          this.id = data.locationId;
-        },
-        error: (error) => {
-          this.errorMessage = error.message;
-          console.error('There was an error!', error);
-        },
-      });
+      }
+    );
   }
   addLocationToTravelItinerary(travelId: number, locationId: number) {
     this.httpClient
       .post(
         `https://localhost:7075/api/TravelItineraryLocation/${travelId}/locations/${locationId}`,
         {}
-      )
-      .subscribe({
-        next: (data) => {},
-        error: (error) => {
-          this.errorMessage = error.message;
-          console.error('There was an error!', error);
-        },
-      });
+      );
   }
-  createUserExperience(
-    userId: number,
-    travelItineraryId: number,
-    locationId: number,
-    priority: string,
-    budget: number,
-    description: string
+  createUserExperience(userId: number, travelItineraryId: number,locationId: number,priority: string, budget: number,description: string
   ) {
     this.httpClient
       .post<IUserExperience>('https://localhost:7075/api/UserExperience', {

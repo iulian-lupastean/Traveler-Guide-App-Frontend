@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-  NgZone,
-  Input,
-} from '@angular/core';
+import {Component,OnInit,ViewChild,ElementRef,NgZone,Input} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { GetInfoFromIdService } from 'src/app/services/get-info-from-id.service';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
@@ -85,15 +78,7 @@ export default class CitiesComponent implements OnInit {
   dataSource!: String[];
   displayedColumns: string[] = ['name', 'address', 'budget', 'description'];
 
-  constructor(
-    private ngZone: NgZone,
-    private getInfoFromId: GetInfoFromIdService,
-    public settingsService: SettingsService,
-    private updateTravelService: UpdateTravelService,
-    private travelService: TravelService,
-    private _snackBar: MatSnackBar,
-    private httpClient: HttpClient
-  ) {}
+  constructor(private ngZone: NgZone,private getInfoFromId: GetInfoFromIdService,public settingsService: SettingsService,private updateTravelService: UpdateTravelService,private travelService: TravelService,private _snackBar: MatSnackBar,private httpClient: HttpClient) {}
 
   ngAfterViewInit(): void {
     this.getLocations(this.travelId);
@@ -187,86 +172,50 @@ export default class CitiesComponent implements OnInit {
       this.Address.setValue(this.googleDetails.result.formatted_address);
 
       this.checkForCity(this.cityName, this.countryName);
-
-      this.travelService
-        .getLocationByLatLng(this.locationLat, this.locationLng)
-        .subscribe({
-          next: (data) => {
-            this.locationId = data.locationId;
-            this.updateTravelService.setLocationId(data.locationId);
-            console.log(this.locationId);
-          },
-        });
+      console.log(this.cityId)
+      this.checkForLocation(this.locationName,this.locationAddress,this.locationLat,this.locationLng,this.cityId);
+      console.log(this.locationId)
     });
   }
-  changeClient(value: any) {
-    this.locationPriority = value;
-  }
+
   SaveLocation() {
     this.locationId = this.updateTravelService.getLocationId();
     this.addLocationToTravel(this.travelId, this.locationId);
-    this.addUserExperience(
-      userId,
-      this.travelId,
-      this.locationId,
-      this.locationPriority,
-      Number(this.locationBudget),
-      this.locationDescription
-    );
+    this.addUserExperience(userId,this.travelId,this.locationId,this.locationPriority,Number(this.locationBudget),this.locationDescription);
     this._snackBar.open('Location Added Successfully!', 'Continue', {
       verticalPosition: 'bottom',
       horizontalPosition: 'right',
       panelClass: ['SnackBar'],
     });
   }
-  async checkForCity(cityName: string, country: string) {
+ checkForCity(cityName: string, country: string) {
     this.travelService.getCityByNameAndCountry(cityName, country).subscribe({
       next: (data) => {
         this.cityId = data.id;
-        this.checkForLocation(
-          this.locationName,
-          this.locationAddress,
-          this.locationLat,
-          this.locationLng,
-          this.cityId
-        );
       },
-
       error: (error) => {
-        this.travelService.createCity(cityName, country).subscribe({
-          next: (data: any) => {
-            this.travelService
-              .getCityByNameAndCountry(cityName, country)
-              .subscribe((result) => {
-                this.cityId = result.id;
-                console.log(this.cityId);
-                this.checkForLocation(
-                  this.locationName,
-                  this.locationAddress,
-                  this.locationLat,
-                  this.locationLng,
-                  this.cityId
-                );
-              });
-          },
+        this.travelService.createCity(cityName, country).subscribe(
+          (data: any) => {
+            this.travelService.getCityByNameAndCountry(cityName, country).subscribe((result) => {this.cityId = result.id;});
         });
         console.error('There was an error!', error);
       },
     });
   }
-  async checkForLocation(
-    name: string,
-    address: string,
-    lat: string,
-    lng: string,
-    cityId: number
-  ) {
+  checkForLocation(name: string,address: string,lat: string,lng: string,cityId: number) {
     this.travelService.getLocationByLatLng(lat, lng).subscribe({
       next: (data) => {
-        console.log(data);
+        this.locationId=data.locationId;
       },
       error: (error) => {
-        this.travelService.createLocation(name, address, lat, lng, cityId);
+        this.travelService.createLocation(name, address, lat, lng, cityId).subscribe(
+          (data:any)=>{
+          this.travelService.getLocationByLatLng(lat,lng).subscribe(
+            (result)=>{
+              this.locationId=result.locationId;
+            }
+          )
+        });
         console.error('There was an error!', error);
       },
     });
@@ -274,28 +223,12 @@ export default class CitiesComponent implements OnInit {
   addLocationToTravel(travelId: number, locationId: number) {
     this.travelService.addLocationToTravelItinerary(travelId, locationId);
   }
-  addUserExperience(
-    userId: number,
-    travelItineraryId: number,
-    locationId: number,
-    priority: string,
-    budget: number,
-    description: string
-  ) {
-    this.travelService.createUserExperience(
-      userId,
-      travelItineraryId,
-      locationId,
-      priority,
-      budget,
-      description
-    );
+  addUserExperience(userId: number,travelItineraryId: number, locationId: number,priority: string,budget: number,description: string) {
+    this.travelService.createUserExperience(userId,travelItineraryId,locationId,priority,budget,description);
   }
   getLocations(travelId: number) {
-    this.httpClient
-      .get<ILocation[]>(
-        `https://localhost:7075/api/TravelItineraryLocation/${travelId}/locations`
-      )
+    this.httpClient.get<ILocation[]>(
+        `https://localhost:7075/api/TravelItineraryLocation/${travelId}/locations`)
       .subscribe(
         (response) => {
           this.locations = response;
@@ -303,6 +236,8 @@ export default class CitiesComponent implements OnInit {
         },
         (error) => console.log(error)
       );
+  }  changeClient(value: any) {
+    this.locationPriority = value;
   }
   placeAllMarkers(locations: ILocation[]) {
     var markers = locations.map((location, index) => {
