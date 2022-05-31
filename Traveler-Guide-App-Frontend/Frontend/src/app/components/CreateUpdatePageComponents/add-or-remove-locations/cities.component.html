@@ -1,12 +1,14 @@
 <table style="width: 100%">
   <tr>
-    <th style="width: 70%">
-      <input
-        ngx-google-places-autocomplete
-        class="my-search-box"
-        placeholder="Search Location"
-        #search
-      />
+    <th style="width: 60%">
+      <div>
+        <input
+          ngx-google-places-autocomplete
+          class="my-search-box"
+          placeholder="Search Location"
+          #search
+        />
+      </div>
     </th>
   </tr>
   <tr>
@@ -22,9 +24,9 @@
       >
         <map-marker
           #somemarker="mapMarker"
-          *ngFor="let marker of markers; let i = index"
+          *ngFor="let marker of markers; index as indexOfelement"
           [position]="marker.marker.position"
-          (mapClick)="openInfo(somemarker, marker.infoWindow)"
+          (mapClick)="openInfo(somemarker, marker.infoWindow, indexOfelement)"
         >
           <map-info-window>
             <div class="marker-info">
@@ -34,9 +36,13 @@
                 Budget: {{ infoContent.split("#")[2] }} <br />
                 Description: {{ infoContent.split("#")[3] }} <br />
               </p>
+              <button mat-button color="warn" (click)="deleteMarker()">
+                Delete
+              </button>
             </div>
-          </map-info-window> </map-marker
-      ></google-map>
+          </map-info-window>
+        </map-marker></google-map
+      >
     </td>
     <td>
       <mat-card class="location-list">
@@ -74,11 +80,13 @@
             </mat-form-field>
             <mat-form-field class="add-location-form">
               <mat-select
+                #prioritySelect
                 formControlName="locationPriority"
                 [formControl]="test1"
                 placeholder="Select Priority"
                 class="add-location-form"
                 [(ngModel)]="locationPriority"
+                [(value)]="selected"
                 required
                 (selectionChange)="changeClient($event.value)"
               >
@@ -127,3 +135,34 @@
     </td>
   </tr>
 </table>
+<div style="margin: 20px 0px 40px 0px">
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    class="mat-elevation-z5 demo-table"
+    style="padding: -5px; width: 100%; display: flex"
+  >
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef class="name-column-design">Name</th>
+      <td mat-cell *matCellDef="let location">{{ location.name }}</td>
+    </ng-container>
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef class="address-column-design">
+        Address
+      </th>
+      <td mat-cell *matCellDef="let location">{{ location.address }}</td>
+    </ng-container>
+    <ng-container matColumnDef="budget">
+      <th mat-header-cell *matHeaderCellDef class="budget-column-design">
+        Budget
+      </th>
+      <td mat-cell *matCellDef="let location">{{ location.budget }}</td>
+    </ng-container>
+    <ng-container matColumnDef="description" class="description-column-design">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let location">{{ location.description }}</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>

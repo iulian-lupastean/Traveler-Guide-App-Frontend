@@ -4,6 +4,7 @@ import {
   ViewChild,
   ElementRef,
   NgZone,
+  Input,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { GetInfoFromIdService } from 'src/app/services/get-info-from-id.service';
@@ -20,7 +21,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ILocation } from 'src/app/Interfaces/ILocation';
 import { HttpClient } from '@angular/common/http';
 import { IUserExperience } from 'src/app/Interfaces/IUserExperience';
-
+import { MatTable } from '@angular/material/table';
+import { IDataSource } from 'src/app/Interfaces/IDataSource';
 @Component({
   selector: 'app-cities',
   templateUrl: './cities.component.html',
@@ -34,12 +36,16 @@ export default class CitiesComponent implements OnInit {
   test1 = new FormControl();
   test2 = new FormControl();
   test3 = new FormControl();
+  @Input()
+  travelName!: string;
   @ViewChild('search')
   public searchElementRef!: ElementRef;
   @ViewChild(GoogleMap)
   public map!: GoogleMap;
   @ViewChild(MapInfoWindow, { static: false })
   infoWindow!: MapInfoWindow;
+  @ViewChild('prioritySelect') prioritySelect: any;
+  @ViewChild(MatTable) table!: MatTable<IDataSource>;
   locations: ILocation[] = [];
   markers = [] as any;
   infoContent = '';
@@ -51,10 +57,8 @@ export default class CitiesComponent implements OnInit {
     disableDefaultUI: false,
     fullscreenControl: false,
     mapTypeControl: false,
-    disableDoubleClickZoom: true,
-    mapTypeId: 'hybrid',
+    disableDoubleClickZoom: false,
   };
-  travelName!: string;
   locationName!: string;
   latitude!: any;
   longitude!: any;
@@ -76,6 +80,11 @@ export default class CitiesComponent implements OnInit {
   existingBudget!: string;
   existingDescription!: string;
   userExperiences$!: Observable<IUserExperience>;
+  selected: string = 'High';
+  makerIndexSelected: any;
+  dataSource!: String[];
+  displayedColumns: string[] = ['name', 'address', 'budget', 'description'];
+
   constructor(
     private ngZone: NgZone,
     private getInfoFromId: GetInfoFromIdService,
@@ -109,6 +118,7 @@ export default class CitiesComponent implements OnInit {
         //set latitude, longitude and zoom
         this.latitude = place.geometry.location?.lat();
         this.longitude = place.geometry.location?.lng();
+
         this.center = {
           lat: this.latitude,
           lng: this.longitude,
@@ -116,19 +126,23 @@ export default class CitiesComponent implements OnInit {
       });
     });
   }
+  deleteMarker() {
+    delete this.markers[this.makerIndexSelected];
+  }
 
   ngOnInit() {
-    this.travelId = this.updateTravelService.setSearchString();
+    this.travelId = this.updateTravelService.getTravelId();
+
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
         lat: position.coords.latitude,
         lng: position.coords.longitude,
       };
+
+      console.log(this.center);
     });
-
-    var info = this.updateTravelService.setTravelInfo();
-
-    this.travelName = info[0] as string;
+    this.getLocationsTable(this.travelId);
+    this.resetFields();
   }
   handleClick(event: google.maps.MapMouseEvent | google.maps.IconMouseEvent) {
     console.log(event);
@@ -157,7 +171,6 @@ export default class CitiesComponent implements OnInit {
           (data) => data.types[0] == 'country'
         );
       this.countryName = countryName[0].long_name;
-      // console.log(this.googleDetails.result.geometry.location.lat);
 
       this.locationLat = String(
         this.googleDetails.result.geometry.location.lat
@@ -175,7 +188,7 @@ export default class CitiesComponent implements OnInit {
         .subscribe({
           next: (data) => {
             this.locationId = data.locationId;
-            this.updateTravelService.getLocationId(data.locationId);
+            this.updateTravelService.setLocationId(data.locationId);
             console.log(this.locationId);
           },
         });
@@ -185,13 +198,8 @@ export default class CitiesComponent implements OnInit {
     this.locationPriority = value;
   }
   SaveLocation() {
-    this.locationId = this.updateTravelService.setLocationId();
-    console.log(this.locationId);
+    this.locationId = this.updateTravelService.getLocationId();
     this.addLocationToTravel(this.travelId, this.locationId);
-    console.log(this.locationId);
-    console.log(this.locationAddress);
-    console.log(this.locationPriority);
-    console.log(this.locationBudget);
     this.addUserExperience(
       userId,
       this.travelId,
@@ -292,7 +300,7 @@ export default class CitiesComponent implements OnInit {
       );
   }
   placeAllMarkers(locations: ILocation[]) {
-    var markers = locations.map((location) => {
+    var markers = locations.map((location, index) => {
       const marker = new google.maps.Marker({
         position: {
           lat: Number(location.latitude),
@@ -302,13 +310,14 @@ export default class CitiesComponent implements OnInit {
       const infoWindow = new google.maps.InfoWindow({
         content: this.getContentString(location),
       });
-      return { marker, infoWindow };
+      return { index, marker, infoWindow };
     });
     return markers;
   }
 
-  openInfo(marker: MapMarker, content: any) {
+  openInfo(marker: MapMarker, content: any, index: any) {
     this.infoContent = content.content;
+    this.makerIndexSelected = index;
     this.infoWindow.open(marker);
   }
 
@@ -321,8 +330,48 @@ export default class CitiesComponent implements OnInit {
           this.existingDescription = data.description;
         },
       });
-
-    var userExp!: IUserExperience;
     return `${location.name}#${location.address}#${this.existingBudget}#${this.existingDescription}`;
+  }
+  resetFields() {
+    this.locationName = '';
+    this.locationAddress = '';
+    this.locationBudget = '0';
+    this.locationDescription = '';
+    this.selected = 'High';
+  }
+  getLocationsTable(travelId: number) {
+    const ar: any = [];
+    this.travelService.getLocationsForTravel(travelId).subscribe((data) => {
+      data.forEach((element: any) => {
+        this.travelService
+          .getUserExperience(userId, travelId, element.locationId)
+          .subscribe({
+            next: (result) => {
+              ar.push({
+                name: element.name,
+                address: element.address,
+                budget: result.budget,
+                description: result.description,
+              });
+              this.dataSource = ar;
+              this.table.renderRows();
+            },
+            error: (error) => {
+              ar.push({
+                name: element.name,
+                address: element.address,
+                budget: 0,
+                description: '',
+              });
+              this.dataSource = ar;
+              this.table.renderRows();
+            },
+          });
+      });
+    });
+
+    this.dataSource = ar;
+    this.table.renderRows();
+    console.log(this.dataSource);
   }
 }

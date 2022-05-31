@@ -7,7 +7,7 @@ import CitiesComponent from './components/CreateUpdatePageComponents/add-or-remo
 import { HomeComponent } from './pages/home/home.component';
 import { LocationsComponent } from './pages/locations/locations.component';
 import { MyTravelsComponent } from './pages/my-travels/my-travels.component';
-import { NewTravelItineraryComponent } from './pages/create-update-travel-itinerary/new-travel-itinerary.component';
+import NewTravelItineraryComponent from './pages/create-update-travel-itinerary/new-travel-itinerary.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'cities', component: CitiesComponent },

@@ -34,7 +34,7 @@ import { TravelsSearchComponent } from './components/MyTravelsPageComponents/tra
 import { AddNewTravelComponent } from './components/MyTravelsPageComponents/add-new-travel/add-new-travel.component';
 import { TravelService } from './services/travel.service';
 import { MatDialogModule } from '@angular/material/dialog';
-import { NewTravelItineraryComponent } from './pages/create-update-travel-itinerary/new-travel-itinerary.component';
+import NewTravelItineraryComponent from './pages/create-update-travel-itinerary/new-travel-itinerary.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { CreateTravelItineraryComponent } from './components/CreateUpdatePageComponents/create-travel-itinerary/create-travel-itinerary.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';

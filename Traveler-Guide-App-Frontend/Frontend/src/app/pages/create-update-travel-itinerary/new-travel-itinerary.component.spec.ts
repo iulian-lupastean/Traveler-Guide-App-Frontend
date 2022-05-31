@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NewTravelItineraryComponent } from './new-travel-itinerary.component';
+import NewTravelItineraryComponent from './new-travel-itinerary.component';
 
 describe('NewTravelItineraryComponent', () => {
   let component: NewTravelItineraryComponent;
@@ -8,9 +8,8 @@ describe('NewTravelItineraryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NewTravelItineraryComponent ]
-    })
-    .compileComponents();
+      declarations: [NewTravelItineraryComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

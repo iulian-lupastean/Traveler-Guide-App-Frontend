@@ -67,9 +67,9 @@ export class ViewTravelComponent implements OnInit {
     console.log(this.dataSource);
   }
   updateTravel(travelId: number) {
-    this.updateTravelService.getTravelId(travelId);
+    this.updateTravelService.setTravelId(travelId);
     this.travelService.getTravelItineraryById(travelId).subscribe((value) => {
-      this.updateTravelService.getTravelInfo(value.name, value.travelDate);
+      this.updateTravelService.setTravelInfo(value.name, value.travelDate);
       this.router.navigate(['../new-travel']);
     });
   }

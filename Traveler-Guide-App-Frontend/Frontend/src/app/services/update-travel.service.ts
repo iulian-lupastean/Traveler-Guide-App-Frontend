@@ -9,23 +9,25 @@ export class UpdateTravelService {
   locationId: number = 0;
   travelDate = new Date();
   constructor() {}
-  getTravelId(travelId: number) {
+
+  setTravelId(travelId: number) {
     this.travelId = travelId;
   }
-  setSearchString() {
+  getTravelId() {
     return this.travelId;
   }
-  getTravelInfo(travelName: string, travelDate: Date) {
+  setTravelInfo(travelName: string, travelDate: Date) {
     this.travelName = travelName;
     this.travelDate = travelDate;
   }
-  setTravelInfo() {
+  getTravelInfo() {
     return [this.travelName, this.travelDate];
   }
-  getLocationId(locationId: number) {
+
+  setLocationId(locationId: number) {
     this.locationId = locationId;
   }
-  setLocationId() {
+  getLocationId() {
     return this.locationId;
   }
 }

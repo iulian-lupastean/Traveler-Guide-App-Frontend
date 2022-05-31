@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  ViewChild,
+  EventEmitter,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -8,15 +14,21 @@ import {
 import { TravelService } from 'src/app/services/travel.service';
 import { userId } from 'src/app/Globals';
 import { UpdateTravelService } from 'src/app/services/update-travel.service';
+import { MatStepper } from '@angular/material/stepper/stepper';
+
 @Component({
   selector: 'app-create-travel-itinerary',
   templateUrl: './create-travel-itinerary.component.html',
   styleUrls: ['./create-travel-itinerary.component.css'],
 })
 export class CreateTravelItineraryComponent implements OnInit {
-  firstFormGroup!: FormGroup;
   nameControl = new FormControl();
   dateControl = new FormControl();
+  @Output()
+  sendToParent: EventEmitter<string> = new EventEmitter<string>();
+  firstFormGroup!: FormGroup;
+  @ViewChild('stepper')
+  stepper!: MatStepper;
   constructor(
     private _formBuilder: FormBuilder,
     private travelService: TravelService,
@@ -29,7 +41,7 @@ export class CreateTravelItineraryComponent implements OnInit {
   Title!: string;
   newDate!: string;
   ngOnInit() {
-    this.TravelId = this.updateTravelService.setSearchString();
+    this.TravelId = this.updateTravelService.getTravelId();
     this.setTitle(this.TravelId);
     console.log(this.TravelId);
 
@@ -39,7 +51,7 @@ export class CreateTravelItineraryComponent implements OnInit {
       dateControl: this.dateControl,
     });
     this.picker = new Date(new Date().getTime());
-    var info = this.updateTravelService.setTravelInfo();
+    var info = this.updateTravelService.getTravelInfo();
 
     this.Name = info[0] as string;
     this.Date = info[1] as Date;
@@ -52,6 +64,7 @@ export class CreateTravelItineraryComponent implements OnInit {
     }
   }
   SaveTravelItinerary() {
+    this.sendToParent.emit(this.Name);
     if (this.TravelId != 0) {
       this.travelService.updateTravelitinerary(this.TravelId, {
         travelId: this.TravelId,
@@ -61,6 +74,7 @@ export class CreateTravelItineraryComponent implements OnInit {
         userId: userId,
       });
     } else {
+      this.updateTravelService.setTravelInfo(this.Name, this.Date);
       this.travelService.createNewTravelItinerary(this.Name, this.Date);
     }
   }

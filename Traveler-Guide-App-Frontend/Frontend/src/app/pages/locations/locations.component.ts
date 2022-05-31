@@ -2,13 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ILocation } from 'src/app/Interfaces/ILocation';
 import { HttpClient } from '@angular/common/http';
 import { MapInfoWindow, MapMarker } from '@angular/google-maps';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-locations',
   templateUrl: './locations.component.html',

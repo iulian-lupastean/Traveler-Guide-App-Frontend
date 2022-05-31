@@ -1,13 +1,15 @@
 <mat-stepper [linear]="isLinear" #stepper class="main-stepper">
   <mat-step [stepControl]="firstFormGroup">
     <ng-template matStepLabel>{{ this.firstStepLabel }}</ng-template>
-    <app-create-travel-itinerary></app-create-travel-itinerary>
+    <app-create-travel-itinerary
+      (sendToParent)="nameChange($event)"
+    ></app-create-travel-itinerary>
   </mat-step>
   <mat-step
     [stepControl]="secondFormGroup"
     label="Add Locations To Travel Itinerary"
   >
-    <app-cities></app-cities>
+    <app-cities [travelName]="setTravelName()"></app-cities>
 
     <div>
       <button mat-button matStepperPrevious>Back</button>
