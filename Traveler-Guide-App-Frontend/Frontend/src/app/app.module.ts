@@ -48,6 +48,7 @@ import { DatePipe } from '@angular/common';
 import { UpdateTravelService } from './services/update-travel.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { LocationsTableComponent } from './components/CreateUpdatePageComponents/locations-table/locations-table.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'cities', component: CitiesComponent },
@@ -78,6 +79,7 @@ const routes: Routes = [
     CreateTravelItineraryComponent,
     ViewTravelComponent,
     MyFilterPipe,
+    LocationsTableComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),

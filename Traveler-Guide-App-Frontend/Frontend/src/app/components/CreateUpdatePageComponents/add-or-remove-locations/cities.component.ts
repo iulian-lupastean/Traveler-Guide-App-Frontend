@@ -132,17 +132,22 @@ export default class CitiesComponent implements OnInit {
 
   ngOnInit() {
     this.travelId = this.updateTravelService.getTravelId();
-
+    this.setLatest(this.travelId);
+    this.updateTravelService.setTravelId;
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
         lat: position.coords.latitude,
         lng: position.coords.longitude,
       };
-
-      console.log(this.center);
     });
-    this.getLocationsTable(this.travelId);
     this.resetFields();
+  }
+  setLatest(travelId: number) {
+    if (travelId == 0) {
+      this.travelService.getTravelsForUser(userId).subscribe((data) => {
+        this.travelId = data[data.length - 1].travelId;
+      });
+    }
   }
   handleClick(event: google.maps.MapMouseEvent | google.maps.IconMouseEvent) {
     console.log(event);
@@ -339,39 +344,7 @@ export default class CitiesComponent implements OnInit {
     this.locationDescription = '';
     this.selected = 'High';
   }
-  getLocationsTable(travelId: number) {
-    const ar: any = [];
-    this.travelService.getLocationsForTravel(travelId).subscribe((data) => {
-      data.forEach((element: any) => {
-        this.travelService
-          .getUserExperience(userId, travelId, element.locationId)
-          .subscribe({
-            next: (result) => {
-              ar.push({
-                name: element.name,
-                address: element.address,
-                budget: result.budget,
-                description: result.description,
-              });
-              this.dataSource = ar;
-              this.table.renderRows();
-            },
-            error: (error) => {
-              ar.push({
-                name: element.name,
-                address: element.address,
-                budget: 0,
-                description: '',
-              });
-              this.dataSource = ar;
-              this.table.renderRows();
-            },
-          });
-      });
-    });
-
-    this.dataSource = ar;
-    this.table.renderRows();
-    console.log(this.dataSource);
+  goBackToCreateUpdateTravel() {
+    this.updateTravelService.setTravelId(this.travelId);
   }
 }

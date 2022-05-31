@@ -3,13 +3,17 @@
     <ng-template matStepLabel>{{ this.firstStepLabel }}</ng-template>
     <app-create-travel-itinerary
       (sendToParent)="nameChange($event)"
+      (enableLoadComponent)="loadComponent($event)"
     ></app-create-travel-itinerary>
   </mat-step>
   <mat-step
     [stepControl]="secondFormGroup"
     label="Add Locations To Travel Itinerary"
   >
-    <app-cities [travelName]="setTravelName()"></app-cities>
+    <app-cities
+      [travelName]="setTravelName()"
+      *ngIf="loadCitiesComponent()"
+    ></app-cities>
 
     <div>
       <button mat-button matStepperPrevious>Back</button>

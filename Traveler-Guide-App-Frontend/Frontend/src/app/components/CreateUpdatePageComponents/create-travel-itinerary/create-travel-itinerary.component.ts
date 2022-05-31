@@ -26,6 +26,8 @@ export class CreateTravelItineraryComponent implements OnInit {
   dateControl = new FormControl();
   @Output()
   sendToParent: EventEmitter<string> = new EventEmitter<string>();
+  @Output() enableLoadComponent: EventEmitter<boolean> =
+    new EventEmitter<boolean>();
   firstFormGroup!: FormGroup;
   @ViewChild('stepper')
   stepper!: MatStepper;
@@ -65,6 +67,7 @@ export class CreateTravelItineraryComponent implements OnInit {
   }
   SaveTravelItinerary() {
     this.sendToParent.emit(this.Name);
+
     if (this.TravelId != 0) {
       this.travelService.updateTravelitinerary(this.TravelId, {
         travelId: this.TravelId,
@@ -77,5 +80,6 @@ export class CreateTravelItineraryComponent implements OnInit {
       this.updateTravelService.setTravelInfo(this.Name, this.Date);
       this.travelService.createNewTravelItinerary(this.Name, this.Date);
     }
+    this.enableLoadComponent.emit(true);
   }
 }

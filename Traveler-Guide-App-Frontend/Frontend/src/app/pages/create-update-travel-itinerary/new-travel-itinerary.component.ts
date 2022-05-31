@@ -14,6 +14,7 @@ export default class NewTravelItineraryComponent implements OnInit {
   firstStepLabel!: string;
   travelId!: number;
   parentName!: string;
+  loadcitiesComponent: boolean = false;
   constructor(
     private _formBuilder: FormBuilder,
     private updateTravelService: UpdateTravelService
@@ -54,5 +55,11 @@ export default class NewTravelItineraryComponent implements OnInit {
   }
   setTravelName() {
     return this.parentName;
+  }
+  loadComponent(event: boolean) {
+    this.loadcitiesComponent = event;
+  }
+  loadCitiesComponent() {
+    return this.loadcitiesComponent;
   }
 }

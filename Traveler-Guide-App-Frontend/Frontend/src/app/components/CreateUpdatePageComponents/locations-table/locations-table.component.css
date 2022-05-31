@@ -1,0 +1,53 @@
+.name-column-design {
+    word-wrap: break-word !important;
+        white-space: unset !important;
+        flex: 0 0 15% !important;
+        width: 15% !important;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+    
+        word-break: break-word;
+}
+
+.address-column-design {
+    word-wrap: break-word !important;
+        white-space: unset !important;
+        flex: 0 0 20% !important;
+        width: 25% !important;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+    
+        word-break: break-word;
+    
+}
+
+.budget-column-design {
+    word-wrap: break-word !important;
+        white-space: unset !important;
+        flex: 0 0 10% !important;
+        width: 10% !important;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+    
+        word-break: break-word;
+    
+}
+
+.description-column-design {
+    word-wrap: break-word !important;
+        white-space: unset !important;
+        flex: 0 0 40% !important;
+        width: 40% !important;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+    
+        word-break: break-word;
+    
+}
+.buttons-column-design {
+    word-wrap: break-word !important;
+        white-space: unset !important;
+        flex: 0 0 10% !important;
+        width: 10% !important;
+        align-items: flex-end;
+}
