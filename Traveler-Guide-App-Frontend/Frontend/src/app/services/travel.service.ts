@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { isEmpty, map, NotFoundError, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ITravelItinerary } from '../Interfaces/ITravelItinerary';
 import { userId } from '../Globals';
 import { ILocation } from '../Interfaces/ILocation';
@@ -28,23 +28,20 @@ export class TravelService {
       `${this.apiGetTravelItineraries}/${id}`
     );
   }
-  createNewTravelItinerary(name: string, date: Date) {
-    this.httpClient
+  async createNewTravelItinerary(name: string, date: Date) {
+    var id;
+    await this.httpClient
       .post<ITravelItinerary>('https://localhost:7075/api/TravelItinerary', {
         name: name,
         status: 'Planned',
         travelDate: date,
         userId: userId,
       })
-      .subscribe({
-        next: (data) => {
-          this.id = data.travelId;
-        },
-        error: (error) => {
-          this.errorMessage = error.message;
-          console.error('There was an error!', error);
-        },
-      });
+      .toPromise().then(
+        data => {
+          id = data?.travelId;
+        }
+      );
   }
   deleteTravelitinerary(travelId: number) {
     console.log(travelId);

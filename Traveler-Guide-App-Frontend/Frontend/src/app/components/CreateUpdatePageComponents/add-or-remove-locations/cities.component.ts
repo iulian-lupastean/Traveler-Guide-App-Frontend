@@ -115,6 +115,8 @@ export default class CitiesComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("muie dragnea");
+
     this.travelId = this.updateTravelService.getTravelId();
     this.setLatest(this.travelId);
     this.updateTravelService.setTravelId;
@@ -129,7 +131,9 @@ export default class CitiesComponent implements OnInit {
   setLatest(travelId: number) {
     if (travelId == 0) {
       this.travelService.getTravelsForUser(userId).subscribe((data) => {
+        console.log(data);
         this.travelId = data[data.length - 1].travelId;
+        console.log(this.travelId);
       });
     }
   }

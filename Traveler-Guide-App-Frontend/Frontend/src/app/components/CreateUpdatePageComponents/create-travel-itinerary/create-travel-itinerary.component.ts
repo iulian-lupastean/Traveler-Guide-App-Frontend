@@ -79,7 +79,9 @@ export class CreateTravelItineraryComponent implements OnInit {
     } else {
       this.updateTravelService.setTravelInfo(this.Name, this.Date);
       this.travelService.createNewTravelItinerary(this.Name, this.Date);
+
     }
+
     this.enableLoadComponent.emit(true);
   }
 }
