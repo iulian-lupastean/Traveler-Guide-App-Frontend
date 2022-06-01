@@ -161,4 +161,7 @@ export class TravelService {
       `https://localhost:7075/api/UserExperience/${userId}/${travelItineraryId}/${locationId}`
     );
   }
+  getLocationByAddress(address: number) {
+    return this.httpClient.get<ILocation>(``);
+  }
 }

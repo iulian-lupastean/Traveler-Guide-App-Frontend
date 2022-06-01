@@ -91,7 +91,9 @@ export class LocationsTableComponent implements OnInit {
   }
 
   viewLocation(index: any) {
-    console.log(index)
+    console.log(
+      this.dataSource[index]
+    )
   }
 
 }
