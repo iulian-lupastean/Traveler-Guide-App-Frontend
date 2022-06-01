@@ -35,7 +35,7 @@ export class CreateTravelItineraryComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private travelService: TravelService,
     private updateTravelService: UpdateTravelService
-  ) {}
+  ) { }
   picker: any;
   TravelId!: number;
   Name!: string;
@@ -70,7 +70,7 @@ export class CreateTravelItineraryComponent implements OnInit {
 
     if (this.TravelId != 0) {
       this.travelService.updateTravelitinerary(this.TravelId, {
-        travelId: this.TravelId,
+        TravelId: this.TravelId,
         name: this.Name,
         status: 'Planned',
         travelDate: this.Date,

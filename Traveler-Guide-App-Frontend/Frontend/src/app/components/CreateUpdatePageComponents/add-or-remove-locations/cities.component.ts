@@ -1,4 +1,4 @@
-import {Component,OnInit,ViewChild,ElementRef,NgZone,Input} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { GetInfoFromIdService } from 'src/app/services/get-info-from-id.service';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
@@ -16,6 +16,7 @@ import { HttpClient } from '@angular/common/http';
 import { IUserExperience } from 'src/app/Interfaces/IUserExperience';
 import { MatTable } from '@angular/material/table';
 import { IDataSource } from 'src/app/Interfaces/IDataSource';
+
 @Component({
   selector: 'app-cities',
   templateUrl: './cities.component.html',
@@ -75,10 +76,8 @@ export default class CitiesComponent implements OnInit {
   userExperiences$!: Observable<IUserExperience>;
   selected: string = 'High';
   makerIndexSelected: any;
-  dataSource!: String[];
-  displayedColumns: string[] = ['name', 'address', 'budget', 'description'];
 
-  constructor(private ngZone: NgZone,private getInfoFromId: GetInfoFromIdService,public settingsService: SettingsService,private updateTravelService: UpdateTravelService,private travelService: TravelService,private _snackBar: MatSnackBar,private httpClient: HttpClient) {}
+  constructor(private ngZone: NgZone, private getInfoFromId: GetInfoFromIdService, public settingsService: SettingsService, private updateTravelService: UpdateTravelService, private travelService: TravelService, private _snackBar: MatSnackBar, private httpClient: HttpClient) { }
 
   ngAfterViewInit(): void {
     this.getLocations(this.travelId);
@@ -130,7 +129,7 @@ export default class CitiesComponent implements OnInit {
   setLatest(travelId: number) {
     if (travelId == 0) {
       this.travelService.getTravelsForUser(userId).subscribe((data) => {
-        this.travelId = data[data.length - 1].travelId;
+        this.travelId = data[data.length - 1].TravelId;
       });
     }
   }
@@ -148,8 +147,8 @@ export default class CitiesComponent implements OnInit {
   ): e is google.maps.IconMouseEvent {
     return 'placeId' in e;
   }
-  getPlaceInformation(placeId: string) {
-    this.getInfoFromId.getInfoFromID(placeId).subscribe((data) => {
+  async getPlaceInformation(placeId: string) {
+    this.getInfoFromId.getInfoFromID(placeId).subscribe(async (data) => {
       this.googleDetails = data as IGoogleDetails;
       var cityName: IAddressComponents[] =
         this.googleDetails.result.address_components.filter(
@@ -170,65 +169,100 @@ export default class CitiesComponent implements OnInit {
       );
       this.Name.setValue(this.googleDetails.result.name);
       this.Address.setValue(this.googleDetails.result.formatted_address);
-
-      this.checkForCity(this.cityName, this.countryName);
+      await this.checkForCity(this.cityName, this.countryName);
       console.log(this.cityId)
-      this.checkForLocation(this.locationName,this.locationAddress,this.locationLat,this.locationLng,this.cityId);
+      await this.checkForLocation(this.locationName, this.locationAddress, this.locationLat, this.locationLng, this.cityId);
       console.log(this.locationId)
+      this.updateTravelService.setLocationId(this.locationId)
     });
   }
 
   SaveLocation() {
-    this.locationId = this.updateTravelService.getLocationId();
-    this.addLocationToTravel(this.travelId, this.locationId);
-    this.addUserExperience(userId,this.travelId,this.locationId,this.locationPriority,Number(this.locationBudget),this.locationDescription);
+    console.log(this.locationId);
+    console.log(this.travelId);
+    this.travelService.addLocationToTravelItinerary(this.travelId, this.locationId);
+    this.travelService.createUserExperience(userId, this.travelId, this.locationId, this.locationPriority, Number(this.locationBudget), this.locationDescription);
     this._snackBar.open('Location Added Successfully!', 'Continue', {
       verticalPosition: 'bottom',
       horizontalPosition: 'right',
       panelClass: ['SnackBar'],
     });
   }
- checkForCity(cityName: string, country: string) {
-    this.travelService.getCityByNameAndCountry(cityName, country).subscribe({
-      next: (data) => {
-        this.cityId = data.id;
-      },
-      error: (error) => {
-        this.travelService.createCity(cityName, country).subscribe(
-          (data: any) => {
-            this.travelService.getCityByNameAndCountry(cityName, country).subscribe((result) => {this.cityId = result.id;});
-        });
-        console.error('There was an error!', error);
-      },
+  async checkForCity(cityName: string, country: string) {
+
+    await this.travelService.getCityByNameAndCountry(cityName, country).toPromise().then(data => {
+      this.cityId = data!.id;
+      console.log(data);
+    }
+    ).catch(async error => {
+      await this.travelService.createCity(cityName, country).toPromise().then((data: any) => {
+        console.log(data);
+        this.cityId = data!.id;
+        console.log(data!.id);
+      })
+      console.log("checkForCity");
     });
+
+    // .subscribe({
+    //   next: (data) => {
+    //     
+    //     //  console.log(data.id);
+    //     console.log("Next");
+    //   },
+    //   error: async (error) => {
+    //     (await this.travelService.createCity(cityName, country)).subscribe(
+    //       (data: any) => {
+
+    //         let id = this.travelService.getCityByNameAndCountry(cityName, country).subscribe((result) => {
+    //           this.cityId = result.id;
+    //           return result.id;
+    //         }
+
+    //         );
+    //         console.log("Error");
+    //         console.log(id);
+
+    //       });
+    //     console.error('There was an error!', error);
+
+    //   },
+    // });
   }
-  checkForLocation(name: string,address: string,lat: string,lng: string,cityId: number) {
-    this.travelService.getLocationByLatLng(lat, lng).subscribe({
-      next: (data) => {
-        this.locationId=data.locationId;
-      },
-      error: (error) => {
-        this.travelService.createLocation(name, address, lat, lng, cityId).subscribe(
-          (data:any)=>{
-          this.travelService.getLocationByLatLng(lat,lng).subscribe(
-            (result)=>{
-              this.locationId=result.locationId;
-            }
-          )
-        });
-        console.error('There was an error!', error);
-      },
-    });
+  async checkForLocation(name: string, address: string, lat: string, lng: string, cityId: number) {
+
+    await this.travelService.getLocationByLatLng(lat, lng).toPromise().then(data => {
+      this.locationId = data.locationId;
+    }).catch(async error => {
+      await this.travelService.createLocation(name, address, lat, lng, cityId).toPromise().then(
+        (data: any) => {
+          this.locationId = data.locationId;
+          console.log(data);
+        }
+      )
+      console.log("checkForLocation");
+    })
+
+    // this.travelService.getLocationByLatLng(lat, lng).subscribe({
+    //   next: (data) => {
+    //     this.locationId = data.locationId;
+    //   },
+    //   error: async (error) => {
+    //     (await this.travelService.createLocation(name, address, lat, lng, cityId)).subscribe(
+    //       (data: any) => {
+    //         this.travelService.getLocationByLatLng(lat, lng).subscribe(
+    //           (result) => {
+    //             this.locationId = result.locationId;
+    //           }
+    //         )
+    //       });
+    //     console.error('There was an error!', error);
+    //   },
+    // });
   }
-  addLocationToTravel(travelId: number, locationId: number) {
-    this.travelService.addLocationToTravelItinerary(travelId, locationId);
-  }
-  addUserExperience(userId: number,travelItineraryId: number, locationId: number,priority: string,budget: number,description: string) {
-    this.travelService.createUserExperience(userId,travelItineraryId,locationId,priority,budget,description);
-  }
+
   getLocations(travelId: number) {
     this.httpClient.get<ILocation[]>(
-        `https://localhost:7075/api/TravelItineraryLocation/${travelId}/locations`)
+      `https://localhost:7075/api/TravelItineraryLocation/${travelId}/locations`)
       .subscribe(
         (response) => {
           this.locations = response;
@@ -236,7 +270,7 @@ export default class CitiesComponent implements OnInit {
         },
         (error) => console.log(error)
       );
-  }  changeClient(value: any) {
+  } changeClient(value: any) {
     this.locationPriority = value;
   }
   placeAllMarkers(locations: ILocation[]) {

@@ -18,7 +18,7 @@ export default class NewTravelItineraryComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private updateTravelService: UpdateTravelService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.travelId = this.updateTravelService.getTravelId();

@@ -1,4 +1,4 @@
 export interface ITravelItineraryLocation {
-  travelId: number;
-  locationId: number;
+  TravelItineraryId: number;
+  LocationId: number;
 }

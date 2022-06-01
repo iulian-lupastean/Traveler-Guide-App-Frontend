@@ -17,7 +17,7 @@ export class TravelService {
   errorMessage: any;
   status!: string;
   travel!: Observable<ITravelItinerary>;
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   getLocationsForTravel(id: number): Observable<any> {
     return this.httpClient.get(
@@ -39,7 +39,7 @@ export class TravelService {
       })
       .subscribe({
         next: (data) => {
-          this.id = data.travelId;
+          this.id = data.TravelId;
         },
         error: (error) => {
           this.errorMessage = error.message;
@@ -85,7 +85,7 @@ export class TravelService {
       `https://localhost:7075/api/Locations/${lat}/${lng}`
     );
   }
-  getCityByNameAndCountry(cityName: string,country: string): Observable<ICity> {
+  getCityByNameAndCountry(cityName: string, country: string): Observable<ICity> {
     return this.httpClient.get<ICity>(
       `https://localhost:7075/api/Cities/${country}/${cityName}`
     );
@@ -99,25 +99,39 @@ export class TravelService {
       }
     );
   }
-  createLocation(locName: string,locAddress: string,lat: string,lng: string,cityId: number) {
-   return this.httpClient.post<ILocation>(
-     'https://localhost:7075/api/Locations/Admin', {
-        name: locName,
-        address: locAddress,
-        latitude: lat,
-        longitude: lng,
-        cityId: cityId,
-      }
+  createLocation(locName: string, locAddress: string, lat: string, lng: string, cityId: number) {
+    return this.httpClient.post<ILocation>(
+      'https://localhost:7075/api/Locations/Admin', {
+      name: locName,
+      address: locAddress,
+      latitude: lat,
+      longitude: lng,
+      cityId: cityId,
+    }
     );
   }
   addLocationToTravelItinerary(travelId: number, locationId: number) {
+    console.log("add location")
     this.httpClient
-      .post(
-        `https://localhost:7075/api/TravelItineraryLocation/${travelId}/locations/${locationId}`,
-        {}
-      );
+      .post<ITravelItineraryLocation>(
+        'https://localhost:7075/api/TravelItineraryLocation',
+        {
+          TravelItineraryId: travelId,
+          LocationId: locationId,
+        }
+      ).subscribe({
+        next: (data) => {
+          console.log(data);
+          console.log("subscribe");
+
+        }, error: (error) => {
+          this.errorMessage = error.message;
+          console.log("error");
+          console.error('There was an error!', error);
+        },
+      });
   }
-  createUserExperience(userId: number, travelItineraryId: number,locationId: number,priority: string, budget: number,description: string
+  createUserExperience(userId: number, travelItineraryId: number, locationId: number, priority: string, budget: number, description: string
   ) {
     this.httpClient
       .post<IUserExperience>('https://localhost:7075/api/UserExperience', {

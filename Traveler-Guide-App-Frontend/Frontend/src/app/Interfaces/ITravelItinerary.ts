@@ -1,5 +1,5 @@
 export interface ITravelItinerary {
-  travelId: number;
+  TravelId: number;
   name: string;
   status: string;
   travelDate: Date;
