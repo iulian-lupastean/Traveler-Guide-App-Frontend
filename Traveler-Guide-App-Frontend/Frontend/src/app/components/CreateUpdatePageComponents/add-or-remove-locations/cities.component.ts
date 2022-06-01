@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { GetInfoFromIdService } from 'src/app/services/get-info-from-id.service';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
@@ -16,6 +16,9 @@ import { HttpClient } from '@angular/common/http';
 import { IUserExperience } from 'src/app/Interfaces/IUserExperience';
 import { MatTable } from '@angular/material/table';
 import { IDataSource } from 'src/app/Interfaces/IDataSource';
+import { IAddLocationToTravel } from 'src/app/Interfaces/IAddLocationToTravel';
+import { LocationsComponent } from 'src/app/pages/locations/locations.component';
+import { LocationsTableComponent } from '../locations-table/locations-table.component';
 
 @Component({
   selector: 'app-cities',
@@ -30,6 +33,8 @@ export default class CitiesComponent implements OnInit {
   test1 = new FormControl();
   test2 = new FormControl();
   test3 = new FormControl();
+  @Output()
+  sendLocationAndExperience: EventEmitter<IAddLocationToTravel> = new EventEmitter<IAddLocationToTravel>();
   @Input()
   travelName!: string;
   @ViewChild('search')
@@ -77,6 +82,14 @@ export default class CitiesComponent implements OnInit {
   selected: string = 'High';
   makerIndexSelected: any;
   locationNew!: ILocation
+  @ViewChild(LocationsTableComponent) child!: any;
+  test: IAddLocationToTravel = {
+    Name: '',
+    Address: '',
+    Budget: 0,
+    Description: ''
+  };
+
   constructor(private ngZone: NgZone, private getInfoFromId: GetInfoFromIdService, public settingsService: SettingsService, private updateTravelService: UpdateTravelService, private travelService: TravelService, private _snackBar: MatSnackBar, private httpClient: HttpClient) { }
 
   ngAfterViewInit(): void {
@@ -109,6 +122,7 @@ export default class CitiesComponent implements OnInit {
         };
       });
     });
+
   }
   deleteMarker() {
     delete this.markers[this.makerIndexSelected];
@@ -200,9 +214,22 @@ export default class CitiesComponent implements OnInit {
       content: `${this.locationName}#${this.locationAddress}#${this.locationBudget}#${this.locationDescription}`
     });
     const index = this.markers.length;
-    this.markers.push({ index, marker, infoWindow })
-
+    this.markers.push({ index, marker, infoWindow });
+    this.test = {
+      Name: this.locationName,
+      Address: this.locationAddress,
+      Budget: Number(this.locationBudget),
+      Description: this.locationDescription
+    }
+    this.child?.addListItem({
+      Name: this.locationName,
+      Address: this.locationAddress,
+      Budget: Number(this.locationBudget),
+      Description: this.locationDescription
+    });
   }
+
+
   async checkForCity(cityName: string, country: string) {
 
     await this.travelService.getCityByNameAndCountry(cityName, country).toPromise().then(data => {
@@ -217,31 +244,6 @@ export default class CitiesComponent implements OnInit {
       })
       console.log("checkForCity");
     });
-
-    // .subscribe({
-    //   next: (data) => {
-    //     
-    //     //  console.log(data.id);
-    //     console.log("Next");
-    //   },
-    //   error: async (error) => {
-    //     (await this.travelService.createCity(cityName, country)).subscribe(
-    //       (data: any) => {
-
-    //         let id = this.travelService.getCityByNameAndCountry(cityName, country).subscribe((result) => {
-    //           this.cityId = result.id;
-    //           return result.id;
-    //         }
-
-    //         );
-    //         console.log("Error");
-    //         console.log(id);
-
-    //       });
-    //     console.error('There was an error!', error);
-
-    //   },
-    // });
   }
   async checkForLocation(name: string, address: string, lat: string, lng: string, cityId: number) {
 
@@ -257,22 +259,6 @@ export default class CitiesComponent implements OnInit {
       console.log("checkForLocation");
     })
 
-    // this.travelService.getLocationByLatLng(lat, lng).subscribe({
-    //   next: (data) => {
-    //     this.locationId = data.locationId;
-    //   },
-    //   error: async (error) => {
-    //     (await this.travelService.createLocation(name, address, lat, lng, cityId)).subscribe(
-    //       (data: any) => {
-    //         this.travelService.getLocationByLatLng(lat, lng).subscribe(
-    //           (result) => {
-    //             this.locationId = result.locationId;
-    //           }
-    //         )
-    //       });
-    //     console.error('There was an error!', error);
-    //   },
-    // });
   }
 
   getLocations(travelId: number) {
