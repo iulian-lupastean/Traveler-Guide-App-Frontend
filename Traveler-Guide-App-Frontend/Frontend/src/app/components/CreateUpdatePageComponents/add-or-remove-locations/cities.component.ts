@@ -76,7 +76,7 @@ export default class CitiesComponent implements OnInit {
   userExperiences$!: Observable<IUserExperience>;
   selected: string = 'High';
   makerIndexSelected: any;
-
+  locationNew!: ILocation
   constructor(private ngZone: NgZone, private getInfoFromId: GetInfoFromIdService, public settingsService: SettingsService, private updateTravelService: UpdateTravelService, private travelService: TravelService, private _snackBar: MatSnackBar, private httpClient: HttpClient) { }
 
   ngAfterViewInit(): void {
@@ -115,8 +115,6 @@ export default class CitiesComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("muie dragnea");
-
     this.travelId = this.updateTravelService.getTravelId();
     this.setLatest(this.travelId);
     this.updateTravelService.setTravelId;
@@ -191,6 +189,19 @@ export default class CitiesComponent implements OnInit {
       horizontalPosition: 'right',
       panelClass: ['SnackBar'],
     });
+    const marker = new google.maps.Marker({
+      position: {
+        lat: Number(this.locationLat),
+        lng: Number(this.locationLng)
+      },
+    });
+
+    const infoWindow = new google.maps.InfoWindow({
+      content: `${this.locationName}#${this.locationAddress}#${this.locationBudget}#${this.locationDescription}`
+    });
+    const index = this.markers.length;
+    this.markers.push({ index, marker, infoWindow })
+
   }
   async checkForCity(cityName: string, country: string) {
 
@@ -270,6 +281,7 @@ export default class CitiesComponent implements OnInit {
       .subscribe(
         (response) => {
           this.locations = response;
+          console.log(response)
           this.markers = this.placeAllMarkers(this.locations);
         },
         (error) => console.log(error)

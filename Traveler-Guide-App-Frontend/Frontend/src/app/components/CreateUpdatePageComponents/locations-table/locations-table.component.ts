@@ -24,7 +24,7 @@ export class LocationsTableComponent implements OnInit {
   constructor(
     private travelService: TravelService,
     private updateTravelService: UpdateTravelService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.travelId = this.updateTravelService.getTravelId();
@@ -33,12 +33,13 @@ export class LocationsTableComponent implements OnInit {
   getLocationsTable(travelId: number) {
     const ar: any = [];
     this.travelService.getLocationsForTravel(travelId).subscribe((data) => {
-      data.forEach((element: any) => {
+      data.forEach((element: any, index: any) => {
         this.travelService
           .getUserExperience(userId, travelId, element.locationId)
           .subscribe({
             next: (result) => {
               ar.push({
+                index: index,
                 name: element.name,
                 address: element.address,
                 budget: result.budget,
@@ -65,5 +66,8 @@ export class LocationsTableComponent implements OnInit {
     console.log(this.dataSource);
 
     this.table.renderRows();
+  }
+  viewLocation(index: any) {
+    console.log(index)
   }
 }

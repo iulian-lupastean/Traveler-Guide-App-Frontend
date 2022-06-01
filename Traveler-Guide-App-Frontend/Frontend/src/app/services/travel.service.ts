@@ -106,30 +106,32 @@ export class TravelService {
     }
     );
   }
-  addLocationToTravelItinerary(travelId: number, locationId: number) {
+  async addLocationToTravelItinerary(travelId: number, locationId: number) {
     console.log("add location")
-    this.httpClient
+    await this.httpClient
       .post<ITravelItineraryLocation>(
         'https://localhost:7075/api/TravelItineraryLocation',
         {
           TravelItineraryId: travelId,
           LocationId: locationId,
-        }
-      ).subscribe({
-        next: (data) => {
-          console.log(data);
-          console.log("subscribe");
+        }).toPromise().then(data => {
 
-        }, error: (error) => {
-          this.errorMessage = error.message;
-          console.log("error");
-          console.error('There was an error!', error);
-        },
-      });
+        })
+    // ).subscribe({
+    //   next: (data) => {
+    //     console.log(data);
+    //     console.log("subscribe");
+
+    //   }, error: (error) => {
+    //     this.errorMessage = error.message;
+    //     console.log("error");
+    //     console.error('There was an error!', error);
+    //   },
+    // });
   }
-  createUserExperience(userId: number, travelItineraryId: number, locationId: number, priority: string, budget: number, description: string
+  async createUserExperience(userId: number, travelItineraryId: number, locationId: number, priority: string, budget: number, description: string
   ) {
-    this.httpClient
+    await this.httpClient
       .post<IUserExperience>('https://localhost:7075/api/UserExperience', {
         userId: userId,
         travelItineraryId: travelItineraryId,
@@ -137,16 +139,18 @@ export class TravelService {
         priority: priority,
         budget: budget,
         description: description,
-      })
-      .subscribe({
-        next: (data) => {
-          console.log(data);
-        },
-        error: (error) => {
-          this.errorMessage = error.message;
-          console.error('There was an error!', error);
-        },
-      });
+      }).toPromise().then(data => {
+
+      }).catch(error => { });
+    // .subscribe({
+    //   next: (data) => {
+    //     console.log(data);
+    //   },
+    //   error: (error) => {
+    //     this.errorMessage = error.message;
+    //     console.error('There was an error!', error);
+    //   },
+    // });
   }
   getUserExperience(
     userId: number,
