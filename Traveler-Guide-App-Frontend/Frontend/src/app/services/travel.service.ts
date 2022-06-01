@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { isEmpty, map, NotFoundError, Observable } from 'rxjs';
 import { ITravelItinerary } from '../Interfaces/ITravelItinerary';
-import { DatePipe } from '@angular/common';
 import { userId } from '../Globals';
 import { ILocation } from '../Interfaces/ILocation';
 import { ICity } from '../Interfaces/ICity';
@@ -39,7 +38,7 @@ export class TravelService {
       })
       .subscribe({
         next: (data) => {
-          this.id = data.TravelId;
+          this.id = data.travelId;
         },
         error: (error) => {
           this.errorMessage = error.message;

@@ -1,5 +1,5 @@
 <mat-accordion>
-  <mat-expansion-panel (opened)="getLocations(uniqueTravel.TravelId)">
+  <mat-expansion-panel (opened)="getLocations(uniqueTravel.travelId)">
     <mat-expansion-panel-header>
       <mat-panel-title>{{ uniqueTravel.name }}</mat-panel-title>
 
@@ -12,14 +12,14 @@
           <button
             mat-icon-button
             class="update-button"
-            (click)="updateTravel(uniqueTravel.TravelId)"
+            (click)="updateTravel(uniqueTravel.travelId)"
           >
             <mat-icon>edit</mat-icon>
           </button>
           <button
             mat-icon-button
             class="delete-button"
-            (click)="deleteTravel(uniqueTravel.TravelId)"
+            (click)="deleteTravel(uniqueTravel.travelId)"
           >
             <mat-icon>delete</mat-icon>
           </button>

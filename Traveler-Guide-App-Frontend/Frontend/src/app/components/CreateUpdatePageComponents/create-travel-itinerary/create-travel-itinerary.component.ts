@@ -70,7 +70,7 @@ export class CreateTravelItineraryComponent implements OnInit {
 
     if (this.TravelId != 0) {
       this.travelService.updateTravelitinerary(this.TravelId, {
-        TravelId: this.TravelId,
+        travelId: this.TravelId,
         name: this.Name,
         status: 'Planned',
         travelDate: this.Date,

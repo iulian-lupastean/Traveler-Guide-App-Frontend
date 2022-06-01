@@ -8,7 +8,7 @@ export class SearchService {
   private searchStringChangedSource = new Subject<string>();
 
   searchStringChanged$ = this.searchStringChangedSource.asObservable();
-  constructor() {}
+  constructor() { }
   setSearchString(data: string) {
     this.searchStringChangedSource.next(data);
   }

@@ -129,7 +129,7 @@ export default class CitiesComponent implements OnInit {
   setLatest(travelId: number) {
     if (travelId == 0) {
       this.travelService.getTravelsForUser(userId).subscribe((data) => {
-        this.travelId = data[data.length - 1].TravelId;
+        this.travelId = data[data.length - 1].travelId;
       });
     }
   }

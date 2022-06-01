@@ -11,8 +11,7 @@ import { userId } from 'src/app/Globals';
   styleUrls: ['./travel-itineraries.component.css'],
 })
 export class TravelItinerariesComponent
-  implements OnInit, OnDestroy, OnChanges
-{
+  implements OnInit, OnDestroy, OnChanges {
   unsubscribe: Subject<void> = new Subject<void>();
   travelItineraries!: Observable<ITravelItinerary[]>;
   locations!: Observable<ILocation[]>;
@@ -21,14 +20,14 @@ export class TravelItinerariesComponent
   constructor(
     private travelService: TravelService,
     private searchService: SearchService
-  ) {}
+  ) { }
   ngOnInit() {
     this.travelItineraries = this.travelService.getTravelsForUser(userId);
     this.searchService.searchStringChanged$.subscribe(
       (x) => (this.filterargs.name = x)
     );
   }
-  ngOnChanges() {}
+  ngOnChanges() { }
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
@@ -36,5 +35,5 @@ export class TravelItinerariesComponent
   getLocations(id: number) {
     this.locations = this.travelService.getLocationsForTravel(userId);
   }
-  deleteTravel(id: number) {}
+  deleteTravel(id: number) { }
 }

@@ -28,10 +28,12 @@ export class ViewTravelComponent implements OnInit {
     private travelService: TravelService,
     private updateTravelService: UpdateTravelService,
     private router: Router
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
   getLocations(travelId: number) {
+    console.log(travelId);
+    console.log(this.uniqueTravel)
     const ar: any = [];
     this.travelService.getLocationsForTravel(travelId).subscribe((data) => {
       data.forEach((element: any) => {
