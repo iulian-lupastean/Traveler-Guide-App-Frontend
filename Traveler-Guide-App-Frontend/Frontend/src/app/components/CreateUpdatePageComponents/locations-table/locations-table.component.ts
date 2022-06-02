@@ -1,17 +1,19 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { TravelService } from 'src/app/services/travel.service';
 import { UpdateTravelService } from 'src/app/services/update-travel.service';
 import { userId } from 'src/app/Globals';
 import { MatTable } from '@angular/material/table';
 import { IDataSource } from 'src/app/Interfaces/IDataSource';
 import { IAddLocationToTravel } from 'src/app/Interfaces/IAddLocationToTravel';
+import CitiesComponent from '../add-or-remove-locations/cities.component';
 @Component({
   selector: 'app-locations-table',
   templateUrl: './locations-table.component.html',
   styleUrls: ['./locations-table.component.css'],
 })
 export class LocationsTableComponent implements OnInit {
-  dataSource!: String[];
+  @Output("centerMap") centerMap: EventEmitter<any> = new EventEmitter();
+  dataSource!: any[];
   displayedColumns: string[] = [
     'name',
     'address',
@@ -23,7 +25,9 @@ export class LocationsTableComponent implements OnInit {
     Name: '',
     Address: '',
     Budget: 0,
-    Description: ''
+    Description: '',
+    Latitude: '',
+    Longitude: ''
   };
   @ViewChild(MatTable) table!: MatTable<IDataSource>;
   travelId!: number;
@@ -36,8 +40,6 @@ export class LocationsTableComponent implements OnInit {
   ngOnInit() {
     this.travelId = this.updateTravelService.getTravelId();
     this.getLocationsTable(this.travelId);
-
-    console.log(this.locationAndUser.Address);
   }
   getLocationsTable(travelId: number) {
     const ar: any = [];
@@ -53,6 +55,8 @@ export class LocationsTableComponent implements OnInit {
                 address: element.address,
                 budget: result.budget,
                 description: result.description,
+                latitude: element.latitude,
+                longitude: element.longitude
               });
               this.dataSource = ar;
               this.table.renderRows();
@@ -63,6 +67,8 @@ export class LocationsTableComponent implements OnInit {
                 address: element.address,
                 budget: 0,
                 description: '',
+                latitude: '',
+                longitude: ''
               });
               this.dataSource = ar;
               this.table.renderRows();
@@ -85,6 +91,8 @@ export class LocationsTableComponent implements OnInit {
       address: item.Address,
       budget: item.Budget,
       description: item.Description,
+      latitude: item.Latitude,
+      longitude: item.Longitude
     }
     this.dataSource.push(newL)
     this.table.renderRows();
@@ -92,8 +100,9 @@ export class LocationsTableComponent implements OnInit {
 
   viewLocation(index: any) {
     console.log(
-      this.dataSource[index]
+      this.dataSource[index].latitude
     )
+    this.centerMap.emit({ latitude: this.dataSource[index].latitude, longitude: this.dataSource[index].longitude });
   }
 
 }

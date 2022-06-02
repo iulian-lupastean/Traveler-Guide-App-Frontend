@@ -19,6 +19,7 @@
         width="100%"
         [zoom]="zoom"
         [center]="center"
+        
         [options]="options"
         (mapClick)="handleClick($event)"
       >
@@ -136,7 +137,7 @@
   </tr>
 </table>
 <div style="margin: 20px 0px 40px 0px">
-  <app-locations-table [locationAndUser]="test" > </app-locations-table>
+  <app-locations-table (centerMap)="centerMap($event)" > </app-locations-table>
 </div>
 <div>
   <button mat-button matStepperPrevious (click)="goBackToCreateUpdateTravel()">

@@ -117,17 +117,6 @@ export class TravelService {
         }).toPromise().then(data => {
 
         })
-    // ).subscribe({
-    //   next: (data) => {
-    //     console.log(data);
-    //     console.log("subscribe");
-
-    //   }, error: (error) => {
-    //     this.errorMessage = error.message;
-    //     console.log("error");
-    //     console.error('There was an error!', error);
-    //   },
-    // });
   }
   async createUserExperience(userId: number, travelItineraryId: number, locationId: number, priority: string, budget: number, description: string
   ) {
@@ -142,15 +131,6 @@ export class TravelService {
       }).toPromise().then(data => {
 
       }).catch(error => { });
-    // .subscribe({
-    //   next: (data) => {
-    //     console.log(data);
-    //   },
-    //   error: (error) => {
-    //     this.errorMessage = error.message;
-    //     console.error('There was an error!', error);
-    //   },
-    // });
   }
   getUserExperience(
     userId: number,
@@ -160,8 +140,5 @@ export class TravelService {
     return this.httpClient.get<IUserExperience>(
       `https://localhost:7075/api/UserExperience/${userId}/${travelItineraryId}/${locationId}`
     );
-  }
-  getLocationByAddress(address: number) {
-    return this.httpClient.get<ILocation>(``);
   }
 }

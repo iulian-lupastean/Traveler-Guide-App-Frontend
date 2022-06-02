@@ -45,6 +45,9 @@ export default class CitiesComponent implements OnInit {
   infoWindow!: MapInfoWindow;
   @ViewChild('prioritySelect') prioritySelect: any;
   @ViewChild(MatTable) table!: MatTable<IDataSource>;
+  /////////////
+  @ViewChild(LocationsTableComponent) child!: any;
+  ///////////
   locations: ILocation[] = [];
   markers = [] as any;
   infoContent = '';
@@ -82,12 +85,14 @@ export default class CitiesComponent implements OnInit {
   selected: string = 'High';
   makerIndexSelected: any;
   locationNew!: ILocation
-  @ViewChild(LocationsTableComponent) child!: any;
+
   test: IAddLocationToTravel = {
     Name: '',
     Address: '',
     Budget: 0,
-    Description: ''
+    Description: '',
+    Latitude: '',
+    Longitude: ''
   };
 
   constructor(private ngZone: NgZone, private getInfoFromId: GetInfoFromIdService, public settingsService: SettingsService, private updateTravelService: UpdateTravelService, private travelService: TravelService, private _snackBar: MatSnackBar, private httpClient: HttpClient) { }
@@ -219,13 +224,17 @@ export default class CitiesComponent implements OnInit {
       Name: this.locationName,
       Address: this.locationAddress,
       Budget: Number(this.locationBudget),
-      Description: this.locationDescription
+      Description: this.locationDescription,
+      Latitude: this.locationLat,
+      Longitude: this.locationLng
     }
     this.child?.addListItem({
       Name: this.locationName,
       Address: this.locationAddress,
       Budget: Number(this.locationBudget),
-      Description: this.locationDescription
+      Description: this.locationDescription,
+      Latitude: this.locationLat,
+      Longitude: this.locationLng
     });
   }
 
@@ -318,4 +327,17 @@ export default class CitiesComponent implements OnInit {
   goBackToCreateUpdateTravel() {
     this.updateTravelService.setTravelId(this.travelId);
   }
+
+
+  centerMap(latLng: any) {
+    console.log(latLng)
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.center = {
+        lat: latLng.latitude,
+        lng: latLng.longitude,
+      };
+    });
+
+  }
+
 }
