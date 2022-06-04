@@ -37,11 +37,11 @@ export class CreateTravelItineraryComponent implements OnInit {
     private updateTravelService: UpdateTravelService
   ) { }
   picker: any;
-  TravelId!: number;
-  Name!: string;
-  Date!: Date;
-  Title!: string;
-  newDate!: string;
+  TravelId: number = 0;
+  Name: string = '';
+  Date: Date = new Date();
+  Title: string = '';
+  newDate: string = '';
   ngOnInit() {
     this.TravelId = this.updateTravelService.getTravelId();
     this.setTitle(this.TravelId);

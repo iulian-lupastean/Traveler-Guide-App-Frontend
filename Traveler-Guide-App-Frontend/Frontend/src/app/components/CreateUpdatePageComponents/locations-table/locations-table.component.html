@@ -30,7 +30,7 @@
       <div>
         <button mat-button color="primary" (click)="viewLocation(location.index)">View</button>
         <button mat-button color="primary">Update</button>
-        <button mat-button color="warn">Delete</button>
+        <button mat-button color="warn" (click)="deleteLocationFromTI(location.index)">Delete</button>
       </div>
     </td>
   </ng-container>

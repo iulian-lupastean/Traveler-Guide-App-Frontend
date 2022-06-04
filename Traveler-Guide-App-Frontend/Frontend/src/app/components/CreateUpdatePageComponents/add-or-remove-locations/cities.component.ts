@@ -81,21 +81,33 @@ export default class CitiesComponent implements OnInit {
       address_components: [],
     },
   };
-  existingCity!: ICity;
-  cityId!: number;
+  existingCity: ICity = {
+    id: 1,
+    name: '',
+    country: '',
+    locations: []
+  };
+  cityId: number = 0;
   City!: Observable<ICity>;
-  travelId!: number;
-  locationId!: number;
-  locationPriority!: string;
-  locationBudget!: string;
+  travelId: number = 0;
+  locationId: number = 0;
+  locationPriority: string = '';
+  locationBudget: string = '';
   locationDescription: string = '';
-  existingPriority!: string;
-  existingBudget!: string;
-  existingDescription!: string;
+  existingPriority: string = '';
+  existingBudget: string = '';
+  existingDescription: string = '';
   userExperiences$!: Observable<IUserExperience>;
   selected: string = 'High';
   makerIndexSelected: any;
-  locationNew!: ILocation
+  locationNew: ILocation = {
+    locationId: 0,
+    name: '',
+    address: '',
+    latitude: '',
+    longitude: '',
+    cityId: 0
+  }
 
   test: IAddLocationToTravel = {
     Name: '',
@@ -214,6 +226,11 @@ export default class CitiesComponent implements OnInit {
   SaveLocation() {
     console.log(this.locationId);
     console.log(this.travelId);
+    if (this.travelId == 0) {
+      this.setLatest(this.travelId)
+      console.log(this.travelId);
+
+    }
     this.travelService.addLocationToTravelItinerary(this.travelId, this.locationId);
     this.travelService.createUserExperience(userId, this.travelId, this.locationId, this.locationPriority, Number(this.locationBudget), this.locationDescription);
     this._snackBar.open('Location Added Successfully!', 'Continue', {
@@ -249,6 +266,7 @@ export default class CitiesComponent implements OnInit {
       Latitude: this.locationLat,
       Longitude: this.locationLng
     });
+    this.resetFields();
   }
 
 

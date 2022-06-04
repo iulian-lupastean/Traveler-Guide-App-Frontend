@@ -5,7 +5,6 @@ import { userId } from 'src/app/Globals';
 import { MatTable } from '@angular/material/table';
 import { IDataSource } from 'src/app/Interfaces/IDataSource';
 import { IAddLocationToTravel } from 'src/app/Interfaces/IAddLocationToTravel';
-import CitiesComponent from '../add-or-remove-locations/cities.component';
 @Component({
   selector: 'app-locations-table',
   templateUrl: './locations-table.component.html',
@@ -13,6 +12,7 @@ import CitiesComponent from '../add-or-remove-locations/cities.component';
 })
 export class LocationsTableComponent implements OnInit {
   @Output("centerMap") centerMap: EventEmitter<any> = new EventEmitter();
+  @Output("deleteLocation") deleteLocation: EventEmitter<any> = new EventEmitter();
   dataSource!: any[];
   displayedColumns: string[] = [
     'name',
@@ -30,7 +30,7 @@ export class LocationsTableComponent implements OnInit {
     Longitude: ''
   };
   @ViewChild(MatTable) table!: MatTable<IDataSource>;
-  travelId!: number;
+  travelId: number = 0;
   constructor(
     private travelService: TravelService,
     private updateTravelService: UpdateTravelService
@@ -100,6 +100,9 @@ export class LocationsTableComponent implements OnInit {
 
   viewLocation(index: any) {
     this.centerMap.emit({ latitude: this.dataSource[index].latitude, longitude: this.dataSource[index].longitude });
+  }
+  deleteLocationFromTI(index: any) {
+    this.dataSource.slice(index, 1);
   }
 
 }
