@@ -29,7 +29,7 @@
     <td mat-cell *matCellDef="let location">
       <div>
         <button mat-button color="primary" (click)="viewLocation(location.index)">View</button>
-        <button mat-button color="primary">Update</button>
+        <button mat-button color="primary" (click)="updateLocationInTI(location.index)">Update</button>
         <button mat-button color="warn" (click)="deleteLocationFromTI(location.index)">Delete</button>
       </div>
     </td>

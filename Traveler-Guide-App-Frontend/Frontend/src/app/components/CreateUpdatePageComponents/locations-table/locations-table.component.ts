@@ -31,6 +31,7 @@ export class LocationsTableComponent implements OnInit {
   };
   @ViewChild(MatTable) table!: MatTable<IDataSource>;
   travelId: number = 0;
+  locationId: number = 0;
   constructor(
     private travelService: TravelService,
     private updateTravelService: UpdateTravelService
@@ -101,8 +102,24 @@ export class LocationsTableComponent implements OnInit {
   viewLocation(index: any) {
     this.centerMap.emit({ latitude: this.dataSource[index].latitude, longitude: this.dataSource[index].longitude });
   }
-  deleteLocationFromTI(index: any) {
-    this.dataSource.slice(index, 1);
+  async deleteLocationFromTI(parameter: any) {
+    const index = this.dataSource.findIndex(date => parameter == date.index);
+    await this.travelService.getLocationByLatLng(this.dataSource[index].latitude, this.dataSource[index].longitude).toPromise().then(async result => {
+      console.log(result);
+      await this.travelService.deleteLocationFromTravelItinerary(this.travelId, result.locationId).toPromise().then(
+        (data: any) => {
+          // console.log("Delete");
+          // console.log(data);
+          this.deleteLocation.emit(parameter);
+        });
+      await this.travelService.deleteUserExperience(userId, this.travelId, result.locationId).toPromise().then((data: any) => { });
+
+    })
+    this.getLocationsTable(this.travelId);
+
+  }
+  async updateLocationInTI(parameter: any) {
+    alert("To be Implemented")
   }
 
 }

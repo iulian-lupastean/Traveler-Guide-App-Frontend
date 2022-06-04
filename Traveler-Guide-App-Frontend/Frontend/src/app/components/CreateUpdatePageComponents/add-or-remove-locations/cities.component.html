@@ -137,7 +137,10 @@
   </tr>
 </table>
 <div style="margin: 20px 0px 40px 0px">
-  <app-locations-table (centerMap)="centerMap($event)" > </app-locations-table>
+  <app-locations-table 
+  (centerMap)="centerMap($event)" 
+  (deleteLocation)="deleteLocation($event)"
+  > </app-locations-table>
 </div>
 <div>
   <button mat-button matStepperPrevious (click)="goBackToCreateUpdateTravel()">

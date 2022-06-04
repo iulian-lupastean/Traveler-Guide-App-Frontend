@@ -158,8 +158,6 @@ export default class CitiesComponent implements OnInit {
 
   ngOnInit() {
     this.travelId = this.updateTravelService.getTravelId();
-    this.setLatest(this.travelId);
-    this.updateTravelService.setTravelId;
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
         lat: position.coords.latitude,
@@ -170,13 +168,12 @@ export default class CitiesComponent implements OnInit {
 
     this.resetFields();
   }
-  setLatest(travelId: number) {
+  async setLatest(travelId: number) {
     if (travelId == 0) {
-      this.travelService.getTravelsForUser(userId).subscribe((data) => {
-        console.log(data);
+      await this.travelService.getTravelsForUser(userId).toPromise().then((data: any) => {
         this.travelId = data[data.length - 1].travelId;
-        console.log(this.travelId);
       });
+      this.updateTravelService.setTravelId(this.travelId);
     }
   }
   handleClick(event: google.maps.MapMouseEvent | google.maps.IconMouseEvent) {
@@ -223,12 +220,14 @@ export default class CitiesComponent implements OnInit {
     });
   }
 
-  SaveLocation() {
+  async SaveLocation() {
     console.log(this.locationId);
     console.log(this.travelId);
     if (this.travelId == 0) {
-      this.setLatest(this.travelId)
+      await this.setLatest(this.travelId)
+      console.log("altceva");
       console.log(this.travelId);
+      console.log(this.locationId);
 
     }
     this.travelService.addLocationToTravelItinerary(this.travelId, this.locationId);
@@ -290,6 +289,7 @@ export default class CitiesComponent implements OnInit {
     await this.travelService.getLocationByLatLng(lat, lng).toPromise().then(data => {
       this.locationId = data.locationId;
     }).catch(async error => {
+      console.log("LOC");
       await this.travelService.createLocation(name, address, lat, lng, cityId).toPromise().then(
         (data: any) => {
           this.locationId = data.locationId;
@@ -368,5 +368,10 @@ export default class CitiesComponent implements OnInit {
     this.zoom = 15;
 
   }
+  deleteLocation(index: number) {
+    this.markers = [];
+    this.getLocations(this.travelId);
+    this.placeAllMarkers(this.locations);
 
+  }
 }

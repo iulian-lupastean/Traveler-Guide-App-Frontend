@@ -118,8 +118,7 @@ export class TravelService {
 
         })
   }
-  async createUserExperience(userId: number, travelItineraryId: number, locationId: number, priority: string, budget: number, description: string
-  ) {
+  async createUserExperience(userId: number, travelItineraryId: number, locationId: number, priority: string, budget: number, description: string) {
     await this.httpClient
       .post<IUserExperience>('https://localhost:7075/api/UserExperience', {
         userId: userId,
@@ -140,5 +139,14 @@ export class TravelService {
     return this.httpClient.get<IUserExperience>(
       `https://localhost:7075/api/UserExperience/${userId}/${travelItineraryId}/${locationId}`
     );
+  }
+  deleteLocationFromTravelItinerary(travelId: number, locationId: number) {
+    return this.httpClient.delete(`https://localhost:7075/api/TravelItineraryLocation/${travelId}/locations/${locationId}`);
+  }
+  deleteUserExperience(userId: number, travelId: number, locationId: number) {
+    return this.httpClient.delete(`https://localhost:7075/api/UserExperience/${userId}/${travelId}/${locationId}`);
+  }
+  updateUserexperience(userId: number, travelId: number, locationId: number, userExp: IUserExperience) {
+    return this.httpClient.put(`https://localhost:7075/api/UserExperience/${userId}/${travelId}/${locationId}`, userExp);
   }
 }

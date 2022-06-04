@@ -67,7 +67,6 @@ export class CreateTravelItineraryComponent implements OnInit {
   }
   SaveTravelItinerary() {
     this.sendToParent.emit(this.Name);
-
     if (this.TravelId != 0) {
       this.travelService.updateTravelitinerary(this.TravelId, {
         travelId: this.TravelId,
