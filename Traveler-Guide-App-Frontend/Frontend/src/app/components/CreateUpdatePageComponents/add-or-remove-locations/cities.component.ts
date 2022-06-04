@@ -17,7 +17,6 @@ import { IUserExperience } from 'src/app/Interfaces/IUserExperience';
 import { MatTable } from '@angular/material/table';
 import { IDataSource } from 'src/app/Interfaces/IDataSource';
 import { IAddLocationToTravel } from 'src/app/Interfaces/IAddLocationToTravel';
-import { LocationsComponent } from 'src/app/pages/locations/locations.component';
 import { LocationsTableComponent } from '../locations-table/locations-table.component';
 
 @Component({
@@ -52,7 +51,7 @@ export default class CitiesComponent implements OnInit {
   markers = [] as any;
   infoContent = '';
   zoom = 12;
-  center!: google.maps.LatLngLiteral;
+  center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
   options: google.maps.MapOptions = {
     zoomControl: true,
     scrollwheel: true,
@@ -61,15 +60,27 @@ export default class CitiesComponent implements OnInit {
     mapTypeControl: false,
     disableDoubleClickZoom: false,
   };
-  locationName!: string;
-  latitude!: any;
-  longitude!: any;
-  countryName!: string;
-  locationAddress!: string;
-  locationLat!: string;
-  locationLng!: string;
-  cityName!: string;
-  googleDetails!: IGoogleDetails;
+  locationName: string = '';
+  latitude: any = 0;
+  longitude: any = 0;
+  countryName: string = '';
+  locationAddress: string = '';
+  locationLat: string = '';
+  locationLng: string = '';
+  cityName: string = '';
+  googleDetails: IGoogleDetails = {
+    result: {
+      name: '',
+      formatted_address: '',
+      geometry: {
+        location: {
+          lat: 0,
+          lng: 0,
+        },
+      },
+      address_components: [],
+    },
+  };
   existingCity!: ICity;
   cityId!: number;
   City!: Observable<ICity>;
@@ -143,6 +154,8 @@ export default class CitiesComponent implements OnInit {
         lng: position.coords.longitude,
       };
     });
+    console.log(JSON.stringify(this.map.getCenter()));
+
     this.resetFields();
   }
   setLatest(travelId: number) {
@@ -330,13 +343,11 @@ export default class CitiesComponent implements OnInit {
 
 
   centerMap(latLng: any) {
-    console.log(latLng)
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.center = {
-        lat: latLng.latitude,
-        lng: latLng.longitude,
-      };
-    });
+    this.center = {
+      lat: Number(latLng.latitude),
+      lng: Number(latLng.longitude),
+    };
+    this.zoom = 15;
 
   }
 

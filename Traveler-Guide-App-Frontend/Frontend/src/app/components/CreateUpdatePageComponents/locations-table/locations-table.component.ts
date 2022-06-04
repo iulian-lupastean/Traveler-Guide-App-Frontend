@@ -99,9 +99,6 @@ export class LocationsTableComponent implements OnInit {
   }
 
   viewLocation(index: any) {
-    console.log(
-      this.dataSource[index].latitude
-    )
     this.centerMap.emit({ latitude: this.dataSource[index].latitude, longitude: this.dataSource[index].longitude });
   }
 
