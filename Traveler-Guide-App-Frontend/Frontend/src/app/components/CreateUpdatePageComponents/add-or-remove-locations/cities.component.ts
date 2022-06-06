@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone, Input, Output, EventEmitter } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewChild, ElementRef, NgZone, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { GetInfoFromIdService } from 'src/app/services/get-info-from-id.service';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { IGoogleDetails } from 'src/app/Interfaces/IGoogleDetails';
@@ -18,20 +18,18 @@ import { MatTable } from '@angular/material/table';
 import { IDataSource } from 'src/app/Interfaces/IDataSource';
 import { IAddLocationToTravel } from 'src/app/Interfaces/IAddLocationToTravel';
 import { LocationsTableComponent } from '../locations-table/locations-table.component';
+import { verifyBudget } from 'src/assets/Validators/budget-validator';
 
 @Component({
   selector: 'app-cities',
   templateUrl: './cities.component.html',
   styleUrls: ['./cities.component.css'],
 })
-export default class CitiesComponent implements OnInit {
+export default class CitiesComponent implements OnInit, AfterViewInit {
   title = 'angular-google-map-search';
   Name = new FormControl();
   Address = new FormControl();
   TravelName = new FormControl();
-  test1 = new FormControl();
-  test2 = new FormControl();
-  test3 = new FormControl();
   @Output()
   sendLocationAndExperience: EventEmitter<IAddLocationToTravel> = new EventEmitter<IAddLocationToTravel>();
   @Input()
@@ -49,7 +47,7 @@ export default class CitiesComponent implements OnInit {
   ///////////
   locations: ILocation[] = [];
 
-  secondFormGroup!: FormGroup;
+  frmStepTwo!: FormGroup;
   markers = [] as any;
   infoContent = '';
   zoom = 12;
@@ -119,10 +117,16 @@ export default class CitiesComponent implements OnInit {
     Latitude: '',
     Longitude: ''
   };
+  addLocationsFormGroup: any;
 
-  constructor(private ngZone: NgZone, private getInfoFromId: GetInfoFromIdService, public settingsService: SettingsService, private updateTravelService: UpdateTravelService, private travelService: TravelService, private _snackBar: MatSnackBar, private httpClient: HttpClient) { }
+  constructor(private ngZone: NgZone, private _formBuilder: FormBuilder, private getInfoFromId: GetInfoFromIdService, public settingsService: SettingsService, private updateTravelService: UpdateTravelService, private travelService: TravelService, private _snackBar: MatSnackBar, private httpClient: HttpClient) { }
 
   ngAfterViewInit(): void {
+    this.travelId = this.updateTravelService.getTravelId();
+    if (this.travelId !== 0) {
+
+      this.getLocations(this.travelId);
+    }
     // Binding autocomplete to search input control
     let autocomplete = new google.maps.places.Autocomplete(
       this.searchElementRef.nativeElement
@@ -158,18 +162,20 @@ export default class CitiesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.travelId = this.updateTravelService.getTravelId();
 
-    this.getLocations(this.travelId);
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
         lat: position.coords.latitude,
         lng: position.coords.longitude,
       };
     });
-    console.log(JSON.stringify(this.map.getCenter()));
-
-    this.resetFields();
+    this.frmStepTwo = this._formBuilder.group({
+      locationNameCtrl: ['', Validators.required],
+      locationAddressCtrl: ['', Validators.required],
+      locationPriorityCtrl: ['', Validators.required],
+      locationBudgetCtrl: [0, verifyBudget(0)],
+      locationDescription: ['']
+    })
   }
   async setLatest(travelId: number) {
     if (travelId == 0) {

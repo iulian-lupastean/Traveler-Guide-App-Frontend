@@ -48,7 +48,7 @@ export class ViewTravelComponent implements OnInit {
                 description: result.description,
               });
               this.dataSource = ar;
-              this.table.renderRows();
+              //this.table.renderRows();
             },
             error: (error) => {
               ar.push({
@@ -58,15 +58,12 @@ export class ViewTravelComponent implements OnInit {
                 description: '',
               });
               this.dataSource = ar;
-              this.table.renderRows();
+              //this.table.renderRows();
             },
           });
       });
     });
 
-    this.dataSource = ar;
-    this.table.renderRows();
-    console.log(this.dataSource);
   }
   updateTravel(travelId: number) {
     this.updateTravelService.setTravelId(travelId);

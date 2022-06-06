@@ -4,11 +4,15 @@ import {
   Output,
   ViewChild,
   EventEmitter,
+  AfterViewInit,
+  AfterContentInit,
+  AfterContentChecked,
 } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
+  NgForm,
   Validators,
 } from '@angular/forms';
 import { TravelService } from 'src/app/services/travel.service';
@@ -22,13 +26,11 @@ import { MatStepper } from '@angular/material/stepper/stepper';
   styleUrls: ['./create-travel-itinerary.component.css'],
 })
 export class CreateTravelItineraryComponent implements OnInit {
-  nameControl = new FormControl();
-  dateControl = new FormControl();
   @Output()
   sendToParent: EventEmitter<string> = new EventEmitter<string>();
   @Output() enableLoadComponent: EventEmitter<boolean> =
     new EventEmitter<boolean>();
-  firstFormGroup!: FormGroup;
+  frmStepOne!: FormGroup;
   @ViewChild('stepper')
   stepper!: MatStepper;
   constructor(
@@ -36,25 +38,19 @@ export class CreateTravelItineraryComponent implements OnInit {
     private travelService: TravelService,
     private updateTravelService: UpdateTravelService
   ) { }
-  picker: any;
+
   TravelId: number = 0;
   Name: string = '';
   Date: Date = new Date();
   Title: string = '';
-  newDate: string = '';
   ngOnInit() {
     this.TravelId = this.updateTravelService.getTravelId();
     this.setTitle(this.TravelId);
-    console.log(this.TravelId);
-
-    this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required],
-      nameControl: this.nameControl,
-      dateControl: this.dateControl,
+    this.frmStepOne = this._formBuilder.group({
+      nameControl: ['', [Validators.required]],
+      dateControl: ['', [Validators.required]]
     });
-    this.picker = new Date(new Date().getTime());
     var info = this.updateTravelService.getTravelInfo();
-
     this.Name = info[0] as string;
     this.Date = info[1] as Date;
   }

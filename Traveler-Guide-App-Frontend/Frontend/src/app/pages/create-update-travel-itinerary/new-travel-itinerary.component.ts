@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
+import CitiesComponent from 'src/app/components/CreateUpdatePageComponents/add-or-remove-locations/cities.component';
+import { CreateTravelItineraryComponent } from 'src/app/components/CreateUpdatePageComponents/create-travel-itinerary/create-travel-itinerary.component';
 import { UpdateTravelService } from 'src/app/services/update-travel.service';
 import { verifyBudget } from 'src/assets/Validators/budget-validator';
 @Component({
@@ -10,35 +12,32 @@ import { verifyBudget } from 'src/assets/Validators/budget-validator';
 })
 export default class NewTravelItineraryComponent implements OnInit {
   isLinear = false;
-  firstFormGroup!: FormGroup;
-  secondFormGroup!: FormGroup;
-  globalFormGroup!: FormGroup;
+  createTravelFormGroup!: FormGroup;
+  addLocationsFormGroup!: FormGroup;
   firstStepLabel!: string;
   travelId!: number;
   parentName!: string;
-  loadcitiesComponent: boolean = false;
   @ViewChild('stepper') stepper!: MatStepper;
+  @ViewChild(CreateTravelItineraryComponent) stepOneComponent!: CreateTravelItineraryComponent;
+  @ViewChild(CitiesComponent) stepTwoComponent!: CitiesComponent;
   constructor(
     private _formBuilder: FormBuilder,
     private updateTravelService: UpdateTravelService
   ) { }
 
+  get frmStepOne() {
+    return this.stepOneComponent ? this.stepOneComponent.frmStepOne : null;
+  }
+
+  get frmStepTwo() {
+    return this.stepTwoComponent ? this.stepTwoComponent.frmStepTwo : null;
+  }
+
+
   ngOnInit() {
     this.travelId = this.updateTravelService.getTravelId();
     this.setFirstStepperLabel(this.travelId);
-    this.globalFormGroup = this._formBuilder.group({
-      firstGroup: this._formBuilder.group({
-        nameCtrl: ['', Validators.required],
-        travelDateCtrl: ['', Validators.required],
-      }),
-      secondGroup: this._formBuilder.group({
-        locationNameCtrl: ['', Validators.required],
-        locationAddressCtrl: ['', Validators.required],
-        locationPriority: ['', Validators.required],
-        locationBudget: [0, verifyBudget(0)],
-        locationDescription: ['']
-      }),
-    });
+
   }
   setFirstStepperLabel(travelId: number) {
     if (travelId == 0) {
@@ -57,12 +56,7 @@ export default class NewTravelItineraryComponent implements OnInit {
   setTravelName() {
     return this.parentName;
   }
-  loadComponent(event: boolean) {
-    this.loadcitiesComponent = event;
-  }
-  loadCitiesComponent() {
-    return this.loadcitiesComponent;
-  }
+
   createNewTravelItinerary(event: any) {
     this.stepper.reset();
   }

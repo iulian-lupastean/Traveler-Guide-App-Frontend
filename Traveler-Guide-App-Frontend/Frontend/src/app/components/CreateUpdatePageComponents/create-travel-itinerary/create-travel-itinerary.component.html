@@ -4,28 +4,28 @@
   </mat-card-title>
   <mat-card-content style="margin: auto; right: 0; top: 0; margin-top: 0px">
     <form
-      [formGroup]="firstFormGroup"
+      [formGroup]="frmStepOne"
       class="travel-form"
-      style="margin-top: 10px"
+      style="margin-top: 10px"j  
     >
       <mat-form-field appearance="fill" style="margin-top: 60px">
         <mat-label style="font-size: 22px">Travel Name</mat-label>
         <input
           matInput
           placeholder="ex. My travel to Madrid"
-          formControlName="firstCtrl"
+          formControlName="nameControl"
+          name="nameControl"
           [(ngModel)]="Name"
-          [formControl]="nameControl"
           required
           autocomplete="off"
           style="font-size: 25px; margin-top: 5px"
-        />
+        />        
       </mat-form-field>
       <mat-form-field appearance="fill" style="margin-top: 40px">
         <mat-label style="font-size: 22px">Choose a date</mat-label>
         <input
           matInput
-          [formControl]="dateControl"
+          formControlName="dateControl"
           [(ngModel)]="Date"
           [matDatepicker]="picker"
           style="font-size: 25px; margin-top: 5px"
@@ -38,6 +38,7 @@
       <div style="margin-bottom: 0px">
         <button
           mat-button
+          [disabled]="frmStepOne.invalid"
           class="next-button"
           (click)="SaveTravelItinerary()"
           matStepperNext

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ILocation } from 'src/app/Interfaces/ILocation';
 import { HttpClient } from '@angular/common/http';
 import { MapInfoWindow, MapMarker } from '@angular/google-maps';
@@ -8,9 +8,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   templateUrl: './locations.component.html',
   styleUrls: ['./locations.component.css'],
 })
-export class LocationsComponent implements OnInit {
+export class LocationsComponent implements OnInit, AfterViewInit {
   @ViewChild(MapInfoWindow, { static: false }) infoWindow!: MapInfoWindow;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
+  ngAfterViewInit(): void {
+    this.getLocations();
+  }
   locations: ILocation[] = [];
   markers = [] as any;
   infoContent = '';
@@ -69,5 +72,5 @@ export class LocationsComponent implements OnInit {
   getContentString(location: ILocation) {
     return `${location.name}#${location.address}`;
   }
-  onSave() {}
+  onSave() { }
 }

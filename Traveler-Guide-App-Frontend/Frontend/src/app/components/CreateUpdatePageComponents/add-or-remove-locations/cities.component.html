@@ -49,7 +49,7 @@
       <mat-card class="location-list">
         <mat-card-title>Add Location To Travel</mat-card-title>
         <mat-card-content>
-          <form [formGroup]="secondFormGroup">
+          <form [formGroup]="frmStepTwo">
             <mat-form-field class="add-location-form">
               <mat-label>Travel Name</mat-label>
               <input
@@ -57,6 +57,7 @@
                 matInput
                 [(ngModel)]="travelName"
                 [readonly]="true"
+                required
               />
             </mat-form-field>
             <mat-form-field class="add-location-form">
@@ -64,26 +65,28 @@
               <input
                 matInput
                 [formControl]="Name"
-                formControlName="locationName"
+                formControlName="locationNameCtrl"
                 [(ngModel)]="locationName"
                 [readonly]="true"
+                required
               />
             </mat-form-field>
+            <!-- <div style="color:red" *ngIf="!locationNameCtrl?.valid">Travel Name Is Required!!!</div> -->
             <mat-form-field class="add-location-form">
               <mat-label> Location Address </mat-label>
               <input
                 matInput
                 [formControl]="Address"
-                formControlName="locationAddress"
+                formControlName="locationAddressCtrl"
                 [(ngModel)]="locationAddress"
                 [readonly]="true"
+                required
               />
             </mat-form-field>
             <mat-form-field class="add-location-form">
               <mat-select
                 #prioritySelect
-                formControlName="locationPriority"
-                [formControl]="test1"
+                formControlName="locationPriorityCtrl"
                 placeholder="Select Priority"
                 class="add-location-form"
                 [(ngModel)]="locationPriority"
@@ -100,10 +103,9 @@
               <mat-label>Budget for this location</mat-label>
               <input
                 matInput
-                [formControl]="test2"
                 type="number"
                 class="example-right-align"
-                formControlName="locationBudget"
+                formControlName="locationBudgetCtrl"
                 placeholder="0"
                 autocomplete="off"
                 [(ngModel)]="locationBudget"
@@ -115,7 +117,6 @@
               <mat-label>Description</mat-label>
               <textarea
                 matInput
-                [formControl]="test3"
                 formControlName="locationDescription"
                 [(ngModel)]="locationDescription"
                 placeholder="Describe your experience at this location"
@@ -123,7 +124,6 @@
             </mat-form-field>
             <div class="add-location-button">
               <button
-                formControlName="addLocation"
                 mat-raised-button
                 (click)="SaveLocation()"
               >
