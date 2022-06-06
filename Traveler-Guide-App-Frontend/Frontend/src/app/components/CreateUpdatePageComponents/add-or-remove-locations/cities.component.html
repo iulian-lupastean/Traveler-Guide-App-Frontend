@@ -49,7 +49,7 @@
       <mat-card class="location-list">
         <mat-card-title>Add Location To Travel</mat-card-title>
         <mat-card-content>
-          <form (formGroup)="(settingsService.formGroup)">
+          <form [formGroup]="secondFormGroup">
             <mat-form-field class="add-location-form">
               <mat-label>Travel Name</mat-label>
               <input

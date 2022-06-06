@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatStepper } from '@angular/material/stepper';
 import { UpdateTravelService } from 'src/app/services/update-travel.service';
+import { verifyBudget } from 'src/assets/Validators/budget-validator';
 @Component({
   selector: 'app-new-travel-itinerary',
   templateUrl: './new-travel-itinerary.component.html',
@@ -15,6 +17,7 @@ export default class NewTravelItineraryComponent implements OnInit {
   travelId!: number;
   parentName!: string;
   loadcitiesComponent: boolean = false;
+  @ViewChild('stepper') stepper!: MatStepper;
   constructor(
     private _formBuilder: FormBuilder,
     private updateTravelService: UpdateTravelService
@@ -23,19 +26,17 @@ export default class NewTravelItineraryComponent implements OnInit {
   ngOnInit() {
     this.travelId = this.updateTravelService.getTravelId();
     this.setFirstStepperLabel(this.travelId);
-    // this.firstFormGroup = this._formBuilder.group({
-    //   firstCtrl: ['', Validators.required],
-    // });
-    // this.secondFormGroup = this._formBuilder.group({
-    //   secondCtrl: ['', Validators.required],
-    // });
     this.globalFormGroup = this._formBuilder.group({
       firstGroup: this._formBuilder.group({
         nameCtrl: ['', Validators.required],
         travelDateCtrl: ['', Validators.required],
       }),
       secondGroup: this._formBuilder.group({
-        locationNameCtrl: [],
+        locationNameCtrl: ['', Validators.required],
+        locationAddressCtrl: ['', Validators.required],
+        locationPriority: ['', Validators.required],
+        locationBudget: [0, verifyBudget(0)],
+        locationDescription: ['']
       }),
     });
   }
@@ -61,5 +62,8 @@ export default class NewTravelItineraryComponent implements OnInit {
   }
   loadCitiesComponent() {
     return this.loadcitiesComponent;
+  }
+  createNewTravelItinerary(event: any) {
+    this.stepper.reset();
   }
 }

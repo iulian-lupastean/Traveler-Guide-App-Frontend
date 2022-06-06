@@ -50,6 +50,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { LocationsTableComponent } from './components/CreateUpdatePageComponents/locations-table/locations-table.component';
 import { LocationsTableDialogBoxComponent } from './components/CreateUpdatePageComponents/locations-table-dialog-box/locations-table-dialog-box.component';
+import { FinishTravelItineraryComponent } from './components/FinishTravelItinerary/finish-travel-itinerary/finish-travel-itinerary.component';
+import { LottieModule } from 'ngx-lottie';
+import player from 'lottie-web';
+import { CommonModule } from '@angular/common';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'cities', component: CitiesComponent },
@@ -60,6 +64,9 @@ const routes: Routes = [
   { path: 'locations', component: LocationsComponent },
   { path: 'new-travel', component: NewTravelItineraryComponent },
 ];
+export function playerFactory(): any {
+  return import('lottie-web');
+}
 
 @NgModule({
   declarations: [
@@ -82,6 +89,7 @@ const routes: Routes = [
     MyFilterPipe,
     LocationsTableComponent,
     LocationsTableDialogBoxComponent,
+    FinishTravelItineraryComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -111,6 +119,8 @@ const routes: Routes = [
     GooglePlaceModule,
     MatSnackBarModule,
     MatTableModule,
+    CommonModule,
+    LottieModule.forRoot({ player: playerFactory }),
   ],
   exports: [RouterModule],
   providers: [

@@ -1,0 +1,18 @@
+<div class="finishTravelPage">
+  <div class="lottie-animation">
+    <ng-lottie
+    [options]="options" 
+    (animationCreated)="onAnimate($event)">
+  </ng-lottie>
+  </div>
+  <div class="container-sm" style="text-align: center;"> 
+    <div class="splash-text">
+      <h1>Your Travel is Ready</h1>
+    </div>
+    <div class="button-div mt-3 mb-10">
+
+    </div>
+    <button mat-button color="primary" (click)="createNewTravel()">Create a New Travel</button>
+    <button mat-button color="primary"(click)="viewYourTravels()">View your Travel Itineraries</button>
+  </div>
+</div>

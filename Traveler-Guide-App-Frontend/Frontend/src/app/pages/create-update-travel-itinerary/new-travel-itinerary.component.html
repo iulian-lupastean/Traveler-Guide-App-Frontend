@@ -19,12 +19,9 @@
       <button mat-button matStepperNext>Next</button>
     </div>
   </mat-step>
-  <mat-step>
-    <ng-template matStepLabel>Done</ng-template>
-    <p>You are now done.</p>
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="finishTravelItinerary()">Reset</button>
-    </div>
+  <mat-step label="Finish Travel Itinerary">
+    <app-finish-travel-itinerary (resetStepper)="createNewTravelItinerary($event)">
+
+    </app-finish-travel-itinerary>
   </mat-step>
 </mat-stepper>

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone, Input, Output, EventEmitter } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { GetInfoFromIdService } from 'src/app/services/get-info-from-id.service';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { IGoogleDetails } from 'src/app/Interfaces/IGoogleDetails';
@@ -48,6 +48,8 @@ export default class CitiesComponent implements OnInit {
   @ViewChild(LocationsTableComponent) child!: any;
   ///////////
   locations: ILocation[] = [];
+
+  secondFormGroup!: FormGroup;
   markers = [] as any;
   infoContent = '';
   zoom = 12;
@@ -109,7 +111,7 @@ export default class CitiesComponent implements OnInit {
     cityId: 0
   }
 
-  test: IAddLocationToTravel = {
+  AddNewLocation: IAddLocationToTravel = {
     Name: '',
     Address: '',
     Budget: 0,
@@ -121,7 +123,6 @@ export default class CitiesComponent implements OnInit {
   constructor(private ngZone: NgZone, private getInfoFromId: GetInfoFromIdService, public settingsService: SettingsService, private updateTravelService: UpdateTravelService, private travelService: TravelService, private _snackBar: MatSnackBar, private httpClient: HttpClient) { }
 
   ngAfterViewInit(): void {
-    this.getLocations(this.travelId);
     // Binding autocomplete to search input control
     let autocomplete = new google.maps.places.Autocomplete(
       this.searchElementRef.nativeElement
@@ -158,6 +159,8 @@ export default class CitiesComponent implements OnInit {
 
   ngOnInit() {
     this.travelId = this.updateTravelService.getTravelId();
+
+    this.getLocations(this.travelId);
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
         lat: position.coords.latitude,
@@ -249,7 +252,7 @@ export default class CitiesComponent implements OnInit {
     });
     const index = this.markers.length;
     this.markers.push({ index, marker, infoWindow });
-    this.test = {
+    this.AddNewLocation = {
       Name: this.locationName,
       Address: this.locationAddress,
       Budget: Number(this.locationBudget),
