@@ -56,12 +56,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { CommonModule } from '@angular/common';
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'cities', component: CitiesComponent },
   { path: 'account', component: AccountComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'my-travels', component: MyTravelsComponent },
-  { path: 'locations', component: LocationsComponent },
   { path: 'new-travel', component: NewTravelItineraryComponent },
   { path: 'login', component: LoginComponent }
 ];
