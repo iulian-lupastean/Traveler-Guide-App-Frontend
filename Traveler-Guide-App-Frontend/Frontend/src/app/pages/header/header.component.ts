@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -7,9 +8,23 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
 
+  constructor(private router: Router,) { }
   ngOnInit(): void {
+
   }
 
+
+  checkForUserId() {
+    if (localStorage.getItem("userId") == null) {
+      return false;
+    } else {
+      return true;
+    }
+
+  }
+  logout() {
+    localStorage.removeItem("userId")
+    this.router.navigate(['../']);
+  }
 }
