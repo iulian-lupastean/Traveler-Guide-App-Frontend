@@ -53,6 +53,7 @@ import { FinishTravelItineraryComponent } from './components/FinishTravelItinera
 import { LottieModule } from 'ngx-lottie';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CommonModule } from '@angular/common';
+import { LocationsDirectionsComponent } from './pages/locations-directions/locations-directions.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'account', component: AccountComponent },
@@ -60,7 +61,8 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'my-travels', component: MyTravelsComponent },
   { path: 'new-travel', component: NewTravelItineraryComponent },
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+  { path: 'showRoutes', component: LocationsDirectionsComponent }
 ];
 export function playerFactory(): any {
   return import('lottie-web');
@@ -87,6 +89,7 @@ export function playerFactory(): any {
     MyFilterPipe,
     LocationsTableComponent,
     FinishTravelItineraryComponent,
+    LocationsDirectionsComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),

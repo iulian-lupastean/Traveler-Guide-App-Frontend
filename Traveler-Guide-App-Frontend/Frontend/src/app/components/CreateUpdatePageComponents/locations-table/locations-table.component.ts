@@ -6,7 +6,6 @@ import { IDataSource } from 'src/app/Interfaces/IDataSource';
 import { IAddLocationToTravel } from 'src/app/Interfaces/IAddLocationToTravel';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable, ReplaySubject } from 'rxjs';
-import { GetUserId } from '../../../Globals'
 
 @Component({
   selector: 'app-locations-table',
@@ -56,7 +55,7 @@ export class LocationsTableComponent implements OnInit, AfterViewInit {
       this.travelService.getLocationsForTravel(travelId).subscribe((data) => {
         data.forEach((element: any, index: any) => {
           this.travelService
-            .getUserExperience(GetUserId.userId, travelId, element.locationId)
+            .getUserExperience(Number(localStorage.getItem("userId")), travelId, element.locationId)
             .subscribe({
               next: (result) => {
                 const ar = {
@@ -96,7 +95,6 @@ export class LocationsTableComponent implements OnInit, AfterViewInit {
 
 
   addListItem(item: IAddLocationToTravel) {
-    console.log(item);
     const newL: any = {
       index: this.dataToDisplay.length,
       name: item.Name,
@@ -116,14 +114,11 @@ export class LocationsTableComponent implements OnInit, AfterViewInit {
   async deleteLocationFromTI(parameter: any) {
     const index = this.dataToDisplay.findIndex(date => parameter == date.index);
     await this.travelService.getLocationByLatLng(this.dataToDisplay[index].latitude, this.dataToDisplay[index].longitude).toPromise().then(async result => {
-      console.log(result);
       await this.travelService.deleteLocationFromTravelItinerary(this.travelId, result.locationId).toPromise().then(
         (data: any) => {
-          // console.log("Delete");
-          // console.log(data);
           this.deleteLocation.emit(parameter);
         });
-      await this.travelService.deleteUserExperience(GetUserId.userId, this.travelId, result.locationId).toPromise().then((data: any) => { });
+      await this.travelService.deleteUserExperience(Number(localStorage.getItem("userId")), this.travelId, result.locationId).toPromise().then((data: any) => { });
 
     })
     this.getLocationsTable(this.travelId);

@@ -13,7 +13,6 @@ import {
 import { TravelService } from 'src/app/services/travel.service';
 import { UpdateTravelService } from 'src/app/services/update-travel.service';
 import { MatStepper } from '@angular/material/stepper/stepper';
-import { GetUserId } from '../../../Globals'
 @Component({
   selector: 'app-create-travel-itinerary',
   templateUrl: './create-travel-itinerary.component.html',
@@ -30,7 +29,7 @@ export class CreateTravelItineraryComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private travelService: TravelService,
-    private updateTravelService: UpdateTravelService
+    private updateTravelService: UpdateTravelService,
   ) { }
   TravelId: number = 0;
   Name: string = '';
@@ -62,7 +61,7 @@ export class CreateTravelItineraryComponent implements OnInit {
         name: this.Name,
         status: 'Planned',
         travelDate: this.Date,
-        userId: GetUserId.userId,
+        userId: Number(localStorage.getItem("userId")),
       });
     } else {
       this.updateTravelService.setTravelInfo(this.Name, this.Date);

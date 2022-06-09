@@ -6,8 +6,7 @@ import { ITravelItinerary } from 'src/app/Interfaces/ITravelItinerary';
 import { TravelService } from 'src/app/services/travel.service';
 import { UpdateTravelService } from 'src/app/services/update-travel.service';
 import { IDataSource } from 'src/app/Interfaces/IDataSource';
-import { MatTable } from '@angular/material/table'; import { GetUserId } from '../../../Globals'
-import { IAddLocationToTravel } from 'src/app/Interfaces/IAddLocationToTravel';
+import { MatTable } from '@angular/material/table';
 import { DataSource } from '@angular/cdk/collections';
 @Component({
   selector: 'app-view-travel',
@@ -28,7 +27,7 @@ export class ViewTravelComponent implements OnInit {
   constructor(
     private travelService: TravelService,
     private updateTravelService: UpdateTravelService,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit() { }
@@ -37,7 +36,7 @@ export class ViewTravelComponent implements OnInit {
     this.travelService.getLocationsForTravel(travelId).subscribe((data) => {
       data.forEach((element: any, index: any) => {
         this.travelService
-          .getUserExperience(GetUserId.userId, travelId, element.locationId)
+          .getUserExperience(Number(localStorage.getItem("userId")), travelId, element.locationId)
           .subscribe({
             next: (result) => {
               const arr = {

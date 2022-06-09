@@ -13,12 +13,10 @@ export class CreateNewUser {
     return this.httpClient.post('https://localhost:7075/api/User/Login', credentials);
   }
   setUserId(id: number) {
-    console.log(id)
     this.userId = id;
   }
 
   getUserId() {
-    console.log(this.userId);
 
     return this.userId;
   }

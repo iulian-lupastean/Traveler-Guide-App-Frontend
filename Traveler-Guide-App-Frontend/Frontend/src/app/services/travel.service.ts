@@ -6,7 +6,6 @@ import { ILocation } from '../Interfaces/ILocation';
 import { ICity } from '../Interfaces/ICity';
 import { ITravelItineraryLocation } from '../Interfaces/ITravelItineraryLocation';
 import { IUserExperience } from '../Interfaces/IUserExperience';
-import { GetUserId } from '../Globals'
 @Injectable()
 export class TravelService {
   apiGetTravelItineraries = 'https://localhost:7075/api/TravelItinerary';
@@ -35,7 +34,7 @@ export class TravelService {
         name: name,
         status: 'Planned',
         travelDate: date,
-        userId: GetUserId.userId,
+        userId: Number(localStorage.getItem("userId")),
       })
       .toPromise().then(
         data => {
@@ -44,7 +43,6 @@ export class TravelService {
       );
   }
   deleteTravelitinerary(travelId: number) {
-    console.log(travelId);
     this.httpClient
       .delete(`https://localhost:7075/api/TravelItinerary/${travelId}`)
       .subscribe({
@@ -107,7 +105,6 @@ export class TravelService {
     );
   }
   async addLocationToTravelItinerary(travelId: number, locationId: number) {
-    console.log("add location")
     await this.httpClient
       .post<ITravelItineraryLocation>(
         'https://localhost:7075/api/TravelItineraryLocation',

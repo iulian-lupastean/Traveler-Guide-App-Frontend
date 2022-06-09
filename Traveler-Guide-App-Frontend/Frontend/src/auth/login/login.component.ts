@@ -28,13 +28,13 @@ export class LoginComponent implements OnInit {
 
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.loginForm.valid) {
-      this.userService.loginUser({
+      await this.userService.loginUser({
         email: this.loginForm.value.email,
         password: this.loginForm.value.password,
-      }).subscribe((data: any) => {
-        this.userService.setUserId(data.id)
+      }).toPromise().then((data: any) => {
+        localStorage.setItem("userId", data.id)
       })
       this.router.navigate(['../my-travels']);
     }

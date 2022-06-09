@@ -18,7 +18,6 @@ import { IDataSource } from 'src/app/Interfaces/IDataSource';
 import { IAddLocationToTravel } from 'src/app/Interfaces/IAddLocationToTravel';
 import { LocationsTableComponent } from '../locations-table/locations-table.component';
 import { verifyBudget } from 'src/assets/Validators/budget-validator';
-import { GetUserId } from '../../../Globals'
 @Component({
   selector: 'app-cities',
   templateUrl: './cities.component.html',
@@ -163,14 +162,13 @@ export default class CitiesComponent implements OnInit, AfterViewInit {
   }
   async setLatest(travelId: number) {
     if (travelId == 0) {
-      await this.travelService.getTravelsForUser(GetUserId.userId).toPromise().then((data: any) => {
+      await this.travelService.getTravelsForUser(Number(localStorage.getItem("userId"))).toPromise().then((data: any) => {
         this.travelId = data[data.length - 1].travelId;
       });
       this.updateTravelService.setTravelId(this.travelId);
     }
   }
   handleClick(event: google.maps.MapMouseEvent | google.maps.IconMouseEvent) {
-    console.log(event);
     if (this.isIconMouseEvent(event)) {
       event.stop();
       if (event.placeId) {
@@ -206,25 +204,18 @@ export default class CitiesComponent implements OnInit, AfterViewInit {
       this.Name.setValue(this.googleDetails.result.name);
       this.Address.setValue(this.googleDetails.result.formatted_address);
       await this.checkForCity(this.cityName, this.countryName);
-      console.log(this.cityId)
       await this.checkForLocation(this.locationName, this.locationAddress, this.locationLat, this.locationLng, this.cityId);
-      console.log(this.locationId)
       this.updateTravelService.setLocationId(this.locationId)
     });
   }
 
   async SaveLocation() {
-    console.log(this.locationId);
-    console.log(this.travelId);
     if (this.travelId == 0) {
       await this.setLatest(this.travelId)
-      console.log("altceva");
-      console.log(this.travelId);
-      console.log(this.locationId);
 
     }
     this.travelService.addLocationToTravelItinerary(this.travelId, this.locationId);
-    this.travelService.createUserExperience(GetUserId.userId, this.travelId, this.locationId, this.locationPriority, Number(this.locationBudget), this.locationDescription);
+    this.travelService.createUserExperience(Number(localStorage.getItem("userId")), this.travelId, this.locationId, this.locationPriority, Number(this.locationBudget), this.locationDescription);
     this._snackBar.open('Location Added Successfully!', 'Continue', {
       verticalPosition: 'bottom',
       horizontalPosition: 'right',
@@ -266,15 +257,11 @@ export default class CitiesComponent implements OnInit, AfterViewInit {
 
     await this.travelService.getCityByNameAndCountry(cityName, country).toPromise().then(data => {
       this.cityId = data!.id;
-      console.log(data);
     }
     ).catch(async error => {
       await this.travelService.createCity(cityName, country).toPromise().then((data: any) => {
-        console.log(data);
         this.cityId = data!.id;
-        console.log(data!.id);
       })
-      console.log("checkForCity");
     });
   }
   async checkForLocation(name: string, address: string, lat: string, lng: string, cityId: number) {
@@ -282,14 +269,11 @@ export default class CitiesComponent implements OnInit, AfterViewInit {
     await this.travelService.getLocationByLatLng(lat, lng).toPromise().then(data => {
       this.locationId = data.locationId;
     }).catch(async error => {
-      console.log("LOC");
       await this.travelService.createLocation(name, address, lat, lng, cityId).toPromise().then(
         (data: any) => {
           this.locationId = data.locationId;
-          console.log(data);
         }
       )
-      console.log("checkForLocation");
     })
 
   }
@@ -300,7 +284,6 @@ export default class CitiesComponent implements OnInit, AfterViewInit {
       .subscribe(
         (response) => {
           this.locations = response;
-          console.log(response)
           this.markers = this.placeAllMarkers(this.locations);
         },
         (error) => console.log(error)
@@ -332,7 +315,7 @@ export default class CitiesComponent implements OnInit, AfterViewInit {
 
   getContentString(location: ILocation) {
     this.travelService
-      .getUserExperience(GetUserId.userId, this.travelId, location.locationId)
+      .getUserExperience(Number(localStorage.getItem("userId")), this.travelId, location.locationId)
       .subscribe({
         next: (data) => {
           this.existingBudget = String(data.budget);

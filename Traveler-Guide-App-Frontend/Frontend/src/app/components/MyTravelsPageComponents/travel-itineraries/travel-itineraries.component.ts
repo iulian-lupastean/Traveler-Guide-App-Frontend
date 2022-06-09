@@ -4,7 +4,6 @@ import { ILocation } from 'src/app/Interfaces/ILocation';
 import { ITravelItinerary } from 'src/app/Interfaces/ITravelItinerary';
 import { TravelService } from 'src/app/services/travel.service';
 import { SearchService } from 'src/app/services/search.service';
-import { GetUserId } from '../../../Globals'
 
 @Component({
   selector: 'app-travel-itineraries',
@@ -23,9 +22,8 @@ export class TravelItinerariesComponent
     private searchService: SearchService,
   ) { }
   ngOnInit() {
-    console.log(Number(GetUserId.userId));
-
-    this.travelItineraries = this.travelService.getTravelsForUser(GetUserId.userId);
+    console.log(Number(localStorage.getItem("userId")));
+    this.travelItineraries = this.travelService.getTravelsForUser(Number(localStorage.getItem("userId")));
     this.searchService.searchStringChanged$.subscribe(
       (x) => (this.filterargs.name = x)
     );
@@ -36,7 +34,7 @@ export class TravelItinerariesComponent
     this.unsubscribe.complete();
   }
   getLocations(id: number) {
-    this.locations = this.travelService.getLocationsForTravel(GetUserId.userId);
+    this.locations = this.travelService.getLocationsForTravel(id);
   }
   deleteTravel(id: number) { }
 }

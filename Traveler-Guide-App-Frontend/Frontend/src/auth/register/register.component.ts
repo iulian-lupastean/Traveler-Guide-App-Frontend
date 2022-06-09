@@ -36,9 +36,7 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.registerForm.valid)
     if (this.registerForm.valid) {
-      console.log(this.registerForm.value);
 
       this.userService.createUser({
         firstName: this.registerForm.value.firstName,
@@ -47,7 +45,6 @@ export class RegisterComponent implements OnInit {
         password: this.registerForm.value.password,
         userType: 'User'
       }).subscribe((data) => {
-        console.log(data);
       })
       this.router.navigate(['../login']);
     }

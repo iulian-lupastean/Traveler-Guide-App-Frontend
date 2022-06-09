@@ -18,7 +18,6 @@ export class FinishTravelItineraryComponent implements OnInit {
   ngOnInit(): void {
   }
   onAnimate(animationItem: AnimationItem): void {
-    console.log(animationItem);
   }
   createNewTravel() {
     this.updateTravelService.setTravelId(0);
