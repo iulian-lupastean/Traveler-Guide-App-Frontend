@@ -33,7 +33,7 @@
         *ngFor="let travel of travelItineraries | async | myfilter: filterargs"
       >
         <mat-card-content>
-          <app-view-travel [uniqueTravel]="travel"></app-view-travel>
+          <app-view-travel [uniqueTravel]="travel"> </app-view-travel>
         </mat-card-content>
       </div>
     </div>

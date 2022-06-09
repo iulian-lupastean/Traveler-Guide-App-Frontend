@@ -1,0 +1,33 @@
+<mat-accordion>
+  <mat-expansion-panel (opened)="getLocations(uniqueTravel.travelId)">
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{ uniqueTravel.name }}</mat-panel-title>
+
+      <mat-panel-description>
+        <div class="description">
+          {{ uniqueTravel.status }}
+        </div>
+        {{ uniqueTravel.travelDate }}
+        <div class="travel-buttons">
+          <button
+            mat-icon-button
+            class="update-button"
+            routerLink="../locations"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            class="delete-button"
+            (click)="deleteTravel(uniqueTravel.travelId)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p *ngFor="let location of locations | async">
+      {{ location.name }}
+    </p>
+  </mat-expansion-panel>
+</mat-accordion>

@@ -1,0 +1,8 @@
+.grid-container {
+    grid-template-rows: 500px 300px;
+}
+
+.city-list{
+    margin-left: 2rem;
+    margin-top: 1rem;
+}

@@ -4,22 +4,16 @@ import {
   Output,
   ViewChild,
   EventEmitter,
-  AfterViewInit,
-  AfterContentInit,
-  AfterContentChecked,
 } from '@angular/core';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
-  NgForm,
   Validators,
 } from '@angular/forms';
 import { TravelService } from 'src/app/services/travel.service';
-import { userId } from 'src/app/Globals';
 import { UpdateTravelService } from 'src/app/services/update-travel.service';
 import { MatStepper } from '@angular/material/stepper/stepper';
-
+import { GetUserId } from '../../../Globals'
 @Component({
   selector: 'app-create-travel-itinerary',
   templateUrl: './create-travel-itinerary.component.html',
@@ -38,7 +32,6 @@ export class CreateTravelItineraryComponent implements OnInit {
     private travelService: TravelService,
     private updateTravelService: UpdateTravelService
   ) { }
-
   TravelId: number = 0;
   Name: string = '';
   Date: Date = new Date();
@@ -69,7 +62,7 @@ export class CreateTravelItineraryComponent implements OnInit {
         name: this.Name,
         status: 'Planned',
         travelDate: this.Date,
-        userId: userId,
+        userId: GetUserId.userId,
       });
     } else {
       this.updateTravelService.setTravelInfo(this.Name, this.Date);

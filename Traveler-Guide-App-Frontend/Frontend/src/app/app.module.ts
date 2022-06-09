@@ -52,7 +52,7 @@ import { LocationsTableComponent } from './components/CreateUpdatePageComponents
 import { LocationsTableDialogBoxComponent } from './components/CreateUpdatePageComponents/locations-table-dialog-box/locations-table-dialog-box.component';
 import { FinishTravelItineraryComponent } from './components/FinishTravelItinerary/finish-travel-itinerary/finish-travel-itinerary.component';
 import { LottieModule } from 'ngx-lottie';
-import player from 'lottie-web';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { CommonModule } from '@angular/common';
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -63,6 +63,7 @@ const routes: Routes = [
   { path: 'my-travels', component: MyTravelsComponent },
   { path: 'locations', component: LocationsComponent },
   { path: 'new-travel', component: NewTravelItineraryComponent },
+  { path: 'login', component: LoginComponent }
 ];
 export function playerFactory(): any {
   return import('lottie-web');
@@ -120,6 +121,7 @@ export function playerFactory(): any {
     MatSnackBarModule,
     MatTableModule,
     CommonModule,
+    FlexLayoutModule,
     LottieModule.forRoot({ player: playerFactory }),
   ],
   exports: [RouterModule],

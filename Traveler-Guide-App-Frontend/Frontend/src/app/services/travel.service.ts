@@ -2,11 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ITravelItinerary } from '../Interfaces/ITravelItinerary';
-import { userId } from '../Globals';
 import { ILocation } from '../Interfaces/ILocation';
 import { ICity } from '../Interfaces/ICity';
 import { ITravelItineraryLocation } from '../Interfaces/ITravelItineraryLocation';
 import { IUserExperience } from '../Interfaces/IUserExperience';
+import { GetUserId } from '../Globals'
 @Injectable()
 export class TravelService {
   apiGetTravelItineraries = 'https://localhost:7075/api/TravelItinerary';
@@ -35,7 +35,7 @@ export class TravelService {
         name: name,
         status: 'Planned',
         travelDate: date,
-        userId: userId,
+        userId: GetUserId.userId,
       })
       .toPromise().then(
         data => {

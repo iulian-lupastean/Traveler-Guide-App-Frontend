@@ -1,12 +1,13 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { TravelService } from 'src/app/services/travel.service';
 import { UpdateTravelService } from 'src/app/services/update-travel.service';
-import { userId } from 'src/app/Globals';
 import { MatTable } from '@angular/material/table';
 import { IDataSource } from 'src/app/Interfaces/IDataSource';
 import { IAddLocationToTravel } from 'src/app/Interfaces/IAddLocationToTravel';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable, ReplaySubject } from 'rxjs';
+import { GetUserId } from '../../../Globals'
+
 @Component({
   selector: 'app-locations-table',
   templateUrl: './locations-table.component.html',
@@ -37,12 +38,11 @@ export class LocationsTableComponent implements OnInit, AfterViewInit {
   locationId: number = 0;
   constructor(
     private travelService: TravelService,
-    private updateTravelService: UpdateTravelService
+    private updateTravelService: UpdateTravelService,
   ) { }
 
 
   ngOnInit() {
-
   }
 
   ngAfterViewInit() {
@@ -56,7 +56,7 @@ export class LocationsTableComponent implements OnInit, AfterViewInit {
       this.travelService.getLocationsForTravel(travelId).subscribe((data) => {
         data.forEach((element: any, index: any) => {
           this.travelService
-            .getUserExperience(userId, travelId, element.locationId)
+            .getUserExperience(GetUserId.userId, travelId, element.locationId)
             .subscribe({
               next: (result) => {
                 const ar = {
@@ -123,7 +123,7 @@ export class LocationsTableComponent implements OnInit, AfterViewInit {
           // console.log(data);
           this.deleteLocation.emit(parameter);
         });
-      await this.travelService.deleteUserExperience(userId, this.travelId, result.locationId).toPromise().then((data: any) => { });
+      await this.travelService.deleteUserExperience(GetUserId.userId, this.travelId, result.locationId).toPromise().then((data: any) => { });
 
     })
     this.getLocationsTable(this.travelId);

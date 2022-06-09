@@ -1,18 +1,17 @@
 import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { map, Observable, Subject } from 'rxjs';
 import { ILocation } from 'src/app/Interfaces/ILocation';
 import { ITravelItinerary } from 'src/app/Interfaces/ITravelItinerary';
-import { TravelService } from 'src/app/services/travel.service';
-import { SearchService } from 'src/app/services/search.service';
-import { GetUserId } from '../../../Globals'
-
+import { TravelService } from 'src/app/services/travel-service';
+import { SearchService } from 'src/app/services/search-service';
 @Component({
   selector: 'app-travel-itineraries',
   templateUrl: './travel-itineraries.component.html',
   styleUrls: ['./travel-itineraries.component.css'],
 })
 export class TravelItinerariesComponent
-  implements OnInit, OnDestroy, OnChanges {
+  implements OnInit, OnDestroy, OnChanges
+{
   unsubscribe: Subject<void> = new Subject<void>();
   travelItineraries!: Observable<ITravelItinerary[]>;
   locations!: Observable<ILocation[]>;
@@ -20,23 +19,22 @@ export class TravelItinerariesComponent
   filterargs = { name: '' };
   constructor(
     private travelService: TravelService,
-    private searchService: SearchService,
-  ) { }
+    private searchService: SearchService
+  ) {}
   ngOnInit() {
-    console.log(Number(GetUserId.userId));
-
-    this.travelItineraries = this.travelService.getTravelsForUser(GetUserId.userId);
+    this.travelItineraries = this.travelService.getTravelsForUser(2);
     this.searchService.searchStringChanged$.subscribe(
       (x) => (this.filterargs.name = x)
     );
   }
-  ngOnChanges() { }
+  ngOnChanges() {}
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
   getLocations(id: number) {
-    this.locations = this.travelService.getLocationsForTravel(GetUserId.userId);
+    console.log(id);
+    this.locations = this.travelService.getLocationsForTravel(id);
   }
-  deleteTravel(id: number) { }
+  deleteTravel(id: number) {}
 }

@@ -7,9 +7,8 @@ import { SettingsService } from 'src/app/services/settings.service';
 import { UpdateTravelService } from 'src/app/services/update-travel.service';
 import { IAddressComponents } from 'src/app/Interfaces/IAddressComponents';
 import { TravelService } from 'src/app/services/travel.service';
-import { isEmpty, map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ICity } from 'src/app/Interfaces/ICity';
-import { userId } from 'src/app/Globals';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ILocation } from 'src/app/Interfaces/ILocation';
 import { HttpClient } from '@angular/common/http';
@@ -19,7 +18,7 @@ import { IDataSource } from 'src/app/Interfaces/IDataSource';
 import { IAddLocationToTravel } from 'src/app/Interfaces/IAddLocationToTravel';
 import { LocationsTableComponent } from '../locations-table/locations-table.component';
 import { verifyBudget } from 'src/assets/Validators/budget-validator';
-
+import { GetUserId } from '../../../Globals'
 @Component({
   selector: 'app-cities',
   templateUrl: './cities.component.html',
@@ -81,12 +80,7 @@ export default class CitiesComponent implements OnInit, AfterViewInit {
       address_components: [],
     },
   };
-  existingCity: ICity = {
-    id: 1,
-    name: '',
-    country: '',
-    locations: []
-  };
+
   cityId: number = 0;
   City!: Observable<ICity>;
   travelId: number = 0;
@@ -100,15 +94,6 @@ export default class CitiesComponent implements OnInit, AfterViewInit {
   userExperiences$!: Observable<IUserExperience>;
   selected: string = 'High';
   makerIndexSelected: any;
-  locationNew: ILocation = {
-    locationId: 0,
-    name: '',
-    address: '',
-    latitude: '',
-    longitude: '',
-    cityId: 0
-  }
-
   AddNewLocation: IAddLocationToTravel = {
     Name: '',
     Address: '',
@@ -162,7 +147,6 @@ export default class CitiesComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
         lat: position.coords.latitude,
@@ -179,7 +163,7 @@ export default class CitiesComponent implements OnInit, AfterViewInit {
   }
   async setLatest(travelId: number) {
     if (travelId == 0) {
-      await this.travelService.getTravelsForUser(userId).toPromise().then((data: any) => {
+      await this.travelService.getTravelsForUser(GetUserId.userId).toPromise().then((data: any) => {
         this.travelId = data[data.length - 1].travelId;
       });
       this.updateTravelService.setTravelId(this.travelId);
@@ -240,7 +224,7 @@ export default class CitiesComponent implements OnInit, AfterViewInit {
 
     }
     this.travelService.addLocationToTravelItinerary(this.travelId, this.locationId);
-    this.travelService.createUserExperience(userId, this.travelId, this.locationId, this.locationPriority, Number(this.locationBudget), this.locationDescription);
+    this.travelService.createUserExperience(GetUserId.userId, this.travelId, this.locationId, this.locationPriority, Number(this.locationBudget), this.locationDescription);
     this._snackBar.open('Location Added Successfully!', 'Continue', {
       verticalPosition: 'bottom',
       horizontalPosition: 'right',
@@ -348,7 +332,7 @@ export default class CitiesComponent implements OnInit, AfterViewInit {
 
   getContentString(location: ILocation) {
     this.travelService
-      .getUserExperience(userId, this.travelId, location.locationId)
+      .getUserExperience(GetUserId.userId, this.travelId, location.locationId)
       .subscribe({
         next: (data) => {
           this.existingBudget = String(data.budget);
@@ -375,7 +359,6 @@ export default class CitiesComponent implements OnInit, AfterViewInit {
       lng: Number(latLng.longitude),
     };
     this.zoom = 15;
-
   }
   deleteLocation(index: number) {
     this.markers = [];

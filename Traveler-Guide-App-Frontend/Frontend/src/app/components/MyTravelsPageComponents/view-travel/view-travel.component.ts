@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { userId } from 'src/app/Globals';
 import { ILocation } from 'src/app/Interfaces/ILocation';
 import { ITravelItinerary } from 'src/app/Interfaces/ITravelItinerary';
 import { TravelService } from 'src/app/services/travel.service';
 import { UpdateTravelService } from 'src/app/services/update-travel.service';
 import { IDataSource } from 'src/app/Interfaces/IDataSource';
-import { MatTable } from '@angular/material/table';
+import { MatTable } from '@angular/material/table'; import { GetUserId } from '../../../Globals'
+
 @Component({
   selector: 'app-view-travel',
   templateUrl: './view-travel.component.html',
@@ -38,7 +38,7 @@ export class ViewTravelComponent implements OnInit {
     this.travelService.getLocationsForTravel(travelId).subscribe((data) => {
       data.forEach((element: any) => {
         this.travelService
-          .getUserExperience(userId, travelId, element.locationId)
+          .getUserExperience(GetUserId.userId, travelId, element.locationId)
           .subscribe({
             next: (result) => {
               ar.push({

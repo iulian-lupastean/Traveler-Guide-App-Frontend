@@ -1,0 +1,39 @@
+<mat-card style="height: 450px; margin-top: 30px">
+  <mat-card-title style="margin-top: 30px; font-size: 40px; text-align: center"
+    >Create New Travel Itinerary
+  </mat-card-title>
+  <mat-card-content style="margin: auto; right: 0; top: 0; margin-top: 0px">
+    <form
+      [formGroup]="firstFormGroup"
+      class="travel-form"
+      style="margin-top: 10px"
+    >
+      <mat-form-field appearance="fill" style="margin-top: 60px">
+        <mat-label style="font-size: 22px">Travel Name</mat-label>
+        <input
+          matInput
+          placeholder="ex. My travel to Madrid"
+          formControlName="firstCtrl"
+          required
+          autocomplete="off"
+          style="font-size: 25px; margin-top: 5px"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="margin-top: 40px">
+        <mat-label style="font-size: 22px">Choose a date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          style="font-size: 25px; margin-top: 5px"
+          disabled
+        />
+        <mat-hint style="font-size: 15px; margin-top: 5px">MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker disabled="false"></mat-datepicker>
+      </mat-form-field>
+      <div style="margin-bottom: 0px">
+        <button mat-button matStepperNext class="next-button">Next</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

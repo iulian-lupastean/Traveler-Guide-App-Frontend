@@ -1,0 +1,19 @@
+<div class="search">
+  <mat-form-field class="search-bar">
+    <mat-label style="font-size: 20px">Search Travel Itinerary</mat-label>
+    <input
+      type="search"
+      matInput
+      style="font-size: 30px"
+      autocomplete="off"
+      id="searchInput"
+      value=""
+      [(ngModel)]="searchText"
+    />
+  </mat-form-field>
+  <div class="search-fab">
+    <button mat-fab class="fab" (click)="saveSearch()">
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
+</div>

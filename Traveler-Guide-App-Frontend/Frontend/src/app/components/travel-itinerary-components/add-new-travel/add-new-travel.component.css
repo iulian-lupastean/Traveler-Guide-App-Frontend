@@ -1,0 +1,11 @@
+.add-location {
+    color: #252538;
+    font-family: "Roboto Slab";
+    font-size: 30px;
+    border-radius: 0px;
+    height: 103px;
+    margin-top: 30px;
+    margin-right: 50px;
+    border: none;
+    justify-content: center;
+}

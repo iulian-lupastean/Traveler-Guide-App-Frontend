@@ -1,0 +1,23 @@
+.search-bar {
+    width: 40rem;
+    height: 3rem;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: transparent;
+
+}
+.search-fab {
+    background-color: transparent;
+    margin-left: 2rem;
+}
+.search-items{
+    justify-content: flex-end;
+}
+.search{
+    display: flex;
+}
+.fab{
+    background-color: #1a3e55;
+}

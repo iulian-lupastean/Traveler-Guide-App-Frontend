@@ -1,0 +1,29 @@
+<div>
+  <div class="city-list">
+    <mat-form-field appearance="fill">
+      <mat-label>Cities</mat-label>
+      <mat-select
+        [(value)]="selectedCity"
+        name="Cities"
+        (selectionChange)="onCityChange($event)"
+      >
+        <mat-option *ngFor="let city of cities" [value]="city.name">
+          {{ city.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="google-map">
+    <google-map height="725px" width="1190px" [options]="mapOptions">
+      <map-marker
+        #somemarker="mapMarker"
+        *ngFor="let marker of markers; let i = index"
+        [position]="marker.position"
+        (mapClick)="openInfo(somemarker, marker.info)"
+      >
+      </map-marker>
+      <map-info-window>marker</map-info-window>
+    </google-map>
+  </div>
+</div>
