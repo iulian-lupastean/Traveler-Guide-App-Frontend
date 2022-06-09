@@ -1,1 +1,97 @@
-<p>register works!</p>
+<div fxLayout="row" fxLayoutAlign="center center">
+  <div class="content">
+    <div fxLayout="row wrap">
+      <mat-card class="mat-elevation-z4">
+        <mat-card-content>
+          <form class="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <h1 style="margin-top: 10px; margin-bottom: 20px">Register</h1>
+
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>First Name</mat-label>
+              <input
+                type="text"
+                matInput
+                formControlName="firstName"
+                placeholder="Ex. Ion"
+                required
+              />
+              <mat-error *ngIf="isFieldInvalid('firstName')">
+                Please inform your user First Name
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Last Name</mat-label>
+              <input
+                type="text"
+                matInput
+                formControlName="lastName"
+                placeholder="Ex. pat@example.com"
+              />
+              <mat-error *ngIf="isFieldInvalid('lastName')">
+                Please inform your user Last Name
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Email</mat-label>
+              <input
+                type="email"
+                matInput
+                formControlName="email"
+                placeholder="Ex. pat@example.com"
+              />
+              <mat-error *ngIf="isFieldInvalid('email')">
+                Please inform your user Email
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Password</mat-label>
+              <input
+                type="password"
+                matInput
+                formControlName="password"
+                placeholder="Ex. pat@example.com"
+                autocomplete="nufdkfjkn"
+              />
+              <mat-error *ngIf="isFieldInvalid('password')">
+                Please insert password
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Password</mat-label>
+              <input
+                type="password"
+                matInput
+                formControlName="confirmPassword"
+                placeholder="Ex. pat@example.com"
+              />
+              <mat-error *ngIf="isFieldInvalid('confirmPassword')">
+                Please insert password
+              </mat-error>
+            </mat-form-field>
+            <br />
+            <button class="buttonRegister" mat-raised-button color="primary">
+              Register
+            </button>
+          </form>
+          <div class="loginPart">
+            <div>Already have an account?</div>
+            <div>
+              <button
+                class="buttonLogin"
+                mat-raised-button
+                color="primary"
+                (click)="goToLogin()"
+              >
+                Login
+              </button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
