@@ -1,13 +1,14 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { ILocation } from 'src/app/Interfaces/ILocation';
 import { ITravelItinerary } from 'src/app/Interfaces/ITravelItinerary';
 import { TravelService } from 'src/app/services/travel.service';
 import { UpdateTravelService } from 'src/app/services/update-travel.service';
 import { IDataSource } from 'src/app/Interfaces/IDataSource';
 import { MatTable } from '@angular/material/table'; import { GetUserId } from '../../../Globals'
-
+import { IAddLocationToTravel } from 'src/app/Interfaces/IAddLocationToTravel';
+import { DataSource } from '@angular/cdk/collections';
 @Component({
   selector: 'app-view-travel',
   templateUrl: './view-travel.component.html',
@@ -18,10 +19,10 @@ export class ViewTravelComponent implements OnInit {
   uniqueTravel!: ITravelItinerary;
   locations!: Observable<ILocation[]>;
   getTravel!: Observable<ITravelItinerary>;
-  dataSource!: String[];
+  dataSource = new ExampleDataSource([]);
   getInfo: IDataSource[] = [];
   displayedColumns: string[] = ['name', 'address', 'budget', 'description'];
-
+  dataToDisplay: any[] = [];
   @ViewChild(MatTable) table!: MatTable<IDataSource>;
 
   constructor(
@@ -32,32 +33,34 @@ export class ViewTravelComponent implements OnInit {
 
   ngOnInit() { }
   getLocations(travelId: number) {
-    console.log(travelId);
-    console.log(this.uniqueTravel)
-    const ar: any = [];
+    this.dataToDisplay = [];
     this.travelService.getLocationsForTravel(travelId).subscribe((data) => {
-      data.forEach((element: any) => {
+      data.forEach((element: any, index: any) => {
         this.travelService
           .getUserExperience(GetUserId.userId, travelId, element.locationId)
           .subscribe({
             next: (result) => {
-              ar.push({
+              const arr = {
+                index: index,
                 name: element.name,
                 address: element.address,
                 budget: result.budget,
                 description: result.description,
-              });
-              this.dataSource = ar;
+              };
+              this.dataToDisplay = [...this.dataToDisplay, arr];
+              this.dataSource.setData(this.dataToDisplay);
               //this.table.renderRows();
             },
             error: (error) => {
-              ar.push({
+              const arr = {
+                index: index,
                 name: element.name,
                 address: element.address,
                 budget: 0,
                 description: '',
-              });
-              this.dataSource = ar;
+              };
+              this.dataToDisplay = [...this.dataToDisplay, arr];
+              this.dataSource.setData(this.dataToDisplay);
               //this.table.renderRows();
             },
           });
@@ -74,5 +77,23 @@ export class ViewTravelComponent implements OnInit {
   }
   deleteTravel(id: number) {
     this.travelService.deleteTravelitinerary(id);
+  }
+
+}
+class ExampleDataSource extends DataSource<IDataSource> {
+  private _dataStream = new ReplaySubject<IDataSource[]>();
+
+  constructor(initialData: IDataSource[]) {
+    super();
+    this.setData(initialData);
+  }
+
+  connect(): Observable<IDataSource[]> {
+    return this._dataStream;
+  }
+
+  disconnect() { }
+  setData(data: IDataSource[]) {
+    this._dataStream.next(data);
   }
 }

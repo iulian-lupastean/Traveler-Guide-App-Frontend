@@ -49,7 +49,6 @@ import { UpdateTravelService } from './services/update-travel.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { LocationsTableComponent } from './components/CreateUpdatePageComponents/locations-table/locations-table.component';
-import { LocationsTableDialogBoxComponent } from './components/CreateUpdatePageComponents/locations-table-dialog-box/locations-table-dialog-box.component';
 import { FinishTravelItineraryComponent } from './components/FinishTravelItinerary/finish-travel-itinerary/finish-travel-itinerary.component';
 import { LottieModule } from 'ngx-lottie';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -87,7 +86,6 @@ export function playerFactory(): any {
     ViewTravelComponent,
     MyFilterPipe,
     LocationsTableComponent,
-    LocationsTableDialogBoxComponent,
     FinishTravelItineraryComponent,
   ],
   imports: [
