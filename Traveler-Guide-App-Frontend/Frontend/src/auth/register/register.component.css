@@ -1,0 +1,35 @@
+.card-content {
+  max-width: 600px;
+  top: 20px;
+}
+
+.content {
+  margin-top: 30px;
+}
+.form {
+  text-align: center;
+  max-width: 500px;
+  min-width: 500px;
+}
+
+.example-full-width {
+  margin-top: 20px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.buttonRegister {
+  margin-top: 20px;
+  margin-bottom: 50px;
+  max-width: 400px;
+  height: 50px;
+  width: 100%;
+}
+.loginPart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.buttonLogin {
+  margin-left: 20px;
+}
