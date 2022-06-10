@@ -3,4 +3,5 @@ mat-toolbar {
   height: 10%;
   position: fixed;
   bottom: 0px;
+  width: 100%;
 }

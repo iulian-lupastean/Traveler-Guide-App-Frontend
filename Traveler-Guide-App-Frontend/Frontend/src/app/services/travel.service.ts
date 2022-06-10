@@ -8,9 +8,9 @@ import { ITravelItineraryLocation } from '../Interfaces/ITravelItineraryLocation
 import { IUserExperience } from '../Interfaces/IUserExperience';
 @Injectable()
 export class TravelService {
-  apiGetTravelItineraries = 'https://localhost:7075/api/TravelItinerary';
+  apiGetTravelItineraries = 'api/TravelItinerary';
   apiGetLocationsForTravelItinerary =
-    'https://localhost:7075/api/TravelItineraryLocation';
+    'api/TravelItineraryLocation';
   id!: number;
   errorMessage: any;
   status!: string;
@@ -30,7 +30,7 @@ export class TravelService {
   async createNewTravelItinerary(name: string, date: Date) {
     var id;
     await this.httpClient
-      .post<ITravelItinerary>('https://localhost:7075/api/TravelItinerary', {
+      .post<ITravelItinerary>('api/TravelItinerary', {
         name: name,
         status: 'Planned',
         travelDate: date,
@@ -44,7 +44,7 @@ export class TravelService {
   }
   deleteTravelitinerary(travelId: number) {
     this.httpClient
-      .delete(`https://localhost:7075/api/TravelItinerary/${travelId}`)
+      .delete(`api/TravelItinerary/${travelId}`)
       .subscribe({
         next: (data) => {
           this.status = 'Delete successful';
@@ -58,12 +58,12 @@ export class TravelService {
   }
   getTravelItineraryById(travelId: number): Observable<ITravelItinerary> {
     return this.httpClient.get<ITravelItinerary>(
-      `https://localhost:7075/api/TravelItinerary/Admin/${travelId}`
+      `api/TravelItinerary/Admin/${travelId}`
     );
   }
   updateTravelitinerary(travelId: number, travel: ITravelItinerary) {
     this.httpClient
-      .put(`https://localhost:7075/api/TravelItinerary/${travelId}`, travel)
+      .put(`api/TravelItinerary/${travelId}`, travel)
       .subscribe({
         next: (data) => {
           this.status = 'Delete successful';
@@ -76,17 +76,17 @@ export class TravelService {
   }
   getLocationByLatLng(lat: string, lng: string): Observable<any> {
     return this.httpClient.get(
-      `https://localhost:7075/api/Locations/${lat}/${lng}`
+      `api/Locations/${lat}/${lng}`
     );
   }
   getCityByNameAndCountry(cityName: string, country: string): Observable<ICity> {
     return this.httpClient.get<ICity>(
-      `https://localhost:7075/api/Cities/${country}/${cityName}`
+      `api/Cities/${country}/${cityName}`
     );
   }
   createCity(cityName: string, country: string) {
     return this.httpClient.post<ICity>(
-      'https://localhost:7075/api/Cities/Admin',
+      'api/Cities/Admin',
       {
         name: cityName,
         country: country,
@@ -95,7 +95,7 @@ export class TravelService {
   }
   createLocation(locName: string, locAddress: string, lat: string, lng: string, cityId: number) {
     return this.httpClient.post<ILocation>(
-      'https://localhost:7075/api/Locations/Admin', {
+      'api/Locations/Admin', {
       name: locName,
       address: locAddress,
       latitude: lat,
@@ -107,7 +107,7 @@ export class TravelService {
   async addLocationToTravelItinerary(travelId: number, locationId: number) {
     await this.httpClient
       .post<ITravelItineraryLocation>(
-        'https://localhost:7075/api/TravelItineraryLocation',
+        'api/TravelItineraryLocation',
         {
           TravelItineraryId: travelId,
           LocationId: locationId,
@@ -117,7 +117,7 @@ export class TravelService {
   }
   async createUserExperience(userId: number, travelItineraryId: number, locationId: number, priority: string, budget: number, description: string) {
     await this.httpClient
-      .post<IUserExperience>('https://localhost:7075/api/UserExperience', {
+      .post<IUserExperience>('api/UserExperience', {
         userId: userId,
         travelItineraryId: travelItineraryId,
         locationId: locationId,
@@ -134,16 +134,16 @@ export class TravelService {
     locationId: number
   ) {
     return this.httpClient.get<IUserExperience>(
-      `https://localhost:7075/api/UserExperience/${userId}/${travelItineraryId}/${locationId}`
+      `api/UserExperience/${userId}/${travelItineraryId}/${locationId}`
     );
   }
   deleteLocationFromTravelItinerary(travelId: number, locationId: number) {
-    return this.httpClient.delete(`https://localhost:7075/api/TravelItineraryLocation/${travelId}/locations/${locationId}`);
+    return this.httpClient.delete(`api/TravelItineraryLocation/${travelId}/locations/${locationId}`);
   }
   deleteUserExperience(userId: number, travelId: number, locationId: number) {
-    return this.httpClient.delete(`https://localhost:7075/api/UserExperience/${userId}/${travelId}/${locationId}`);
+    return this.httpClient.delete(`api/UserExperience/${userId}/${travelId}/${locationId}`);
   }
   updateUserexperience(userId: number, travelId: number, locationId: number, userExp: IUserExperience) {
-    return this.httpClient.put(`https://localhost:7075/api/UserExperience/${userId}/${travelId}/${locationId}`, userExp);
+    return this.httpClient.put(`api/UserExperience/${userId}/${travelId}/${locationId}`, userExp);
   }
 }

@@ -1,8 +1,5 @@
-<mat-toolbar>
-  <div>
-    <a mat-button class="main-button" routerLink=""> Traveler Guide </a>
-  </div>
-
+<mat-toolbar class="app-toolbar">
+  <a mat-button class="main-button" routerLink=""> Traveler Guide </a>
   <div *ngIf="checkForUserId()">
     <button mat-button class="my-travels-button" routerLink="my-travels">
       My Travels
