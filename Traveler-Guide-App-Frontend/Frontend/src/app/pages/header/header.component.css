@@ -1,36 +1,83 @@
-.custom-toolbar {
-    background-color: #1a3e55;    
-    height: 5rem;
-    align-items: center;
+mat-toolbar {
+  background-color: #1a3e55;
+  display: flex;
+  height: 10%;
+  width: 100%;
+  flex-direction: row;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
 
+.main-button {
+  color: #fff;
+  width: 20rem;
+  height: 5rem;
+  font-family: "Roboto Slab";
+  font-size: 2.5rem;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  display: flex;
 }
-.main-button{
-    color: #fff;
-    width: 20rem;
-    height: 5rem;
-    font-family:"Roboto Slab";
-    font-size:2.5rem;
-    padding: 0;
-    align-items: center;
-    justify-content: center;
-    margin: auto ;
-    display: flex;
-}
-.header-spacer {
-    flex:1 1 auto ;
+.flexExpand {
+  flex: 1 1 auto;
 }
 .account-button {
-    font-size:3rem ;
-    color: #fff !important;
+  font-size: 3rem;
+  color: #fff !important;
 }
-.my-travels-button{
-    color: #fff ;
-    font-size: 1.5rem;
-    margin-left: 3rem;
-    height: 5rem;
-    width:10rem;
-    font-family:"Roboto Slab";
+.my-travels-button {
+  color: #fff;
+  font-size: 1.5rem;
+  margin-left: 3rem;
+  height: 5rem;
+  width: 10rem;
+  font-family: "Roboto Slab";
 }
 .icon-display {
-    transform: scale(1.75);
+  transform: scale(1.75);
+}
+@media screen and (max-width: 500px) {
+  mat-toolbar {
+    background-color: #1a3e55;
+    height: 10%;
+    flex-direction: row;
+    display: flexbox;
+    position: absolute;
+    margin: 0px !important;
+    padding: 0px 10px 0px 10px !important;
+  }
+  .main-button {
+    color: #fff;
+    width: 160px;
+    height: 91px;
+    font-family: "Roboto Slab";
+    font-size: 22px;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    padding: 0px !important;
+  }
+  .flexExpand {
+    flex: 1 1 auto;
+  }
+  .my-travels-button {
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    height: 91px !important;
+    width: 120px;
+    padding: 0px !important;
+    margin-left: 20px !important;
+    font-family: "Roboto Slab";
+  }
+
+  .account-button {
+    margin-left: 20px;
+    font-size: 20px;
+    color: #fff !important;
+  }
 }

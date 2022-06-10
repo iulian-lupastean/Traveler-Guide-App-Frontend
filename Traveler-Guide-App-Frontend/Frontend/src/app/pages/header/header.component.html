@@ -1,14 +1,17 @@
-<mat-toolbar class="custom-toolbar">
-  <a mat-button class="main-button" routerLink=""> Traveler Guide </a>
+<mat-toolbar>
+  <div>
+    <a mat-button class="main-button" routerLink=""> Traveler Guide </a>
+  </div>
+
   <div *ngIf="checkForUserId()">
     <button mat-button class="my-travels-button" routerLink="my-travels">
       My Travels
     </button>
   </div>
-
-  <span class="header-spacer"></span>
-
-  <button mat-icon-button class="account-button" (click)="logout()">
-    <mat-icon class="icon-display"> account_circle </mat-icon>
-  </button>
+  <span class="flexExpand"></span>
+  <div>
+    <button mat-icon-button class="account-button" (click)="logout()">
+      <mat-icon class="icon-display"> account_circle </mat-icon>
+    </button>
+  </div>
 </mat-toolbar>
