@@ -1,76 +1,85 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { ILocation } from 'src/app/Interfaces/ILocation';
-import { HttpClient } from '@angular/common/http';
-import { MapInfoWindow, MapMarker } from '@angular/google-maps';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+
 @Component({
   selector: 'app-locations',
   templateUrl: './locations.component.html',
   styleUrls: ['./locations.component.css'],
 })
-export class LocationsComponent implements OnInit, AfterViewInit {
-  @ViewChild(MapInfoWindow, { static: false }) infoWindow!: MapInfoWindow;
-  constructor(private http: HttpClient) { }
-  ngAfterViewInit(): void {
-    this.getLocations();
-  }
-  locations: ILocation[] = [];
-  markers = [] as any;
-  infoContent = '';
-  selected: string = 'Museum';
-
-  locationsViewModel: FormGroup = new FormGroup({});
+export class LocationsComponent implements OnInit {
 
   ngOnInit() {
-    this.getLocations();
-    this.locationsViewModel = new FormGroup({
-      name: new FormControl(Validators.required),
-      address: new FormControl([Validators.required, Validators.minLength(10)]),
-      type: new FormControl(),
-      price: new FormControl(),
-      latitude: new FormControl({ disabled: true }),
-      longitude: new FormControl({ disabled: true }),
-    });
+    this.initMap();
   }
 
-  getLocations() {
-    this.http
-      .get<ILocation[]>('https://localhost:7075/api/Locations')
-      .subscribe(
-        (response) => {
-          this.locations = response;
-          this.markers = this.placeAllMarkers(this.locations);
-        },
-        (error) => console.log(error)
-      );
-  }
-  placeAllMarkers(locations: ILocation[]) {
-    var markers = locations.map((location) => {
-      const marker = new google.maps.Marker({
-        position: {
-          lat: Number(location.latitude),
-          lng: Number(location.longitude),
-        },
-      });
-      const infoWindow = new google.maps.InfoWindow({
-        content: this.getContentString(location),
-      });
-      return { marker, infoWindow };
+  initMap(): void {
+    const map = new google.maps.Map(
+      document.getElementById("map") as HTMLElement,
+      {
+        zoom: 4,
+        center: { lat: -24.345, lng: 134.46 }, // Australia.
+      }
+    );
+
+    const directionsService = new google.maps.DirectionsService();
+    const directionsRenderer = new google.maps.DirectionsRenderer({
+      draggable: true,
+      map,
+      panel: document.getElementById("panel") as HTMLElement,
     });
-    return markers;
+
+    directionsRenderer.addListener("directions_changed", () => {
+      const directions = directionsRenderer.getDirections();
+
+      if (directions) {
+        this.computeTotalDistance(directions);
+      }
+    });
+
+    this.displayRoute(
+      "Perth, WA",
+      "Sydney, NSW",
+      directionsService,
+      directionsRenderer
+    );
+  }
+  displayRoute(
+    origin: string,
+    destination: string,
+    service: google.maps.DirectionsService,
+    display: google.maps.DirectionsRenderer
+  ) {
+    service
+      .route({
+        origin: origin,
+        destination: destination,
+        waypoints: [
+          { location: "Adelaide, SA" },
+          { location: "Broken Hill, NSW" },
+        ],
+        travelMode: google.maps.TravelMode.DRIVING,
+        avoidTolls: true,
+      })
+      .then((result: google.maps.DirectionsResult) => {
+        display.setDirections(result);
+      })
+      .catch((e) => {
+        alert("Could not display directions due to: " + e);
+      });
   }
 
-  openInfo(marker: MapMarker, content: any) {
-    this.infoContent = content.content;
-    this.infoWindow.open(marker);
+  computeTotalDistance(result: google.maps.DirectionsResult) {
+    let total = 0;
+    const myroute = result.routes[0];
+
+    if (!myroute) {
+      return;
+    }
+
+    for (let i = 0; i < myroute.legs.length; i++) {
+      total += myroute.legs[i]!.distance!.value;
+    }
+
+    total = total / 1000;
+    (document.getElementById("total") as HTMLElement).innerHTML = total + " km";
   }
-  mapOptions: google.maps.MapOptions = {
-    disableDefaultUI: true,
-    center: { lat: 40.416775, lng: -3.70379 },
-    zoom: 13,
-  };
-  getContentString(location: ILocation) {
-    return `${location.name}#${location.address}`;
-  }
-  onSave() { }
 }

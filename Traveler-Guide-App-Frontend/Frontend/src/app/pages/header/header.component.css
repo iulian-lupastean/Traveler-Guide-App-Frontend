@@ -1,9 +1,9 @@
-.app-toolbar {
+mat-toolbar {
   background-color: #1a3e55;
   display: flex;
   height: 10%;
   width: 100%;
-
+  padding: 0px !important;
   flex-direction: row;
 }
 
@@ -23,7 +23,10 @@
   flex: 1 1 auto;
 }
 .account-button {
-  font-size: 3rem;
+  margin-left: 15px;
+  font-size: 25px;
+  right: 0;
+  margin-right: 10px;
   color: #fff !important;
 }
 .my-travels-button {
@@ -38,22 +41,22 @@
   transform: scale(1.75);
 }
 @media screen and (max-width: 500px) {
-  .app-toolbar {
+  mat-toolbar {
     background-color: #1a3e55;
     height: 10%;
     width: 100%;
+    padding: 0px !important;
     flex-direction: row;
     display: flexbox;
     margin: 0px !important;
-    padding: 0px 10px 0px 10px !important;
   }
   .main-button {
     color: #fff;
-    width: 160px;
-    height: 91px;
+    width: 40%;
+    height: 100%;
     font-family: "Roboto Slab";
     font-size: 22px;
-    margin-left: 0px !important;
+    margin-left: 5px !important;
     margin-right: 0px !important;
     padding: 0px !important;
   }
@@ -64,16 +67,18 @@
     color: #fff;
     font-size: 20px;
     text-align: center;
-    height: 91px !important;
-    width: 120px;
+    height: 88px !important;
+    width: 100px !important;
     padding: 0px !important;
-    margin-left: 20px !important;
+    margin-left: 10% !important;
     font-family: "Roboto Slab";
   }
 
   .account-button {
-    margin-left: 20px;
+    margin-left: 15px;
     font-size: 20px;
+    right: 0;
+    margin-right: 10px;
     color: #fff !important;
   }
 }

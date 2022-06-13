@@ -19,7 +19,6 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { GoogleMapsModule } from '@angular/google-maps';
-import { LocationsComponent } from './pages/locations/locations.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import {
@@ -78,7 +77,6 @@ export function playerFactory(): any {
     AccountComponent,
     LoginComponent,
     RegisterComponent,
-    LocationsComponent,
     MyTravelsComponent,
     TravelItinerariesComponent,
     TravelsSearchComponent,
