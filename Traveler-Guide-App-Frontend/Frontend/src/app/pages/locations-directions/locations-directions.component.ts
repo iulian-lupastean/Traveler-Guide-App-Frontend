@@ -1,17 +1,38 @@
-import { Component, OnInit } from '@angular/core';
-
+import { DataSource } from '@angular/cdk/collections';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { LatLng, LatLngLiteral } from 'ngx-google-places-autocomplete/objects/latLng';
+import { Observable, ReplaySubject } from 'rxjs';
+import { ILocation } from 'src/app/Interfaces/ILocation';
+import { TravelService } from 'src/app/services/travel.service';
+import { UpdateTravelService } from 'src/app/services/update-travel.service';
+interface TravelModeOption {
+  name: string,
+  travelMode: google.maps.TravelMode
+}
 @Component({
   selector: 'app-locations-directions',
   templateUrl: './locations-directions.component.html',
   styleUrls: ['./locations-directions.component.css']
 })
-export class LocationsDirectionsComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
+export class LocationsDirectionsComponent implements OnInit, AfterViewInit {
+  travelModes: TravelModeOption[] = [{ name: "Driving", travelMode: google.maps.TravelMode.DRIVING }, { name: "Walking", travelMode: google.maps.TravelMode.WALKING },
+  { name: "Bicycling", travelMode: google.maps.TravelMode.BICYCLING }, { name: "Public Transport", travelMode: google.maps.TravelMode.TRANSIT }]
+  travelMode: google.maps.TravelMode = google.maps.TravelMode.TRANSIT;
+  travelId: number = 0;
+  startLocation: any;
+  dataToDisplay: any[] = [];
+  locations!: Observable<ILocation[]>;
+  coord!: LatLng
+  constructor(private travelService: TravelService, private updateTravelService: UpdateTravelService) { }
+  ngAfterViewInit(): void {
     this.initMap();
   }
+
+  ngOnInit() {
+    this.travelId = this.updateTravelService.getTravelId();
+    this.locations = this.travelService.getLocationsForTravel(this.travelId)
+  }
+
   initMap(): void {
     const directionsService = new google.maps.DirectionsService();
     const directionsRenderer = new google.maps.DirectionsRenderer();
@@ -50,13 +71,18 @@ export class LocationsDirectionsComponent implements OnInit {
       }
     }
 
+    var selectedMode = (document.getElementById("mode") as HTMLInputElement).value;
+    console.log(selectedMode);
+    console.log(this.travelMode);
+
+
     directionsService
       .route({
         origin: (document.getElementById("start") as HTMLInputElement).value,
         destination: (document.getElementById("end") as HTMLInputElement).value,
         waypoints: waypts,
         optimizeWaypoints: true,
-        travelMode: google.maps.TravelMode.DRIVING,
+        travelMode: this.travelMode,
       })
       .then((response) => {
         directionsRenderer.setDirections(response);
@@ -81,6 +107,7 @@ export class LocationsDirectionsComponent implements OnInit {
       })
       .catch((e) => window.alert("Directions request failed due to " + status));
   }
+
 
 
 }

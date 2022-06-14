@@ -11,6 +11,13 @@
         <div class="travel-buttons">
           <button
             mat-icon-button
+            class="view-button"
+            (click)="viewTravel(uniqueTravel.travelId)"
+          >
+            <mat-icon>pageview</mat-icon>
+          </button>
+          <button
+            mat-icon-button
             class="update-button"
             (click)="updateTravel(uniqueTravel.travelId)"
           >

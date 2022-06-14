@@ -67,6 +67,10 @@ export class ViewTravelComponent implements OnInit {
     });
 
   }
+  viewTravel(travelId: number) {
+    this.updateTravelService.setTravelId(travelId);
+    this.router.navigate(['../showRoutes']);
+  }
   updateTravel(travelId: number) {
     this.updateTravelService.setTravelId(travelId);
     this.travelService.getTravelItineraryById(travelId).subscribe((value) => {

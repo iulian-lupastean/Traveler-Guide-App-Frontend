@@ -3,32 +3,48 @@
   <div id="sidebar">
     <div>
       <b>Start:</b>
+      <mat-label>Select Start Location</mat-label>
       <select id="start">
-        <option value="Halifax, NS">Halifax, NS</option>
-        <option value="Boston, MA">Boston, MA</option>
-        <option value="New York, NY">New York, NY</option>
-        <option value="Miami, FL">Miami, FL</option>
+        <option
+          *ngFor="let location of locations | async"
+          [value]="location.name"
+        >
+          {{ location.name }}
+        </option>
       </select>
       <br />
       <b>Waypoints:</b> <br />
       <i>(Ctrl+Click or Cmd+Click for multiple selection)</i> <br />
       <select multiple id="waypoints">
-        <option value="montreal, quebec">Montreal, QBC</option>
-        <option value="toronto, ont">Toronto, ONT</option>
-        <option value="chicago, il">Chicago</option>
-        <option value="winnipeg, mb">Winnipeg</option>
-        <option value="fargo, nd">Fargo</option>
-        <option value="calgary, ab">Calgary</option>
-        <option value="spokane, wa">Spokane</option>
+        <option
+          *ngFor="let location of locations | async"
+          [value]="location.name"
+        >
+          {{ location.name }}
+        </option>
       </select>
       <br />
       <b>End:</b>
       <select id="end">
-        <option value="Vancouver, BC">Vancouver, BC</option>
-        <option value="Seattle, WA">Seattle, WA</option>
-        <option value="San Francisco, CA">San Francisco, CA</option>
-        <option value="Los Angeles, CA">Los Angeles, CA</option>
+        <option
+          *ngFor="let location of locations | async"
+          [value]="location.name"
+        >
+          {{ location.name }}
+        </option>
       </select>
+      <br />
+      <div>
+        <strong>Mode of Travel: </strong>
+        <select id="mode" [(ngModel)]="travelMode">
+          <option
+            *ngFor="let option of travelModes"
+            [ngValue]="option.travelMode"
+          >
+            {{ option.name }}
+          </option>
+        </select>
+      </div>
       <br />
       <input type="submit" id="submit" />
     </div>
