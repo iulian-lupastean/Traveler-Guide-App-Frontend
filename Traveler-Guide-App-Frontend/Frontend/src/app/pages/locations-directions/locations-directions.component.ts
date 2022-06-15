@@ -1,5 +1,6 @@
 import { DataSource } from '@angular/cdk/collections';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { LatLng, LatLngLiteral } from 'ngx-google-places-autocomplete/objects/latLng';
 import { Observable, ReplaySubject } from 'rxjs';
 import { ILocation } from 'src/app/Interfaces/ILocation';
@@ -19,10 +20,14 @@ export class LocationsDirectionsComponent implements OnInit, AfterViewInit {
   { name: "Bicycling", travelMode: google.maps.TravelMode.BICYCLING }, { name: "Public Transport", travelMode: google.maps.TravelMode.TRANSIT }]
   travelMode: google.maps.TravelMode = google.maps.TravelMode.TRANSIT;
   travelId: number = 0;
-  startLocation: any;
   dataToDisplay: any[] = [];
   locations!: Observable<ILocation[]>;
   coord!: LatLng
+  startLocation!: string;
+  endLocation!: string;
+  waypts: google.maps.DirectionsWaypoint[] = [];
+  newwaypoints: google.maps.DirectionsWaypoint[] = [];
+  wayptsForm = new FormControl();
   constructor(private travelService: TravelService, private updateTravelService: UpdateTravelService) { }
   ngAfterViewInit(): void {
     this.initMap();
@@ -39,8 +44,8 @@ export class LocationsDirectionsComponent implements OnInit, AfterViewInit {
     const map = new google.maps.Map(
       document.getElementById("map") as HTMLElement,
       {
-        zoom: 6,
-        center: { lat: 41.85, lng: -87.65 },
+        zoom: 3,
+        center: { lat: 40.416775, lng: -3.703790 },
       }
     );
 
@@ -53,34 +58,40 @@ export class LocationsDirectionsComponent implements OnInit, AfterViewInit {
       }
     );
   }
+
+  onOut() {
+    console.log(this.waypts);
+
+  }
+
   calculateAndDisplayRoute(
     directionsService: google.maps.DirectionsService,
     directionsRenderer: google.maps.DirectionsRenderer
   ) {
-    const waypts: google.maps.DirectionsWaypoint[] = [];
-    const checkboxArray = document.getElementById(
-      "waypoints"
-    ) as HTMLSelectElement;
 
-    for (let i = 0; i < checkboxArray.length; i++) {
-      if (checkboxArray.options[i].selected) {
-        waypts.push({
-          location: (checkboxArray[i] as HTMLOptionElement).value,
-          stopover: true,
-        });
-      }
+    // for (let i = 0; i < checkboxArray.length; i++) {
+    //   if (checkboxArray.options[i].selected) {
+    //     this.waypts.push({
+    //       location: (checkboxArray[i] as HTMLOptionElement).value,
+    //       stopover: true,
+    //     });
+    //   }
+    // }
+    for (let i = 0; i < this.waypts.length; i++) {
+      this.newwaypoints.push({
+        location: String(this.waypts[i]),
+        stopover: true
+      })
     }
 
-    var selectedMode = (document.getElementById("mode") as HTMLInputElement).value;
-    console.log(selectedMode);
     console.log(this.travelMode);
 
 
     directionsService
       .route({
-        origin: (document.getElementById("start") as HTMLInputElement).value,
-        destination: (document.getElementById("end") as HTMLInputElement).value,
-        waypoints: waypts,
+        origin: this.startLocation,
+        destination: this.endLocation,
+        waypoints: this.newwaypoints,
         optimizeWaypoints: true,
         travelMode: this.travelMode,
       })
@@ -105,7 +116,7 @@ export class LocationsDirectionsComponent implements OnInit, AfterViewInit {
           summaryPanel.innerHTML += route.legs[i].distance!.text + "<br><br>";
         }
       })
-      .catch((e) => window.alert("Directions request failed due to " + status));
+      .catch((e) => console.log(e));
   }
 
 

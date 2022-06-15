@@ -53,6 +53,7 @@ import { LottieModule } from 'ngx-lottie';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CommonModule } from '@angular/common';
 import { LocationsDirectionsComponent } from './pages/locations-directions/locations-directions.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'account', component: AccountComponent },
@@ -118,6 +119,7 @@ export function playerFactory(): any {
     MatTableModule,
     CommonModule,
     FlexLayoutModule,
+    MatTooltipModule,
     LottieModule.forRoot({ player: playerFactory }),
   ],
   exports: [RouterModule],

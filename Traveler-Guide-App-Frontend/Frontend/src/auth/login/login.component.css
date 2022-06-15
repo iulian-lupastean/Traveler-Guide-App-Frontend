@@ -1,7 +1,7 @@
 .card-content {
   width: 80% !important;
   padding: 0px !important;
-  margin: 20% 10% 20% 10%;
+  margin: 5% 33.3% 20% 34%;
 }
 
 .login-input {
@@ -10,13 +10,23 @@
   width: 100%;
 }
 
-.buttonRegister {
+.buttonLogin {
   margin-top: 20px;
   margin-bottom: 50px;
   max-width: 400px;
   height: 50px;
   width: 100%;
 }
+.buttonRegister {
+  margin-top: 10%;
+  margin-bottom: 10%;
+  max-width: 400px;
+  height: 40px;
+  width: 100%;
+  font-family: "Roboto Slab";
+  font-size: 16px;
+}
+
 @media screen and (max-width: 500px) {
   .card-content {
     width: 80% !important;

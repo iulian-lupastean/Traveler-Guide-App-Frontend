@@ -8,6 +8,7 @@ import { UpdateTravelService } from 'src/app/services/update-travel.service';
 import { IDataSource } from 'src/app/Interfaces/IDataSource';
 import { MatTable } from '@angular/material/table';
 import { DataSource } from '@angular/cdk/collections';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-view-travel',
   templateUrl: './view-travel.component.html',
@@ -19,6 +20,7 @@ export class ViewTravelComponent implements OnInit {
   locations!: Observable<ILocation[]>;
   getTravel!: Observable<ITravelItinerary>;
   dataSource = new ExampleDataSource([]);
+  pipe = new DatePipe('en-US');
   getInfo: IDataSource[] = [];
   displayedColumns: string[] = ['name', 'address', 'budget', 'description'];
   dataToDisplay: any[] = [];

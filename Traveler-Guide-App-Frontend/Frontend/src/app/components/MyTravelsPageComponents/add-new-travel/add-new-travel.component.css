@@ -1,11 +1,23 @@
 .add-location {
+  color: #252538;
+  font-family: "Roboto Slab";
+  font-size: 30px;
+  border-radius: 0px;
+  height: 80px;
+  margin-right: 50px;
+  border: none;
+  justify-content: center;
+}
+@media screen and (max-width: 500px) {
+  .add-location {
     color: #252538;
     font-family: "Roboto Slab";
-    font-size: 30px;
-    border-radius: 0px;
-    height: 103px;
-    margin-top: 30px;
-    margin-right: 50px;
+    font-size: 20px;
+    height: 100%;
+    width: 100%;
+    padding: 0px !important;
+    margin: 0px !important;
+    margin-top: 10px;
     border: none;
-    justify-content: center;
+  }
 }

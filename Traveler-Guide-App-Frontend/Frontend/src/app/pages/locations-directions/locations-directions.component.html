@@ -1,54 +1,66 @@
 <div id="container">
   <div id="map"></div>
   <div id="sidebar">
-    <div>
-      <b>Start:</b>
-      <mat-label>Select Start Location</mat-label>
-      <select id="start">
-        <option
-          *ngFor="let location of locations | async"
-          [value]="location.name"
+    <form>
+      <div class="starting-location">
+        <mat-label>Select Start Location</mat-label>
+        <mat-select id="start" [(value)]="startLocation">
+          <mat-option
+            *ngFor="let location of locations | async"
+            [value]="location.name"
+          >
+            {{ location.name }}
+          </mat-option>
+        </mat-select>
+        <br />
+      </div>
+      <div class="select-waypoints">
+        <mat-label>Waypoints:</mat-label> <br />
+        <br />
+        <mat-select
+          multiple
+          id="waypoints"
+          [formControl]="wayptsForm"
+          [(ngModel)]="waypts"
+          (focusout)="onOut()"
         >
-          {{ location.name }}
-        </option>
-      </select>
+          <mat-option
+            *ngFor="let location of locations | async"
+            [value]="location.name"
+          >
+            {{ location.name }}
+          </mat-option>
+        </mat-select>
+      </div>
+
       <br />
-      <b>Waypoints:</b> <br />
-      <i>(Ctrl+Click or Cmd+Click for multiple selection)</i> <br />
-      <select multiple id="waypoints">
-        <option
-          *ngFor="let location of locations | async"
-          [value]="location.name"
-        >
-          {{ location.name }}
-        </option>
-      </select>
-      <br />
-      <b>End:</b>
-      <select id="end">
-        <option
-          *ngFor="let location of locations | async"
-          [value]="location.name"
-        >
-          {{ location.name }}
-        </option>
-      </select>
+      <div class="end-location">
+        <mat-label>End:</mat-label>
+        <mat-select id="end" [(value)]="endLocation">
+          <mat-option
+            *ngFor="let location of locations | async"
+            [value]="location.name"
+          >
+            {{ location.name }}
+          </mat-option>
+        </mat-select>
+      </div>
+
       <br />
       <div>
-        <strong>Mode of Travel: </strong>
-        <select id="mode" [(ngModel)]="travelMode">
-          <option
+        <mat-label>Mode of Travel: </mat-label>
+        <mat-select id="mode" [(value)]="travelMode">
+          <mat-option
             *ngFor="let option of travelModes"
-            [ngValue]="option.travelMode"
+            [value]="option.travelMode"
           >
             {{ option.name }}
-          </option>
-        </select>
+          </mat-option>
+        </mat-select>
       </div>
       <br />
       <input type="submit" id="submit" />
-    </div>
-    <div id="directions-panel"></div>
+    </form>
   </div>
 </div>
 

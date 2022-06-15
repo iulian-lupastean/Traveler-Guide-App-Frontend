@@ -1,19 +1,13 @@
 <div class="my-travels">
-  <mat-grid-list cols="1" rowHeight="101px">
-    <mat-grid-tile class="search-grid" rowspan="1">
-      <div style="height: 100%; width: 100%">
-        <mat-grid-list cols="10" rowHeight="100px">
-          <mat-grid-tile colspan="7" class="search-items">
-            <app-travels-search></app-travels-search>
-          </mat-grid-tile>
-          <mat-grid-tile colspan="3">
-            <app-add-new-travel></app-add-new-travel>
-          </mat-grid-tile>
-        </mat-grid-list>
-      </div>
-    </mat-grid-tile>
-    <mat-grid-tile rowspan="7">
-      <app-travel-itineraries></app-travel-itineraries>
-    </mat-grid-tile>
-  </mat-grid-list>
+  <div class="parent">
+    <div class="child1 float-left-child">
+      <app-travels-search></app-travels-search>
+    </div>
+    <div class="child2 float-left-child">
+      <app-add-new-travel></app-add-new-travel>
+    </div>
+  </div>
+  <div class="travel-card">
+    <app-travel-itineraries></app-travel-itineraries>
+  </div>
 </div>

@@ -63,7 +63,6 @@ export class LocationsComponent implements OnInit {
         display.setDirections(result);
       })
       .catch((e) => {
-        alert("Could not display directions due to: " + e);
       });
   }
 

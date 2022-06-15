@@ -7,3 +7,9 @@
   justify-content: center;
   position: relative;
 }
+.lottie-animation {
+  width: 750px;
+  height: 550px;
+  transform: translate3d(0px, 0px, 0px);
+  content-visibility: visible;
+}

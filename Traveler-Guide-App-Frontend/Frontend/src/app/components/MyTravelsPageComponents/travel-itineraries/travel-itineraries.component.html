@@ -10,25 +10,7 @@
         "
         >Travel Itineraries</mat-card-title
       >
-      <mat-card-subtitle>
-        <div class="subtitle">
-          <div style="justify-content: flex-start">Name</div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div>Status</div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div>Date</div>
-          <div style="justify-content: flex-end"></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </mat-card-subtitle>
+
       <div
         *ngFor="let travel of travelItineraries | async | myfilter: filterargs"
       >

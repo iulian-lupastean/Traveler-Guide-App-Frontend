@@ -1,37 +1,43 @@
+.align-headers .mat-expansion-panel-header-title,
+.align-headers .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
 .travel-buttons {
-    display: flex;
-    flex: 1;
-    justify-content: flex-end;
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+}
+.view-button:hover {
+  background-color: rgb(80, 231, 219);
 }
 .update-button:hover {
-    background-color: yellow;
+  background-color: yellow;
 }
 
 .delete-button:hover {
-    background-color: red;
+  background-color: red;
 }
 
 .description {
-    display: flex;
-    flex: 1;
-    justify-content: space-between;
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
 }
 
-
 .demo-table {
-    width: 100%;
+  width: 100%;
 }
 
 .mat-row .mat-cell {
-    border-bottom: 1px solid transparent;
-    border-top: 1px solid transparent;
-    cursor: pointer;
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
 }
 
 .mat-row:hover .mat-cell {
-    border-color: currentColor;
+  border-color: currentColor;
 }
 
 .demo-row-is-clicked {
-    font-weight: bold;
+  font-weight: bold;
 }

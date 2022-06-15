@@ -22,7 +22,6 @@ export class TravelItinerariesComponent
     private searchService: SearchService,
   ) { }
   ngOnInit() {
-    console.log(Number(localStorage.getItem("userId")));
     this.travelItineraries = this.travelService.getTravelsForUser(Number(localStorage.getItem("userId")));
     this.searchService.searchStringChanged$.subscribe(
       (x) => (this.filterargs.name = x)
@@ -36,5 +35,4 @@ export class TravelItinerariesComponent
   getLocations(id: number) {
     this.locations = this.travelService.getLocationsForTravel(id);
   }
-  deleteTravel(id: number) { }
 }

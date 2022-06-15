@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/cor
 import { AnimationItem } from 'lottie-web';
 import { AnimationOptions } from 'ngx-lottie';
 import { UpdateTravelService } from 'src/app/services/update-travel.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-finish-travel-itinerary',
   templateUrl: './finish-travel-itinerary.component.html',
@@ -13,7 +13,8 @@ export class FinishTravelItineraryComponent implements OnInit {
     path: '/assets/lottie-animations/finish-travel-itinerary.json'
   };
   @Output('resetStepper') resetStepper: EventEmitter<any> = new EventEmitter<any>();
-  constructor(private updateTravelService: UpdateTravelService) { }
+  constructor(private updateTravelService: UpdateTravelService,
+    private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -24,7 +25,9 @@ export class FinishTravelItineraryComponent implements OnInit {
     this.resetStepper.emit('reset');
   }
   viewYourTravels() {
+    this.updateTravelService.setTravelId(0);
 
+    this.router.navigate(['../my-travels']);
   }
 
 }

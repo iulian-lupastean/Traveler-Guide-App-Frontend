@@ -1,6 +1,9 @@
-.main-stepper{
-    width: 1500px;
+.main-stepper {
+  width: 1500px;
   margin: auto;
   background-color: #f2f2f7;
   margin-top: 30px;
+}
+.buttons {
+  margin-bottom: 50px;
 }

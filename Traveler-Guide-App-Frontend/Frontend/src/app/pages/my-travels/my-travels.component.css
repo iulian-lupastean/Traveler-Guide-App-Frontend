@@ -1,10 +1,47 @@
-.my-travels{
-    background-color:#f2f2f7;
+.my-travels {
+  background-color: #f2f2f7;
 }
-.search-grid {
-    background-color: transparent;
+
+.parent {
+  padding: 1rem;
 }
-.search-items{
-    margin-left: -150px;
+.child1 {
+  width: 600px;
+  padding: opx !important;
+  margin-left: 100px;
+  float: left;
+}
+.child2 {
+  width: auto;
+  padding: 0px !important;
+  float: right;
+}
+.travels-card {
+  width: 100%;
+}
+
+@media screen and (max-width: 700px) {
+  .parent {
+    padding: 1rem;
+  }
+  .child1 {
+    padding: 0px;
+    width: 100% !important;
+    margin-left: 10px;
+    margin-right: 10px;
+    float: left;
+  }
+  .child2 {
+    padding: 1rem;
+    width: 100% !important;
+    height: 100%;
     margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    float: left;
+    font-size: 20px;
+  }
+  .travels-card {
+    width: 100%;
+  }
 }

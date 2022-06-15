@@ -19,7 +19,6 @@
         width="100%"
         [zoom]="zoom"
         [center]="center"
-        
         [options]="options"
         (mapClick)="handleClick($event)"
       >
@@ -123,10 +122,7 @@
               ></textarea>
             </mat-form-field>
             <div class="add-location-button">
-              <button
-                mat-raised-button
-                (click)="SaveLocation()"
-              >
+              <button mat-raised-button (click)="SaveLocation()">
                 Add Location
               </button>
             </div>
@@ -137,12 +133,13 @@
   </tr>
 </table>
 <div style="margin: 20px 0px 40px 0px">
-  <app-locations-table 
-  (centerMap)="centerMap($event)" 
-  (deleteLocation)="deleteLocation($event)"
-  > </app-locations-table>
+  <app-locations-table
+    (centerMap)="centerMap($event)"
+    (deleteLocation)="deleteLocation($event)"
+  >
+  </app-locations-table>
 </div>
-<div>
+<div style="margin-bottom: 100px; display: flex; justify-content: center">
   <button mat-button matStepperPrevious (click)="goBackToCreateUpdateTravel()">
     Back
   </button>

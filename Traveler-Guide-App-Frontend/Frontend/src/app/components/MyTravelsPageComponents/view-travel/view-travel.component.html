@@ -1,4 +1,4 @@
-<mat-accordion>
+<mat-accordion class="align-headers">
   <mat-expansion-panel (opened)="getLocations(uniqueTravel.travelId)">
     <mat-expansion-panel-header>
       <mat-panel-title>{{ uniqueTravel.name }}</mat-panel-title>
@@ -7,11 +7,14 @@
         <div class="description">
           {{ uniqueTravel.status }}
         </div>
-        {{ uniqueTravel.travelDate }}
+        <div class="travel-date">
+          {{ pipe.transform(uniqueTravel.travelDate, "dd/MM/yyyy") }}
+        </div>
         <div class="travel-buttons">
           <button
             mat-icon-button
             class="view-button"
+            matTooltip="View Route Between Locations"
             (click)="viewTravel(uniqueTravel.travelId)"
           >
             <mat-icon>pageview</mat-icon>
@@ -19,6 +22,7 @@
           <button
             mat-icon-button
             class="update-button"
+            matTooltip="Edit this Travel Itinerary"
             (click)="updateTravel(uniqueTravel.travelId)"
           >
             <mat-icon>edit</mat-icon>
@@ -26,6 +30,7 @@
           <button
             mat-icon-button
             class="delete-button"
+            matTooltip="Delete this Travel Itinerary"
             (click)="deleteTravel(uniqueTravel.travelId)"
           >
             <mat-icon>delete</mat-icon>

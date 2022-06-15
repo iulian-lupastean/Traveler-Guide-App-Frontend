@@ -5,23 +5,23 @@
       (sendToParent)="nameChange($event)"
       #step1
     ></app-create-travel-itinerary>
-  </mat-step >
+  </mat-step>
   <mat-step
-  [stepControl]="step2.frmStepTwo"
+    [stepControl]="step2.frmStepTwo"
     label="Add Locations To Travel Itinerary"
   >
-    <app-cities
-      [travelName]="setTravelName()"
-       #step2
-    ></app-cities>
+    <app-cities [travelName]="setTravelName()" #step2></app-cities>
 
-    <div>
+    <!-- <div class="buttons">
       <button mat-button matStepperPrevious>Back</button>
       <button mat-button matStepperNext>Next</button>
-    </div>
+    </div> -->
   </mat-step>
   <mat-step label="Finish Travel Itinerary">
-    <app-finish-travel-itinerary (resetStepper)="createNewTravelItinerary($event)"  #step3>
+    <app-finish-travel-itinerary
+      (resetStepper)="createNewTravelItinerary($event)"
+      #step3
+    >
     </app-finish-travel-itinerary>
   </mat-step>
 </mat-stepper>
