@@ -34,6 +34,7 @@ export class CreateTravelItineraryComponent implements OnInit {
   TravelId: number = 0;
   Name: string = '';
   Date: Date = new Date();
+  CurrentDate:Date = new Date();
   Title: string = '';
   ngOnInit() {
     this.TravelId = this.updateTravelService.getTravelId();

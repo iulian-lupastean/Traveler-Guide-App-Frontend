@@ -1,12 +1,11 @@
 .card-content {
-  width: 80% !important;
+  height: 80% !important;
   padding: 0px !important;
-  margin: 5% 33.3% 20% 34%;
+  margin: 95px 0px 95px 750px !important;
 }
 
 .login-input {
   margin-top: 20px;
-  max-width: 400px;
   width: 100%;
 }
 
@@ -29,9 +28,10 @@
 
 @media screen and (max-width: 500px) {
   .card-content {
-    width: 80% !important;
+    height: 0 !important;
     padding: 0 !important;
-    margin: 20% 10% 20% 10%;
+    margin: 0px !important;
+    margin-top: 50px !important;
   }
   .form-title {
     display: flex;

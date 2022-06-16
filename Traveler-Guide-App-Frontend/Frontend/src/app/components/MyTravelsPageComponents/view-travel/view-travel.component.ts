@@ -25,7 +25,7 @@ export class ViewTravelComponent implements OnInit {
   getInfo: IDataSource[] = [];
   displayedColumns: string[] = ['name', 'address', 'budget', 'description'];
   dataToDisplay: any[] = [];
-
+  travelId!: number
   @ViewChild(MatTable) table!: MatTable<IDataSource>;
 
   constructor(
@@ -34,7 +34,8 @@ export class ViewTravelComponent implements OnInit {
     private router: Router,
   ) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
   getLocations(travelId: number) {
     this.dataToDisplay = [];
     this.travelService.getLocationsForTravel(travelId).subscribe((data) => {
@@ -69,8 +70,12 @@ export class ViewTravelComponent implements OnInit {
           });
       });
     });
-    this.budget(travelId);
-
+    this.travelService.getBudget(Number(localStorage.getItem("userId")), travelId).subscribe((data) => {
+      this.travelBudget = data.toLocaleString();
+    });
+  }
+  removeLocations() {
+    this.dataSource = new ExampleDataSource([])
   }
   viewTravel(travelId: number) {
     this.updateTravelService.setTravelId(travelId);
@@ -86,16 +91,9 @@ export class ViewTravelComponent implements OnInit {
   deleteTravel(id: number) {
     this.travelService.deleteTravelitinerary(id);
   }
-
-
-
-
-  budget(travelId: number) {
-     const data = this.travelService.getBudget(Number(localStorage.getItem("userId")), travelId).subscribe(data => {
-     console.log(data);
-     
-    });
-   return this.travelBudget
+  resetTravel() {
+    this.updateTravelService.setTravelId(0)
+    this.updateTravelService.setTravelInfo('', new Date())
   }
 }
 class ExampleDataSource extends DataSource<IDataSource> {

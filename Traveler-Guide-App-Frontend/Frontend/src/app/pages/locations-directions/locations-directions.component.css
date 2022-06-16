@@ -5,7 +5,7 @@
 
 #sidebar {
   padding: 1rem;
-  max-width: 30rem;
+  width: 250px;
   height: 100%;
   overflow: auto;
 }

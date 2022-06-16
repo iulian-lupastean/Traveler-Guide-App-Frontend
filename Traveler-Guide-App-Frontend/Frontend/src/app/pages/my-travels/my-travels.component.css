@@ -7,7 +7,7 @@
 }
 .child1 {
   width: 600px;
-  padding: opx !important;
+  padding: 0px !important;
   margin-left: 100px;
   float: left;
 }
@@ -16,8 +16,9 @@
   padding: 0px !important;
   float: right;
 }
-.travels-card {
-  width: 100%;
+.travel-card {
+  width: 80%;
+  margin: 0px 15px 0px 60px;
 }
 
 @media screen and (max-width: 700px) {

@@ -54,6 +54,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { CommonModule } from '@angular/common';
 import { LocationsDirectionsComponent } from './pages/locations-directions/locations-directions.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSortModule } from '@angular/material/sort';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'account', component: AccountComponent },
@@ -120,6 +121,7 @@ export function playerFactory(): any {
     CommonModule,
     FlexLayoutModule,
     MatTooltipModule,
+    MatSortModule,
     LottieModule.forRoot({ player: playerFactory }),
   ],
   exports: [RouterModule],

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ITravelItinerary } from 'src/app/Interfaces/ITravelItinerary';
 @Component({
@@ -7,8 +7,9 @@ import { ITravelItinerary } from 'src/app/Interfaces/ITravelItinerary';
   styleUrls: ['./my-travels.component.css'],
 })
 export class MyTravelsComponent implements OnInit {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
+
 
   travelItineraries: ITravelItinerary[] = [];
-  ngOnInit() {}
+  ngOnInit() { }
 }

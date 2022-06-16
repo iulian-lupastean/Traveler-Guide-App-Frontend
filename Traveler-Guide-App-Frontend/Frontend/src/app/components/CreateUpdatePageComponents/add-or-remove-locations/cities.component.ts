@@ -229,6 +229,7 @@ export default class CitiesComponent implements OnInit, AfterViewInit {
       verticalPosition: 'bottom',
       horizontalPosition: 'right',
       panelClass: ['SnackBar'],
+      duration: 3000
     });
     const marker = new google.maps.Marker({
       position: {
