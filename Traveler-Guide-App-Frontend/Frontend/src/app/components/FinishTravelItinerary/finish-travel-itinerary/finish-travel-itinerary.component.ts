@@ -20,13 +20,9 @@ export class FinishTravelItineraryComponent implements OnInit {
   }
   onAnimate(animationItem: AnimationItem): void {
   }
-  createNewTravel() {
-    this.updateTravelService.setTravelId(0);
-    this.resetStepper.emit('reset');
-  }
   viewYourTravels() {
     this.updateTravelService.setTravelId(0);
-
+    this.updateTravelService.setTravelInfo('', new Date())
     this.router.navigate(['../my-travels']);
   }
 

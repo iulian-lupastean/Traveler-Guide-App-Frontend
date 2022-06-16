@@ -18,12 +18,14 @@ export class ViewTravelComponent implements OnInit {
   @Input()
   uniqueTravel!: ITravelItinerary;
   locations!: Observable<ILocation[]>;
+  travelBudget!: string;
   getTravel!: Observable<ITravelItinerary>;
   dataSource = new ExampleDataSource([]);
   pipe = new DatePipe('en-US');
   getInfo: IDataSource[] = [];
   displayedColumns: string[] = ['name', 'address', 'budget', 'description'];
   dataToDisplay: any[] = [];
+
   @ViewChild(MatTable) table!: MatTable<IDataSource>;
 
   constructor(
@@ -84,6 +86,15 @@ export class ViewTravelComponent implements OnInit {
     this.travelService.deleteTravelitinerary(id);
   }
 
+
+
+
+  budget(travelId: number) {
+    const data = this.travelService.getBudget(Number(localStorage.getItem("userId")), travelId);
+    console.log(data.subscribe({ next(data) { } }));
+    console.log("Esti prost!!!!!");
+    return travelId;
+  }
 }
 class ExampleDataSource extends DataSource<IDataSource> {
   private _dataStream = new ReplaySubject<IDataSource[]>();
@@ -101,4 +112,7 @@ class ExampleDataSource extends DataSource<IDataSource> {
   setData(data: IDataSource[]) {
     this._dataStream.next(data);
   }
+
+
+
 }

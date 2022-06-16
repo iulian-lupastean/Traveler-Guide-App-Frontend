@@ -3,63 +3,74 @@
   <div id="sidebar">
     <form>
       <div class="starting-location">
-        <mat-label>Select Start Location</mat-label>
-        <mat-select id="start" [(value)]="startLocation">
-          <mat-option
-            *ngFor="let location of locations | async"
-            [value]="location.name"
-          >
-            {{ location.name }}
-          </mat-option>
-        </mat-select>
+        <mat-form-field appearance="fill"
+          ><mat-label>Select Start Location</mat-label>
+          <mat-select id="start" [(value)]="startLocation">
+            <mat-option
+              *ngFor="let location of locations | async"
+              [value]="location.name"
+            >
+              {{ location.name }}
+            </mat-option>
+          </mat-select></mat-form-field
+        >
+
         <br />
       </div>
       <div class="select-waypoints">
-        <mat-label>Waypoints:</mat-label> <br />
-        <br />
-        <mat-select
-          multiple
-          id="waypoints"
-          [formControl]="wayptsForm"
-          [(ngModel)]="waypts"
-          (focusout)="onOut()"
-        >
-          <mat-option
-            *ngFor="let location of locations | async"
-            [value]="location.name"
+        <mat-form-field appearance="fill">
+          <mat-label>Select Aditional Locations:</mat-label> <br />
+          <br />
+          <mat-select
+            multiple
+            id="waypoints"
+            [formControl]="wayptsForm"
+            [(ngModel)]="waypts"
+            (focusout)="onOut()"
           >
-            {{ location.name }}
-          </mat-option>
-        </mat-select>
+            <mat-option
+              *ngFor="let location of locations | async"
+              [value]="location.name"
+            >
+              {{ location.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
 
       <br />
       <div class="end-location">
-        <mat-label>End:</mat-label>
-        <mat-select id="end" [(value)]="endLocation">
-          <mat-option
-            *ngFor="let location of locations | async"
-            [value]="location.name"
-          >
-            {{ location.name }}
-          </mat-option>
-        </mat-select>
+        <mat-form-field appearance="fill"
+          ><mat-label>Select End Location:</mat-label>
+          <mat-select id="end" [(value)]="endLocation">
+            <mat-option
+              *ngFor="let location of locations | async"
+              [value]="location.name"
+            >
+              {{ location.name }}
+            </mat-option>
+          </mat-select></mat-form-field
+        >
       </div>
 
       <br />
-      <div>
-        <mat-label>Mode of Travel: </mat-label>
-        <mat-select id="mode" [(value)]="travelMode">
-          <mat-option
-            *ngFor="let option of travelModes"
-            [value]="option.travelMode"
-          >
-            {{ option.name }}
-          </mat-option>
-        </mat-select>
+      <div class="travel-mode">
+        <mat-form-field appearance="fill">
+          <mat-label>Mode of Travel: </mat-label>
+          <mat-select id="mode" [(value)]="travelMode">
+            <mat-option
+              *ngFor="let option of travelModes"
+              [value]="option.travelMode"
+            >
+              {{ option.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <br />
-      <input type="submit" id="submit" />
+      <div class="submit-button">
+        <button mat-button id="submit" color="primary">See Route</button>
+      </div>
     </form>
   </div>
 </div>

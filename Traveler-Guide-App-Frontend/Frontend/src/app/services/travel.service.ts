@@ -146,4 +146,7 @@ export class TravelService {
   updateUserexperience(userId: number, travelId: number, locationId: number, userExp: IUserExperience) {
     return this.httpClient.put(`api/UserExperience/${userId}/${travelId}/${locationId}`, userExp);
   }
+  getBudget(userId: number, travelId: number) {
+    return this.httpClient.get(`https://localhost:7075/UserExperience/${userId}/${travelId}`);
+  }
 }

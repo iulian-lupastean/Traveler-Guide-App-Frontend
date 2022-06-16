@@ -55,6 +55,7 @@ export class LocationsDirectionsComponent implements OnInit, AfterViewInit {
       "click",
       () => {
         this.calculateAndDisplayRoute(directionsService, directionsRenderer);
+        this.newwaypoints = [];
       }
     );
   }
@@ -68,15 +69,6 @@ export class LocationsDirectionsComponent implements OnInit, AfterViewInit {
     directionsService: google.maps.DirectionsService,
     directionsRenderer: google.maps.DirectionsRenderer
   ) {
-
-    // for (let i = 0; i < checkboxArray.length; i++) {
-    //   if (checkboxArray.options[i].selected) {
-    //     this.waypts.push({
-    //       location: (checkboxArray[i] as HTMLOptionElement).value,
-    //       stopover: true,
-    //     });
-    //   }
-    // }
     for (let i = 0; i < this.waypts.length; i++) {
       this.newwaypoints.push({
         location: String(this.waypts[i]),
@@ -84,7 +76,6 @@ export class LocationsDirectionsComponent implements OnInit, AfterViewInit {
       })
     }
 
-    console.log(this.travelMode);
 
 
     directionsService
@@ -97,24 +88,6 @@ export class LocationsDirectionsComponent implements OnInit, AfterViewInit {
       })
       .then((response) => {
         directionsRenderer.setDirections(response);
-
-        const route = response.routes[0];
-        const summaryPanel = document.getElementById(
-          "directions-panel"
-        ) as HTMLElement;
-
-        summaryPanel.innerHTML = "";
-
-        // For each route, display summary information.
-        for (let i = 0; i < route.legs.length; i++) {
-          const routeSegment = i + 1;
-
-          summaryPanel.innerHTML +=
-            "<b>Route Segment: " + routeSegment + "</b><br>";
-          summaryPanel.innerHTML += route.legs[i].start_address + " to ";
-          summaryPanel.innerHTML += route.legs[i].end_address + "<br>";
-          summaryPanel.innerHTML += route.legs[i].distance!.text + "<br><br>";
-        }
       })
       .catch((e) => console.log(e));
   }

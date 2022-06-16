@@ -41,3 +41,8 @@
 .demo-row-is-clicked {
   font-weight: bold;
 }
+.travel-date {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+}

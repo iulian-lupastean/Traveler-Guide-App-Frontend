@@ -10,6 +10,9 @@
         <div class="travel-date">
           {{ pipe.transform(uniqueTravel.travelDate, "dd/MM/yyyy") }}
         </div>
+        <div class="travel-budget">
+          {{ budget(uniqueTravel.travelId).toString() }}
+        </div>
         <div class="travel-buttons">
           <button
             mat-icon-button

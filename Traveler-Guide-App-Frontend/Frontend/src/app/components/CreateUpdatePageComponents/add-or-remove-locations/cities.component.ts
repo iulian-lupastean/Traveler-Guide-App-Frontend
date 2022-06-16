@@ -129,9 +129,11 @@ export default class CitiesComponent implements OnInit, AfterViewInit {
           return;
         }
 
-        //set latitude, longitude and zoom
         this.latitude = place.geometry.location?.lat();
         this.longitude = place.geometry.location?.lng();
+
+
+        //set latitude, longitude and zoom
 
         this.center = {
           lat: this.latitude,
@@ -147,10 +149,18 @@ export default class CitiesComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     navigator.geolocation.getCurrentPosition((position) => {
-      this.center = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      };
+      console.log(this.travelId);
+
+      if (this.travelId == 0) {
+
+        this.center = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+      }
+
+
+
     });
     this.frmStepTwo = this._formBuilder.group({
       locationNameCtrl: ['', Validators.required],
@@ -280,10 +290,19 @@ export default class CitiesComponent implements OnInit, AfterViewInit {
 
   getLocations(travelId: number) {
     this.httpClient.get<ILocation[]>(
-      `https://localhost:7075/api/TravelItineraryLocation/${travelId}/locations`)
+      `api/TravelItineraryLocation/${travelId}/locations`)
       .subscribe(
         (response) => {
           this.locations = response;
+          if (this.travelId != 0) {
+
+            this.center = {
+              lat: Number(this.locations[0].latitude),
+              lng: Number(this.locations[0].longitude),
+            };
+          }
+
+
           this.markers = this.placeAllMarkers(this.locations);
         },
         (error) => console.log(error)
@@ -337,12 +356,16 @@ export default class CitiesComponent implements OnInit, AfterViewInit {
 
 
   centerMap(latLng: any) {
+    console.log(this.zoom);
+    this.zoom = 0;
     this.center = {
       lat: Number(latLng.latitude),
       lng: Number(latLng.longitude),
     };
+
     this.zoom = 15;
   }
+
   deleteLocation(index: number) {
     this.markers = [];
     this.getLocations(this.travelId);
