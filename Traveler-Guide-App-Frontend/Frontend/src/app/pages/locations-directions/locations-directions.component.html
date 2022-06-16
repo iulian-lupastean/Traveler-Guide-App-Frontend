@@ -26,7 +26,6 @@
             id="waypoints"
             [formControl]="wayptsForm"
             [(ngModel)]="waypts"
-            (focusout)="onOut()"
           >
             <mat-option
               *ngFor="let location of locations | async"

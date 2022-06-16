@@ -69,6 +69,7 @@ export class ViewTravelComponent implements OnInit {
           });
       });
     });
+    this.budget(travelId);
 
   }
   viewTravel(travelId: number) {
@@ -90,10 +91,11 @@ export class ViewTravelComponent implements OnInit {
 
 
   budget(travelId: number) {
-    const data = this.travelService.getBudget(Number(localStorage.getItem("userId")), travelId);
-    console.log(data.subscribe({ next(data) { } }));
-    console.log("Esti prost!!!!!");
-    return travelId;
+     const data = this.travelService.getBudget(Number(localStorage.getItem("userId")), travelId).subscribe(data => {
+     console.log(data);
+     
+    });
+   return this.travelBudget
   }
 }
 class ExampleDataSource extends DataSource<IDataSource> {

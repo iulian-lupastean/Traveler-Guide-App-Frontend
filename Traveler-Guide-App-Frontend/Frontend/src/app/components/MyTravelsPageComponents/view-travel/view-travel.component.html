@@ -11,7 +11,7 @@
           {{ pipe.transform(uniqueTravel.travelDate, "dd/MM/yyyy") }}
         </div>
         <div class="travel-budget">
-          {{ budget(uniqueTravel.travelId).toString() }}
+          {{ travelBudget }}
         </div>
         <div class="travel-buttons">
           <button

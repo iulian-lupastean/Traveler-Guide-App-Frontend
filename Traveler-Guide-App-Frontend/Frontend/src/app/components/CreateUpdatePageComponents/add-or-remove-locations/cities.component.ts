@@ -149,7 +149,6 @@ export default class CitiesComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     navigator.geolocation.getCurrentPosition((position) => {
-      console.log(this.travelId);
 
       if (this.travelId == 0) {
 
@@ -356,7 +355,6 @@ export default class CitiesComponent implements OnInit, AfterViewInit {
 
 
   centerMap(latLng: any) {
-    console.log(this.zoom);
     this.zoom = 0;
     this.center = {
       lat: Number(latLng.latitude),

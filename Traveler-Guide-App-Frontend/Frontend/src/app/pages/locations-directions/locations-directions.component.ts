@@ -60,10 +60,7 @@ export class LocationsDirectionsComponent implements OnInit, AfterViewInit {
     );
   }
 
-  onOut() {
-    console.log(this.waypts);
 
-  }
 
   calculateAndDisplayRoute(
     directionsService: google.maps.DirectionsService,
